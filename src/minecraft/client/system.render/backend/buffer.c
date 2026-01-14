@@ -21,20 +21,7 @@ static inline void Buffer_write(GLenum target, unsigned int bufferId, BufferData
     if(!Buffer_isBuffer(bufferId)) return;
 
     Buffer_bind(target, bufferId);
-
-    size_t vboSize;
-    glGetBufferParameteriv(target, GL_BUFFER_SIZE, (GLint*) &vboSize);
-
-    if(vboSize > data.size)
-    {
-        void* vboBuffer = glMapBuffer(target, GL_WRITE_ONLY);
-        if(!vboBuffer) return;
-        
-        memcpy((((size_t)vboBuffer) + (size_t)offset), (const void*) data.buffer, data.size);
-        
-        glUnmapBuffer(target);
-    }
-    else glBufferSubData(target, (GLintptr) offset, (GLsizeiptr) data.size, (const void*) data.buffer);
+    glBufferSubData(target, (GLintptr) offset, (GLsizeiptr) data.size, (const void*) data.buffer);
     Buffer_unbind(target);
 }
 
@@ -68,6 +55,7 @@ bool Buffer_isBuffer(unsigned int bufferId)
 }
 
 
+
 VertexBuffer VertexBuffer_create(BufferData data, enum BufferUsage usage)
 {   
     return (VertexBuffer){.id=Buffer_create(GL_ARRAY_BUFFER, data, usage)};
@@ -78,7 +66,6 @@ void VertexBuffer_destroy(VertexBuffer buffer)
     Buffer_destroy(buffer.id);
 }
 
-//POTENTIAL DATA SAFTEY ISSUE, when writing to end of buffer with a given offset
 void VertexBuffer_write(VertexBuffer buffer, BufferData data, size_t offset)
 {   
     Buffer_write(GL_ARRAY_BUFFER, buffer.id, data, offset);
@@ -99,6 +86,8 @@ void VertexBuffer_unbind()
     Buffer_unbind(GL_ARRAY_BUFFER);
 }
 
+
+
 IndexBuffer IndexBuffer_create(VertexBuffer bufferToIndex, BufferData data, enum BufferUsage usage)
 {
     VertexBuffer_bind(bufferToIndex);
@@ -113,7 +102,6 @@ void IndexBuffer_destroy(IndexBuffer buffer)
     Buffer_destroy(buffer.id);
 }
 
-//POTENTIAL DATA SAFTEY ISSUE, when writing to end of buffer with a given offset
 void IndexBuffer_write(IndexBuffer buffer, BufferData data, size_t offset)
 {   
     Buffer_write(GL_ELEMENT_ARRAY_BUFFER, buffer.id, data, offset);
@@ -134,21 +122,35 @@ void IndexBuffer_unbind()
     Buffer_unbind(GL_ELEMENT_ARRAY_BUFFER);
 }
 
-//TODO Implement
-VertexArray VertexArray_create(VertexBuffer buffer)
+
+
+UniformBuffer UniformBuffer_create(BufferData data, enum BufferUsage usage)
 {
-    return (VertexArray){.id=0};
+    return (UniformBuffer){.id=Buffer_create(GL_UNIFORM_BUFFER, data, usage)};
 }
 
-//TODO Implement
-void VertexArray_destroy(VertexArray array)
-{}
+void UniformBuffer_destroy(UniformBuffer buffer)
+{
+    Buffer_destroy(buffer.id);
+}
 
-//TODO Implement
-void VertexArray_bind(VertexArray array)
-{}
+void UniformBuffer_write(UniformBuffer buffer, BufferData data, size_t offset)
+{
+    Buffer_write(GL_UNIFORM_BUFFER, buffer.id, data, offset);
+}
 
-//TODO Implement
-void VertexArray_unbind()
-{}
+BufferData UniformBuffer_read(UniformBuffer buffer)
+{
+    return Buffer_read(GL_UNIFORM_BUFFER, buffer.id);
+}
+
+void UniformBuffer_bind(UniformBuffer buffer)
+{
+    Buffer_bind(GL_UNIFORM_BUFFER, buffer.id);
+}
+
+void UniformBuffer_unbind()
+{
+    Buffer_unbind(GL_UNIFORM_BUFFER);
+}
 

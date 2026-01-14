@@ -38,10 +38,12 @@ typedef struct IndexBuffer
     unsigned int id;
 }IndexBuffer;
 
-typedef struct VertexArray
+typedef struct UniformBuffer
 {
     unsigned int id;
-}VertexArray;
+}UniformBuffer;
+
+
 
 #ifdef MINECRAFT_CLIENT_RENDER_SYSTEM_BUFFER_C
     static inline unsigned int Buffer_create(GLenum target, BufferData data, enum BufferUsage usage);
@@ -59,6 +61,7 @@ typedef struct VertexArray
     static inline void Buffer_unbind(GLenum target);
 #endif
 
+bool Buffer_isBuffer(unsigned int bufferId);
 
 VertexBuffer VertexBuffer_create(BufferData data, enum BufferUsage usage);
 
@@ -86,14 +89,18 @@ void IndexBuffer_bind(IndexBuffer buffer);
 void IndexBuffer_unbind();
 
 
-VertexArray VertexArray_create(VertexBuffer buffer);
+UniformBuffer UniformBuffer_create(BufferData data, enum BufferUsage usage);
 
-void VertexArray_destroy(VertexArray array);
+void UniformBuffer_destroy(UniformBuffer buffer);
 
-void VertexArray_bind(VertexArray array);
+void UniformBuffer_write(UniformBuffer buffer, BufferData data, size_t offset);
 
-void VertexArray_unbind();
+BufferData UniformBuffer_read(UniformBuffer buffer);
 
-bool Buffer_isBuffer(unsigned int bufferId);
+void UniformBuffer_bind(UniformBuffer buffer);
+
+void UniformBuffer_unbind();
+
+
 
 #endif
