@@ -2,9 +2,8 @@
 #define MINECRAFT_CLIENT_RENDER_SYSTEM_BUFFER_H
 
 #define BUFFER_DATA_NULL ((BufferData){.size=0, .buffer= NULL})
+#include "../../../core/core.h"
 #include "context.h"
-#include <stdbool.h>
-#include <string.h>
 
 typedef unsigned int bufferId_t;
 
