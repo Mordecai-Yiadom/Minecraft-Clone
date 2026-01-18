@@ -1,5 +1,5 @@
 #include "filemanager.h"
-#include "core.h"
+
 
 char* FileManager_readFile(const char* path, size_t* size)
 {

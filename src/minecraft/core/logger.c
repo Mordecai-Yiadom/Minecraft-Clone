@@ -1,6 +1,10 @@
 #include "logger.h"
 
 void Logger_logError(ErrorType type, char* msg)
-{
-    fprintf(stderr, "[Error] %s\n", msg);
+{   
+    switch(type)
+    {
+        default:
+            fprintf(stderr, "[Error] %s\n", msg);
+    }
 }

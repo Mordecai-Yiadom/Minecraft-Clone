@@ -44,7 +44,7 @@ void Shader_setVec4i(Shader shader, const char* uniformName, ivec4 data);
 
 void Shader_setVec2f(Shader shader, const char* uniformName, vec2 data);
 void Shader_setVec3f(Shader shader, const char* uniformName, vec3 data);
-void Shader_setVec4f(Shader shader, vec4 data);
+void Shader_setVec4f(Shader shader, const char* uniformName, vec4 data);
 
 void Shader_setMat2x2f(Shader shader, const char* uniformName, mat2 data);
 void Shader_setMat3x3f(Shader shader, const char* uniformName, mat3 data);

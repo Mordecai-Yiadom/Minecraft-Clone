@@ -1,7 +1,8 @@
 
 #define MINECRAFT_CLIENT_RENDER_SYSTEM_VERTEXATTRIBUTES_C
-#include "../../../core/core.h"
 #include "vertexattributes.h"
+#include "context.h"
+#include "buffer.h"
 
 //TODO Implement
 VertexArray VertexArray_create()

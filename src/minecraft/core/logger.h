@@ -9,6 +9,7 @@ typedef enum ErrorType
     RENDER_SYSTEM,
     AUDIO_SYSTEM,
     GAME_SIMULATION_ERROR,
+    APPLICATION_ERROR,
 }ErrorType;
 
 void Logger_logError(ErrorType type, char* msg);

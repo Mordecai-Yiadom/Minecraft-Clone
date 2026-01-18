@@ -1,19 +1,22 @@
 #ifndef MINECRAFT_CLIENT_RENDER_SYSTEM_MESH_H
 #define MINECRAFT_CLIENT_RENDER_SYSTEM_MESH_H
 
+#include "../../../core/core.h"
+#include "buffer.h"
 #include "vertexattributes.h"
 
 typedef struct Mesh
 {   
-    IndexBuffer ebo;
     VertexArray vao;
+    IndexBuffer ebo;
 }Mesh;
 
-typedef struct MeshData
+typedef struct MeshTransform
 {
-
-}MeshData;
-
+    vec3 position;
+    vec3 scale;
+    vec3 rotation;
+}MeshTransform;
 
 Mesh* Mesh_create();
 Mesh* Mesh_destroy();

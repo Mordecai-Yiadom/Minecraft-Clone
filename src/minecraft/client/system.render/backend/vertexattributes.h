@@ -1,6 +1,8 @@
 #ifndef MINECRAFT_CLIENT_RENDER_SYSTEM_VERTEXATTRIBUTES_H
 #define MINECRAFT_CLIENT_RENDER_SYSTEM_VERTEXATTRIBUTES_H
-#include "buffer.h"
+
+#include "../../../core/core.h"
+#include "backend_types.h"
 
 typedef struct VertexArray
 {

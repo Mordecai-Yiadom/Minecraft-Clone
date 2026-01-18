@@ -88,11 +88,12 @@ void VertexBuffer_unbind()
 
 
 
-IndexBuffer IndexBuffer_create(VertexBuffer bufferToIndex, BufferData data, enum BufferUsage usage)
-{
-    VertexBuffer_bind(bufferToIndex);
+IndexBuffer IndexBuffer_create(VertexArray refArray, BufferData data, enum BufferUsage usage)
+{   
+    if(VertexArray_isArray(refArray)) return ((IndexBuffer){.id=0});
+    VertexArray_bind(refArray);
     IndexBuffer ebo = {.id=Buffer_create(GL_ELEMENT_ARRAY_BUFFER, data, usage)};
-    VertexBuffer_unbind();
+    VertexArray_unbind();
     IndexBuffer_unbind();
     return ebo;
 }

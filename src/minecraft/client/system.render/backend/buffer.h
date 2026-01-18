@@ -2,10 +2,18 @@
 #define MINECRAFT_CLIENT_RENDER_SYSTEM_BUFFER_H
 
 #define BUFFER_DATA_NULL ((BufferData){.size=0, .buffer= NULL})
-#include "../../../core/core.h"
+
+#define INDEXBUFFER_NULL ((IndexBuffer){.id=0})
+#define UNIFORMBUFFER_NULL ((UniformBuffer){.id=0})
+#define VERTEXBUFFER_NULL ((VertexBuffer){.id=0})
+
 #include "context.h"
+#include "backend_types.h"
+#include "vertexattributes.h"
 
 typedef unsigned int bufferId_t;
+
+
 
 //TODO: Implement better usage options
 enum BufferUsage
@@ -42,8 +50,6 @@ typedef struct UniformBuffer
     unsigned int id;
 }UniformBuffer;
 
-
-
 #ifdef MINECRAFT_CLIENT_RENDER_SYSTEM_BUFFER_C
     static inline unsigned int Buffer_create(GLenum target, BufferData data, enum BufferUsage usage);
 
@@ -75,7 +81,7 @@ void VertexBuffer_bind(VertexBuffer buffer);
 void VertexBuffer_unbind();
 
 
-IndexBuffer IndexBuffer_create(VertexBuffer bufferToIndex, BufferData data, enum BufferUsage usage);
+IndexBuffer IndexBuffer_create(VertexArray refArray, BufferData data, enum BufferUsage usage);
 
 void IndexBuffer_destroy(IndexBuffer buffer);
 

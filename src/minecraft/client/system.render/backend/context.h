@@ -3,19 +3,24 @@
 
 #include <glad/glad.h>
 
-typedef enum RenderAPI
+#ifndef RENDER_SYSTEM_SHARED_CONTEXT_LIMIT
+    #define RENDER_SYSTEM_SHARED_CONTEXT_LIMIT 8
+#endif
+
+typedef enum GraphicsAPI
 {
     OPENGL_CORE,
     OPENGL_ES,
-}RenderAPI;
+}GraphicsAPI;
 
 typedef struct RenderContext
-{
-    RenderAPI api;
+{   
     unsigned int versionMajor;
     unsigned int versionMinor;
+    GraphicsAPI graphicsAPI;
 }RenderContext;
 
-void RenderSystem_initRenderContext(RenderContext *context);
+RenderContext* RenderContext_createOpenGLContext(GraphicsAPI renderAPI, unsigned int versionMajor, unsigned int versionMinor);
+
 
 #endif

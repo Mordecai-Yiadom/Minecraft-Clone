@@ -13,9 +13,9 @@ static GLuint complileIndividualShader(GLenum shaderType, const char* path)
     char* shaderSrc = FileManager_readFile(path, NULL);
     if(!shaderSrc)
     {   
-        sprintf(logBuffer, "Failed to read file '%s'.");
+        sprintf(logBuffer, "Failed to read file '%s'.", path);
         Logger_logError(FILE_IO, logBuffer);
-        return;
+        return 0;
     }
 
     GLuint shader = glCreateShader(shaderType);
