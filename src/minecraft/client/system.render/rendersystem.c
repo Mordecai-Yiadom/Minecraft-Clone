@@ -52,14 +52,12 @@ void RenderSystem_startRenderPass()
         printf("data.size=%lld\n", data.size);
         
         vbo = VertexBuffer_create(data, STATIC_DRAW);
-        if(!Buffer_isBuffer(vbo.id)) Logger_logError(RENDER_SYSTEM, "VBO handle is invalid.");
+        if(!VertexBuffer_isValid(vbo)) Logger_logError(RENDER_SYSTEM, "VBO handle is invalid.");
         
 
-        int size;
-        VertexBuffer_bind(vbo);
-        glGetBufferParameteriv(GL_ARRAY_BUFFER, GL_BUFFER_SIZE, &size);
+        
         printf("VBO handle: %d\n", vbo.id);
-        printf("VBO size: %d\n", size);
+        printf("VBO size: %d\n",  VertexBuffer_getSize(vbo));
         
         vao = VertexArray_create();
         VertexArray_addAttribute(vao, vbo, POSITION_UVCOORD_NORMAL);

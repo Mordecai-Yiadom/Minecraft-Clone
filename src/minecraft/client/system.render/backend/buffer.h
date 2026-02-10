@@ -13,8 +13,6 @@
 
 typedef unsigned int bufferId_t;
 
-
-
 //TODO: Implement better usage options
 enum BufferUsage
 {   
@@ -51,22 +49,26 @@ typedef struct UniformBuffer
 }UniformBuffer;
 
 #ifdef MINECRAFT_CLIENT_RENDER_SYSTEM_BUFFER_C
-    static  unsigned int Buffer_create(GLenum target, BufferData data, enum BufferUsage usage);
+    static inline unsigned int Buffer_create(GLenum target, BufferData data, enum BufferUsage usage);
 
-    static  void Buffer_destroy(unsigned int bufferId);
+    static inline void Buffer_destroy(unsigned int bufferId);
 
 
-    static  void Buffer_write(GLenum target, unsigned int bufferId, BufferData data, size_t offset);
+    static inline void Buffer_write(GLenum target, unsigned int bufferId, BufferData data, size_t offset);
 
-    static  BufferData Buffer_read(GLenum target, unsigned int bufferId);
+    static inline BufferData Buffer_read(GLenum target, unsigned int bufferId);
     
 
-    static  void Buffer_bind(GLenum target, unsigned int bufferId);
+    static inline void Buffer_bind(GLenum target, unsigned int bufferId);
 
-    static  void Buffer_unbind(GLenum target);
+    static inline void Buffer_unbind(GLenum target);
+
+    static inline int Buffer_getSize(GLenum target, unsigned int bufferId);
+
+    static inline bool Buffer_isValid(unsigned int bufferId);
 #endif
 
-bool Buffer_isBuffer(unsigned int bufferId);
+//Vertex Buffer
 
 VertexBuffer VertexBuffer_create(BufferData data, enum BufferUsage usage);
 
@@ -80,6 +82,12 @@ void VertexBuffer_bind(VertexBuffer buffer);
 
 void VertexBuffer_unbind();
 
+int VertexBuffer_getSize(VertexBuffer buffer);
+
+bool VertexBuffer_isValid(VertexBuffer buffer);
+
+
+//Index Buffer
 
 IndexBuffer IndexBuffer_create(VertexArray refArray, BufferData data, enum BufferUsage usage);
 
@@ -93,6 +101,12 @@ void IndexBuffer_bind(IndexBuffer buffer);
 
 void IndexBuffer_unbind();
 
+int IndexBuffer_getSize(IndexBuffer buffer);
+
+bool IndexBuffer_isValid(IndexBuffer buffer);
+
+
+//Uniform Buffer
 
 UniformBuffer UniformBuffer_create(BufferData data, enum BufferUsage usage);
 
@@ -106,6 +120,8 @@ void UniformBuffer_bind(UniformBuffer buffer);
 
 void UniformBuffer_unbind();
 
+int UniformBuffer_getSize(UniformBuffer buffer);
 
+bool UniformBuffer_isValid(UniformBuffer buffer);
 
 #endif

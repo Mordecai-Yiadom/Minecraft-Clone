@@ -2,7 +2,7 @@
 #include "buffer.h"
 
 
-static unsigned int Buffer_create(GLenum target, BufferData data, enum BufferUsage usage)
+static inline unsigned int Buffer_create(GLenum target, BufferData data, enum BufferUsage usage)
 {
     GLuint vbo = 0;
     glGenBuffers(1, (GLuint*) &vbo);
@@ -12,21 +12,21 @@ static unsigned int Buffer_create(GLenum target, BufferData data, enum BufferUsa
     return vbo;
 }
 
-static void Buffer_destroy(unsigned int bufferId)
+static inline void Buffer_destroy(unsigned int bufferId)
 {
     glDeleteBuffers(1, (const GLuint*)(&bufferId));
 }
 
-static  void Buffer_write(GLenum target, unsigned int bufferId, BufferData data, size_t offset)
+static inline void Buffer_write(GLenum target, unsigned int bufferId, BufferData data, size_t offset)
 {
-    if(!Buffer_isBuffer(bufferId)) return;
+    if(!Buffer_isValid(bufferId)) return;
 
     Buffer_bind(target, bufferId);
     glBufferSubData(target, (GLintptr) offset, (GLsizeiptr) data.size, (const void*) data.buffer);
     Buffer_unbind(target);
 }
 
-static  BufferData Buffer_read(GLenum target, unsigned int bufferId)
+static inline BufferData Buffer_read(GLenum target, unsigned int bufferId)
 {
     BufferData data;
     Buffer_bind(target, bufferId);
@@ -40,21 +40,30 @@ static  BufferData Buffer_read(GLenum target, unsigned int bufferId)
     return data;
 }
 
-static  void Buffer_bind(GLenum target, unsigned int bufferId)
+static inline void Buffer_bind(GLenum target, unsigned int bufferId)
 {
     glBindBuffer(target, (GLuint) bufferId);
 }
 
-static  void Buffer_unbind(GLenum target)
+static inline void Buffer_unbind(GLenum target)
 {
     glBindBuffer(target, 0);
 }
 
-bool Buffer_isBuffer(unsigned int bufferId)
+static inline int Buffer_getSize(GLenum target, unsigned int bufferId)
+{   
+    Buffer_bind(target, bufferId);
+    int size;
+    glGetBufferParameteriv(target, GL_BUFFER_SIZE, &size);
+    Buffer_unbind(target);
+    return size;
+}
+
+
+static inline bool Buffer_isValid(unsigned int bufferId)
 {
     return (bool) glIsBuffer((GLuint)bufferId);
 }
-
 
 
 VertexBuffer VertexBuffer_create(BufferData data, enum BufferUsage usage)
@@ -85,6 +94,17 @@ void VertexBuffer_bind(VertexBuffer buffer)
 void VertexBuffer_unbind()
 {
     Buffer_unbind(GL_ARRAY_BUFFER);
+}
+
+int VertexBuffer_getSize(VertexBuffer buffer)
+{
+    if(!Buffer_isValid(buffer.id)) return -1;
+    return Buffer_getSize(GL_ARRAY_BUFFER, buffer.id);
+}
+
+bool VertexBuffer_isValid(VertexBuffer buffer)
+{
+    return Buffer_isValid(buffer.id);
 }
 
 
@@ -124,6 +144,11 @@ void IndexBuffer_unbind()
     Buffer_unbind(GL_ELEMENT_ARRAY_BUFFER);
 }
 
+bool IndexBuffer_isValid(IndexBuffer buffer)
+{
+    return Buffer_isValid(buffer.id);
+}
+
 
 
 UniformBuffer UniformBuffer_create(BufferData data, enum BufferUsage usage)
@@ -156,3 +181,7 @@ void UniformBuffer_unbind()
     Buffer_unbind(GL_UNIFORM_BUFFER);
 }
 
+bool UniformBuffer_isValid(UniformBuffer buffer)
+{
+    return Buffer_isValid(buffer.id);
+}

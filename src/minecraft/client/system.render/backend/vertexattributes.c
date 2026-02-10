@@ -39,7 +39,7 @@ bool VertexArray_isArray(VertexArray array)
 
 void VertexArray_addAttribute(VertexArray vertexArray, VertexBuffer refBuffer, AttributeConfiguration config)
 {
-    if(!VertexArray_isArray(vertexArray) || !Buffer_isBuffer(refBuffer.id)) return;
+    if(!VertexArray_isArray(vertexArray) || !VertexBuffer_isValid(refBuffer)) return;
     switch(config)
     {
         case POSITION_UVCOORD_NORMAL:
