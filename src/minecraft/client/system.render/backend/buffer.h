@@ -19,14 +19,14 @@ typedef unsigned int bufferId_t;
 enum BufferUsage
 {   
     STREAM_DRAW = GL_STREAM_DRAW, 
-    STREAM_READ,
-    STREAM_COPY, 
-    STATIC_DRAW, 
-    STATIC_READ, 
-    STATIC_COPY, 
-    DYNAMIC_DRAW,
-    DYNAMIC_READ, 
-    DYNAMIC_COPY,
+    STREAM_READ = GL_STREAM_READ,
+    STREAM_COPY = GL_STREAM_COPY, 
+    STATIC_DRAW = GL_STATIC_DRAW, 
+    STATIC_READ = GL_STATIC_READ, 
+    STATIC_COPY = GL_STATIC_COPY, 
+    DYNAMIC_DRAW = GL_DYNAMIC_DRAW,
+    DYNAMIC_READ = GL_DYNAMIC_READ, 
+    DYNAMIC_COPY = GL_DYNAMIC_COPY,
 };
 
 typedef struct BufferData
@@ -51,19 +51,19 @@ typedef struct UniformBuffer
 }UniformBuffer;
 
 #ifdef MINECRAFT_CLIENT_RENDER_SYSTEM_BUFFER_C
-    static inline unsigned int Buffer_create(GLenum target, BufferData data, enum BufferUsage usage);
+    static  unsigned int Buffer_create(GLenum target, BufferData data, enum BufferUsage usage);
 
-    static inline void Buffer_destroy(unsigned int bufferId);
+    static  void Buffer_destroy(unsigned int bufferId);
 
 
-    static inline void Buffer_write(GLenum target, unsigned int bufferId, BufferData data, size_t offset);
+    static  void Buffer_write(GLenum target, unsigned int bufferId, BufferData data, size_t offset);
 
-    static inline BufferData Buffer_read(GLenum target, unsigned int bufferId);
+    static  BufferData Buffer_read(GLenum target, unsigned int bufferId);
     
 
-    static inline void Buffer_bind(GLenum target, unsigned int bufferId);
+    static  void Buffer_bind(GLenum target, unsigned int bufferId);
 
-    static inline void Buffer_unbind(GLenum target);
+    static  void Buffer_unbind(GLenum target);
 #endif
 
 bool Buffer_isBuffer(unsigned int bufferId);

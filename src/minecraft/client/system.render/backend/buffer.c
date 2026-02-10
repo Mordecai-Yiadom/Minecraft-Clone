@@ -2,21 +2,22 @@
 #include "buffer.h"
 
 
-static inline unsigned int Buffer_create(GLenum target, BufferData data, enum BufferUsage usage)
+static unsigned int Buffer_create(GLenum target, BufferData data, enum BufferUsage usage)
 {
     GLuint vbo = 0;
     glGenBuffers(1, (GLuint*) &vbo);
+    Buffer_bind(target, vbo);
     glBufferData(target, (GLsizeiptr) data.size, (const void*) data.buffer, (GLenum) usage);
     Buffer_unbind(target);
     return vbo;
 }
 
-static inline void Buffer_destroy(unsigned int bufferId)
+static void Buffer_destroy(unsigned int bufferId)
 {
     glDeleteBuffers(1, (const GLuint*)(&bufferId));
 }
 
-static inline void Buffer_write(GLenum target, unsigned int bufferId, BufferData data, size_t offset)
+static  void Buffer_write(GLenum target, unsigned int bufferId, BufferData data, size_t offset)
 {
     if(!Buffer_isBuffer(bufferId)) return;
 
@@ -25,7 +26,7 @@ static inline void Buffer_write(GLenum target, unsigned int bufferId, BufferData
     Buffer_unbind(target);
 }
 
-static inline BufferData Buffer_read(GLenum target, unsigned int bufferId)
+static  BufferData Buffer_read(GLenum target, unsigned int bufferId)
 {
     BufferData data;
     Buffer_bind(target, bufferId);
@@ -39,12 +40,12 @@ static inline BufferData Buffer_read(GLenum target, unsigned int bufferId)
     return data;
 }
 
-static inline void Buffer_bind(GLenum target, unsigned int bufferId)
+static  void Buffer_bind(GLenum target, unsigned int bufferId)
 {
     glBindBuffer(target, (GLuint) bufferId);
 }
 
-static inline void Buffer_unbind(GLenum target)
+static  void Buffer_unbind(GLenum target)
 {
     glBindBuffer(target, 0);
 }

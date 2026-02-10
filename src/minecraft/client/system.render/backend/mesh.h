@@ -9,6 +9,7 @@ typedef struct Mesh
 {   
     VertexArray vao;
     IndexBuffer ebo;
+    VertexBuffer vbo;
 }Mesh;
 
 typedef struct MeshTransform
