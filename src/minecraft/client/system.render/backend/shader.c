@@ -81,6 +81,11 @@ void Shader_destroy(Shader shader)
     glDeleteProgram((GLuint) shader.id);
 }
 
+bool Shader_isValid(Shader shader)
+{
+    return (bool) glIsProgram(shader.id);
+}
+
 void Shader_enable(Shader shader)
 {
     glUseProgram((GLuint) shader.id);

@@ -34,6 +34,8 @@ void Shader_destroy(Shader shader);
 void Shader_enable(Shader shader);
 void Shader_disable();
 
+bool Shader_isValid(Shader shader);
+
 void Shader_setInt(Shader shader, const char* uniformName, int data);
 void Shader_setUnsignedInt(Shader shader, const char* uniformName, unsigned int data);
 void Shader_setFloat(Shader shader, const char* uniformName, float data);

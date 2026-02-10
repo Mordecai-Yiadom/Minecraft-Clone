@@ -65,17 +65,21 @@ void RenderSystem_startRenderPass()
         shader = Shader_create("assets/shaders/default.vs", NULL, "assets/shaders/default.fs");
 
         if(!VertexArray_isArray(vao)) Logger_logError(RENDER_SYSTEM, "VAO handle is invalid.");
-        if(!glIsProgram(shader.id)) Logger_logError(RENDER_SYSTEM, "Shader Program handle is invalid.");
+        if(!Shader_isValid(shader)) Logger_logError(RENDER_SYSTEM, "Shader Program handle is invalid.");
 
         isInitialized = true;
     }
 
-    glClearColor(sin(glfwGetTime()), cos(glfwGetTime()), sin(glfwGetTime()), 1);
+    glClearColor(0,0,0, 1);
     glClear(GL_COLOR_BUFFER_BIT);
     
     Shader_enable(shader);
     VertexArray_bind(vao);
     
+    Shader_setFloat(shader, "r", sin(glfwGetTime()));
+    Shader_setFloat(shader, "g", cos(glfwGetTime()));
+    Shader_setFloat(shader, "b", tan(glfwGetTime()));
+
     glDrawArrays(GL_TRIANGLES, 0, 6);
     
 }
