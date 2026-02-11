@@ -54,8 +54,6 @@ void RenderSystem_startRenderPass()
         vbo = VertexBuffer_create(data, STATIC_DRAW);
         if(!VertexBuffer_isValid(vbo)) Logger_logError(RENDER_SYSTEM, "VBO handle is invalid.");
         
-
-        
         printf("VBO handle: %d\n", vbo.id);
         printf("VBO size: %d\n",  VertexBuffer_getSize(vbo));
         

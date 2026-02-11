@@ -4,5 +4,11 @@
 #include <math.h>
 #include <cglm/cglm.h>
 
+typedef struct EulerRotation
+{   
+    double pitch;
+    double yaw;
+    double roll;
+}EulerRotation;
 
 #endif

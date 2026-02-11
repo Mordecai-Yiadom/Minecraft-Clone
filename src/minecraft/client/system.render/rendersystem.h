@@ -2,7 +2,7 @@
 #define MINECRAFT_CLIENT_RENDER_SYSTEM_H
 
 #include <stdbool.h>
-#include "frontend/window.h"
+#include "frontend/frontend.h"
 
 #define DELTA_TIME() RenderSystem_getDeltaTime()
 #define FPS() RenderSystem_getFPS()
@@ -23,6 +23,7 @@ typedef struct RenderSystem
 {   
     bool calcFPS;
     void* renderQueue;
+    Camera mainCamera;
 }RenderSystem;
 
 
