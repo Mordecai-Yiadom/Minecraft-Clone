@@ -4,11 +4,21 @@
 #include <math.h>
 #include <cglm/cglm.h>
 
-typedef struct EulerRotation
+#define vec2i(v, x, y) v[0] = (int)(x); v[1] = (int)(y)
+#define vec3i(v, x, y, z) v[0] = (int)(x); v[1] = (int)(y); v[2] = (int)(z)
+#define vec4i(v, x, y, z, w) v[0] = (int)(x); v[1] = (int)(y); v[2] = (int)(z); v[3] = (int)(w)
+
+#define vec2f(v, x, y) v[0] = (float)(x); v[1] = (float)(y)
+#define vec3f(v, x, y, z) v[0] = (float)(x); v[1] = (float)(y); v[2] = (float)(z)
+#define vec4f(v, x, y, z, w) v[0] = (float)(x); v[1] = (float)(y); v[2] = (float)(z); v[3] = (float)(w)
+
+
+
+typedef struct EulerOrientation
 {   
     double pitch;
     double yaw;
     double roll;
-}EulerRotation;
+}EulerOrientation;
 
 #endif
