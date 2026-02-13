@@ -1,7 +1,9 @@
 #ifndef MINECRAFT_CLIENT_APPLICATION_H
 #define MINECRAFT_CLIENT_APPLICATION_H
 
-#include "system.render/rendersystem.h"
+#include "layers/layer.h"
+#include "../system.render/rendersystem.h"
+
 
 typedef struct ApplicationInfo
 {   
@@ -10,13 +12,14 @@ typedef struct ApplicationInfo
     int argc;
 }ApplicationInfo;
 
-
 typedef struct MinecraftClientApplication
 {
     RenderSystem *renderSystem;
     Window *gameWindow;
     bool isRunning;
+    ApplicationLayer layerStack[];
 }MinecraftClientApplication;
+
 
 
 

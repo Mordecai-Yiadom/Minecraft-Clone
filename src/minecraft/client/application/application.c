@@ -1,5 +1,6 @@
 #include "application.h"
 
+
 static MinecraftClientApplication *MINECRAFT_CLIENT_APPLICATION_INSTANCE = NULL;
 
 
