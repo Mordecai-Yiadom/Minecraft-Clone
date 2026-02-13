@@ -46,6 +46,46 @@ Camera Camera_createOthrograhic(OrthoCameraProjectionData orthoData, float nearZ
     return camera;
 }
 
+void Camera_updateMatrix(Camera *camera)
+{
+    Camera_updateProjectionMatrix(camera);
+    Camera_updateViewMatrix(camera);
+}
+
+void Camera_updateProjectionMatrix(Camera *camera)
+{
+    if(!camera) return;
+    switch(camera->type)
+    {
+        case PERSPECTIVE:
+                glm_perspective(camera->projectionData.perspective.fov, 
+            camera->projectionData.perspective.aspectRatio, 
+            camera->projectionData.nearZ, 
+            camera->projectionData.farZ, 
+            camera->matrix.projection);
+            break;
+
+        case ORTHOGRAPHIC:
+            glm_ortho(camera->projectionData.orthograhic.left,
+            camera->projectionData.orthograhic.right, 
+            camera->projectionData.orthograhic.bottom, 
+            camera->projectionData.orthograhic.top, 
+            camera->projectionData.nearZ, 
+            camera->projectionData.farZ, 
+            camera->matrix.projection);
+            break;
+    }
+}
+
+void Camera_updateViewMatrix(Camera *camera)
+{
+    if(!camera) return;
+    glm_mat4_identity(camera->matrix.view);
+    glm_vec3_add(camera->position, camera->direction, camera->center);
+    glm_lookat(camera->position, camera->center, camera->upAxis, camera->matrix.view);
+}
+
+
 void Camera_setFov(Camera *camera, float fov)
 {
     if(!camera) return;
@@ -140,6 +180,8 @@ void Camera_moveLeft(Camera *camera)
     static vec3 cameraSpeed;
     static vec3 multResult;
     
+    Camera_calcSpeedDeltaTime(camera->speed, cameraSpeed);
+
     glm_cross(camera->direction, camera->upAxis, crossResult);
     glm_normalize(crossResult);
     glm_vec3_mul(crossResult, cameraSpeed, multResult);
@@ -153,6 +195,8 @@ void Camera_moveRight(Camera *camera)
     static vec3 cameraSpeed;
     static vec3 multResult;
     
+    Camera_calcSpeedDeltaTime(camera->speed, cameraSpeed);
+
     glm_cross(camera->direction, camera->upAxis, crossResult);
     glm_normalize(crossResult);
     glm_vec3_mul(crossResult, cameraSpeed, multResult);

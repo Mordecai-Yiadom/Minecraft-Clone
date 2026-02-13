@@ -116,55 +116,55 @@ void Shader_setFloat(Shader shader, const char* uniformName, float data)
 void Shader_setVec2i(Shader shader, const char* uniformName, ivec2 data)
 {
     if(!uniformName || !shader.id) return;
-    glUniform2iv(glGetUniformLocation((GLuint) shader.id, (const GLchar*) uniformName), 1, (const GLint*) &data);
+    glUniform2iv(glGetUniformLocation((GLuint) shader.id, (const GLchar*) uniformName), 1, (const GLint*) data);
 }
 
 void Shader_setVec3i(Shader shader, const char* uniformName, ivec3 data)
 {
     if(!uniformName || !shader.id) return;
-    glUniform3iv(glGetUniformLocation((GLuint) shader.id, (const GLchar*) uniformName), 1, (const GLint*) &data);
+    glUniform3iv(glGetUniformLocation((GLuint) shader.id, (const GLchar*) uniformName), 1, (const GLint*) data);
 }
 
 void Shader_setVec4i(Shader shader, const char* uniformName, ivec4 data)
 {
     if(!uniformName || !shader.id) return;
-    glUniform4iv(glGetUniformLocation((GLuint) shader.id, (const GLchar*) uniformName), 1, (const GLint*) &data);
+    glUniform4iv(glGetUniformLocation((GLuint) shader.id, (const GLchar*) uniformName), 1, (const GLint*) data);
 }
 
 void Shader_setVec2f(Shader shader, const char* uniformName, vec2 data)
 {
     if(!uniformName || !shader.id) return;
-    glUniform2fv(glGetUniformLocation((GLuint) shader.id, (const GLchar*) uniformName), 1, (const GLfloat*) &data);
+    glUniform2fv(glGetUniformLocation((GLuint) shader.id, (const GLchar*) uniformName), 1, (const GLfloat*) data);
 }
 
 void Shader_setVec3f(Shader shader, const char* uniformName, vec3 data)
 {
     if(!uniformName || !shader.id) return;
-    glUniform3fv(glGetUniformLocation((GLuint) shader.id, (const GLchar*) uniformName), 1, (const GLfloat*) &data);
+    glUniform3fv(glGetUniformLocation((GLuint) shader.id, (const GLchar*) uniformName), 1, (const GLfloat*) data);
 }
 
 void Shader_setVec4f(Shader shader, const char* uniformName, vec4 data)
 {
     if(!uniformName || !shader.id) return;
-    glUniform4fv(glGetUniformLocation((GLuint) shader.id, (const GLchar*) uniformName), 1, (const GLfloat*) &data);
+    glUniform4fv(glGetUniformLocation((GLuint) shader.id, (const GLchar*) uniformName), 1, (const GLfloat*) data);
 }
 
 void Shader_setMat2x2f(Shader shader, const char* uniformName, mat2 data)
 {
     if(!uniformName || !shader.id) return;
-    glUniformMatrix2fv(glGetUniformLocation((GLuint) shader.id, (const GLchar*) uniformName), 1, GL_FALSE, (const GLfloat*) &data);
+    glUniformMatrix2fv(glGetUniformLocation((GLuint) shader.id, (const GLchar*) uniformName), 1, GL_FALSE, (const GLfloat*) data);
 }
 
 void Shader_setMat3x3f(Shader shader, const char* uniformName, mat3 data)
 {
     if(!uniformName || !shader.id) return;
-    glUniformMatrix3fv(glGetUniformLocation((GLuint) shader.id, (const GLchar*) uniformName), 1, GL_FALSE, (const GLfloat*) &data);
+    glUniformMatrix3fv(glGetUniformLocation((GLuint) shader.id, (const GLchar*) uniformName), 1, GL_FALSE, (const GLfloat*) data);
 }
 
 void Shader_setMat4x4f(Shader shader, const char* uniformName, mat4 data)
 {
     if(!uniformName || !shader.id) return;
-    glUniformMatrix4fv(glGetUniformLocation((GLuint) shader.id, (const GLchar*) uniformName), 1, GL_FALSE, (const GLfloat*) &data);
+    glUniformMatrix4fv(glGetUniformLocation((GLuint) shader.id, (const GLchar*) uniformName), 1, GL_FALSE, (const GLfloat*) data);
 }
 
 void Shader_linkUniformBuffer(Shader shader, UniformBuffer uniformBuffer, UniformBlockBindingPoint bindingPoint, const char* uniformName)

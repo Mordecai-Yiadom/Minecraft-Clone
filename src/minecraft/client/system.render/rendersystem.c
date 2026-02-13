@@ -16,6 +16,7 @@ static bool isInitialized = false;
 static VertexBuffer vbo;
 static VertexArray vao;
 static Shader shader;
+static Camera camera;
 
 static float shapeVerts[] = 
 {   
@@ -65,6 +66,11 @@ void RenderSystem_startRenderPass()
         if(!VertexArray_isArray(vao)) Logger_logError(RENDER_SYSTEM, "VAO handle is invalid.");
         if(!Shader_isValid(shader)) Logger_logError(RENDER_SYSTEM, "Shader Program handle is invalid.");
 
+        PerspCameraProjectionData projData;
+        projData.fov = 90;
+        projData.aspectRatio = 1280.0f/720.0f;
+        camera = Camera_createPerspective(projData, 0.1, 1000);
+        
         isInitialized = true;
     }
 
@@ -77,6 +83,26 @@ void RenderSystem_startRenderPass()
     Shader_setFloat(shader, "r", sin(glfwGetTime()));
     Shader_setFloat(shader, "g", cos(glfwGetTime()));
     Shader_setFloat(shader, "b", tan(glfwGetTime()));
+
+    //Camera_setFov(&camera, 100 * sin(glfwGetTime()));
+
+    vec3 camera_position = {0, 0, 0};
+    
+    mat4 modelMatrix;
+    vec3 modelPos = {0, 0, 5};
+    
+    glm_mat4_identity(modelMatrix);
+    glm_translate(modelMatrix, modelPos);
+
+    Camera_setPosition(&camera, camera_position);
+    camera.direction[2] = 10 * sin(glfwGetTime());
+    Camera_updateMatrix(&camera);
+    
+   
+
+    Shader_setMat4x4f(shader, "projection", camera.matrix.projection);
+    Shader_setMat4x4f(shader, "view", camera.matrix.view);
+    Shader_setMat4x4f(shader, "model", modelMatrix);
 
     glDrawArrays(GL_TRIANGLES, 0, 6);
     

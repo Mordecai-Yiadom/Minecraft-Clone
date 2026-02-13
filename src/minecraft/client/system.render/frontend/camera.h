@@ -68,11 +68,13 @@ Camera Camera_createPerspective(PerspCameraProjectionData perspData, float nearZ
 
 Camera Camera_createOthrograhic(OrthoCameraProjectionData orthoData, float nearZ, float farZ);
 
+void Camera_updateMatrix(Camera *camera);
+
+void Camera_updateProjectionMatrix(Camera *camera);
+
+void Camera_updateViewMatrix(Camera *camera);
 
 void Camera_setFov(Camera *camera, float fov);
-
-
-void Camera_updateMatrix(Camera *camera);
 
 //Possibly Remove
 void Camera_setSpeed(Camera *camera, vec3 speed);
@@ -89,7 +91,6 @@ void Camera_setNearPlane(Camera *camera, float nearZ);
 void Camera_setFarPlane(Camera *camera, float farZ);
 
 void Camera_setPosition(Camera *camera, vec3 position);
-
 
 // void Camera_move(Camera *camera, vec3 translation);
 
