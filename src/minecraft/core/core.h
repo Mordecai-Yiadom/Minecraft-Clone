@@ -6,6 +6,8 @@
 #include "filemanager.h"
 #include "logger.h"
 #include "math3D.h"
+#include "array.h"
+#include "memtypes.h"
 
 #include <stdbool.h>
 #include <stdlib.h>

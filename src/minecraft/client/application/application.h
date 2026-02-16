@@ -1,6 +1,9 @@
 #ifndef MINECRAFT_CLIENT_APPLICATION_H
 #define MINECRAFT_CLIENT_APPLICATION_H
 
+
+#define MAX_APP_LAYERS 32
+
 #include "layers/layer.h"
 #include "../system.render/rendersystem.h"
 
