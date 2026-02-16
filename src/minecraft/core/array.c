@@ -60,7 +60,7 @@ void Array_resize(Array *array, int newLength)
 {
     if(!array || newLength < 0) return;
     array->length = newLength;
-    realloc(array->data, newLength * array->elementSize);
+    array->data = realloc(array->data, newLength * array->elementSize);
 }
 
 

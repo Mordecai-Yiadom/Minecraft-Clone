@@ -1,12 +1,6 @@
 #include "arraylist.h"
 
 
-ArrayList ArrayList_create(int initialCapacity, int elementSize)
-{
-    ArrayList arrayList;
-    return arrayList;
-}
-
 ArrayList ArrayList_create(int initialCapacity, int elementSize, ArrayListResizePolicy resizePolicy)
 {
     ArrayList list = {.resizePolicy=resizePolicy, .currentLength=0};
@@ -17,7 +11,7 @@ ArrayList ArrayList_create(int initialCapacity, int elementSize, ArrayListResize
 void ArrayList_destroy(ArrayList *arrayList)
 {
     if(!arrayList) return;
-    ArrayList_destroy(&arrayList->array);
+    Array_destroy(&arrayList->array);
 }
 
 int ArrayList_length(ArrayList *arrayList)
@@ -30,6 +24,12 @@ int ArrayList_size(ArrayList *arrayList)
 {
     if(!arrayList) return -1;
     return Array_size(&arrayList->array);
+}
+
+int ArrayList_capacity(ArrayList *arrayList)
+{
+    if(!arrayList) return -1;
+    return arrayList->array.length;
 }
 
 int ArrayList_elementSize(ArrayList *arrayList)

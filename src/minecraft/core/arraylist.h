@@ -28,6 +28,8 @@ int ArrayList_length(ArrayList *arrayList);
 
 int ArrayList_size(ArrayList *arrayList);
 
+int ArrayList_capacity(ArrayList *arrayList);
+
 int ArrayList_elementSize(ArrayList *arrayList);
 
 void ArrayList_get(ArrayList *arrayList, int index, byte *element);
@@ -39,7 +41,5 @@ void ArrayList_remove(ArrayList *arrayList, int index);
 void ArrayList_set(ArrayList *arrayList, int index, byte *element);
 
 bool ArrayList_isEmpty(ArrayList *arrayList);
-
-
 
 #endif
