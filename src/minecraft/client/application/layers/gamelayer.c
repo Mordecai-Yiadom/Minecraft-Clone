@@ -1,16 +1,17 @@
 #include "gamelayer.h"
 
-ApplicationLayer GameLayer_create(GameLayerData data)
+ApplicationLayer GameLayer_create(GameLayerState state)
 {
     ApplicationLayer gamelayer;
-    gamelayer.data.gamelayer = data;
+    gamelayer.gameLayerState = state;
     gamelayer.type = GAME_LAYER;
     gamelayer.isSuspended = false;
 
     gamelayer.onRender = GameLayer_onRender;
-    gamelayer.onTransition = GameLayer_onTransition;
-    gamelayer.onSuspend = GameLayer_onSuspend;
-    gamelayer.processMouseInput = GameLayer_processKeyboardInput;
+    gamelayer.transitionTo = GameLayer_transitionTo;
+    gamelayer.suspend = GameLayer_suspend;
+    gamelayer.processKeyboardInput = GameLayer_processKeyboardInput;
+    gamelayer.onMouseInput = GameLayer_onMouseInput;
     return gamelayer;
 }
 
@@ -24,12 +25,17 @@ void GameLayer_onRender(ApplicationLayer *gamelayer)
     if(!gamelayer) return;
 }
 
-void GameLayer_onTransition(ApplicationLayer *gamelayer)
+void GameLayer_onUpdate(ApplicationLayer *gamelayer)
 {
     if(!gamelayer) return;
 }
 
-void GameLayer_onSuspend(ApplicationLayer *gamelayer)
+void GameLayer_transitionTo(ApplicationLayer *gamelayer, ApplicationLayerType newLayerType)
+{
+    if(!gamelayer || newLayerType == GAME_LAYER) return;
+}
+
+void GameLayer_suspend(ApplicationLayer *gamelayer)
 {
     if(!gamelayer) return;
 }

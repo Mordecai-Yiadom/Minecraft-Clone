@@ -2,28 +2,39 @@
 #define MINECRAFT_CLIENT_LAYER_H
 
 typedef struct ApplicationLayer ApplicationLayer;
+typedef enum ApplicationLayerType ApplicationLayerType;
 
-#include "layertypes.h"
+#include "gamelayer.h"
+
+typedef enum ApplicationLayerType
+{
+    GAME_LAYER,
+}ApplicationLayerType;
 
 
 typedef void(*AppLayerOnRender)(ApplicationLayer *layer);
-typedef void(*AppLayerOnTransition)(ApplicationLayer *layer);
-typedef void(*AppLayerOnSuspend)(ApplicationLayer *layer);
+typedef void(*AppLayerOnUpdate)(ApplicationLayer *layer);
+typedef void(*AppLayerTransitionTo)(ApplicationLayer *layer, ApplicationLayerType newLayerType);
+typedef void(*AppLayerSuspend)(ApplicationLayer *layer);
 typedef bool(*AppLayerProcessKeyboardInput)(ApplicationLayer *layer);
 typedef bool(*AppLayerOnMouseInput)(ApplicationLayer *layer);
 
 
 typedef struct ApplicationLayer
 {   
-    AppLayerState layerState;
-    AppLayerType type;
+    union 
+    {
+        GameLayerState gameLayerState;
+    };
 
     AppLayerOnRender onRender;
-    AppLayerOnTransition onTransition;
-    AppLayerOnSuspend onSuspend;
-    AppLayerProcessKeyboardInput processMouseInput;
+    AppLayerOnUpdate onUpdate;
+    AppLayerTransitionTo transitionTo;
+    AppLayerSuspend suspend;
+    AppLayerProcessKeyboardInput processKeyboardInput;
     AppLayerOnMouseInput onMouseInput;
 
+    ApplicationLayerType type;
     bool isSuspended;
 }ApplicationLayer;
 

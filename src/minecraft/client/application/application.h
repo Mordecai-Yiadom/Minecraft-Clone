@@ -1,12 +1,8 @@
 #ifndef MINECRAFT_CLIENT_APPLICATION_H
 #define MINECRAFT_CLIENT_APPLICATION_H
 
-
-#define MAX_APP_LAYERS 32
-
 #include "layers/layer.h"
 #include "../system.render/rendersystem.h"
-
 
 typedef struct ApplicationInfo
 {   
@@ -15,22 +11,29 @@ typedef struct ApplicationInfo
     int argc;
 }ApplicationInfo;
 
-typedef struct MinecraftClientApplication
+typedef struct ClientApplication
 {
     RenderSystem *renderSystem;
     Window *gameWindow;
+    ArrayList appLayerStack;
     bool isRunning;
-    ApplicationLayer layerStack[];
-}MinecraftClientApplication;
+    bool isInitialized;
+}ClientApplication;
 
 
 
 
-bool MinecraftClientApplication_create(ApplicationInfo *appInfo);
+bool ClientApplication_create(ApplicationInfo appInfo);
 
-void MinecraftClientApplication_launch();
+void ClientApplication_launch();
 
-void MinecraftClientApplication_terminate();
+Window* ClientApplication_getGameWindow();
+
+void ClientApplication_pushLayer(ApplicationLayer layer);
+
+ApplicationLayer* ClientApplication_getLayer(ApplicationLayerType layerType);
+
+void ClientApplication_terminate();
 
 
 #endif

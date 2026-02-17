@@ -63,8 +63,6 @@ void Array_resize(Array *array, int newLength)
     array->data = realloc(array->data, newLength * array->elementSize);
 }
 
-
-
 void Array_swap(Array *array, int index1, int index2)
 {
     if(!array) return;

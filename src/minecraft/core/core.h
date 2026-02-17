@@ -7,6 +7,7 @@
 #include "logger.h"
 #include "math3D.h"
 #include "array.h"
+#include "arraylist.h"
 #include "memtypes.h"
 
 #include <stdbool.h>
