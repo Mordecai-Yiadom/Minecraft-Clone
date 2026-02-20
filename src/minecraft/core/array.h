@@ -41,4 +41,7 @@ void Array_pack(Array *array, int *holes, int holeCount);
 void Array_swap(Array *array, int index1, int index2);
 
 bool Array_isValidIndex(Array *array, int index);
+
+void* Array_getAddress(Array *array, int index);
+
 #endif

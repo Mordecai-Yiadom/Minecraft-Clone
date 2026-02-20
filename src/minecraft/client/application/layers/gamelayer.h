@@ -3,7 +3,6 @@
 
 #include "../../system.render/rendersystem.h"
 
-
 typedef struct GameLayerState
 {
     Camera camera;
@@ -25,7 +24,7 @@ void GameLayer_transitionTo(ApplicationLayer *gamelayer, ApplicationLayerType ne
 
 void GameLayer_suspend(ApplicationLayer *gamelayer);
 
-bool GameLayer_processKeyboardInput(ApplicationLayer *gamelayer);
+bool GameLayer_pollKeyboardInput(ApplicationLayer *gamelayer);
 
 bool GameLayer_onMouseInput(ApplicationLayer *gamelayer);
 

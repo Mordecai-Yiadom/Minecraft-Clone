@@ -10,7 +10,7 @@ ApplicationLayer GameLayer_create(GameLayerState state)
     gamelayer.onRender = GameLayer_onRender;
     gamelayer.transitionTo = GameLayer_transitionTo;
     gamelayer.suspend = GameLayer_suspend;
-    gamelayer.processKeyboardInput = GameLayer_processKeyboardInput;
+    gamelayer.pollKeyboardInput = GameLayer_pollKeyboardInput;
     gamelayer.onMouseInput = GameLayer_onMouseInput;
     return gamelayer;
 }
@@ -23,6 +23,8 @@ void GameLayer_destroy(ApplicationLayer *gamelayer)
 void GameLayer_onRender(ApplicationLayer *gamelayer)
 {
     if(!gamelayer) return;
+
+    
 }
 
 void GameLayer_onUpdate(ApplicationLayer *gamelayer)
@@ -40,7 +42,7 @@ void GameLayer_suspend(ApplicationLayer *gamelayer)
     if(!gamelayer) return;
 }
 
-bool GameLayer_processKeyboardInput(ApplicationLayer *gamelayer)
+bool GameLayer_pollKeyboardInput(ApplicationLayer *gamelayer)
 {
     if(!gamelayer) return false;
     return true;

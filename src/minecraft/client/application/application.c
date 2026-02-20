@@ -1,67 +1,198 @@
+#define MINECRAFT_CLIENT_APPLICATION_C
 #include "application.h"
 
 
-static ClientApplication CLIENTAPPLICATION_INSTANCE = {.isRunning=false, .isInitialized=false};
-
-
 bool ClientApplication_create(ApplicationInfo appInfo)
-{   
-    if(CLIENTAPPLICATION_INSTANCE.isRunning)
+{
+    if(!ClientApplication_isInitialized())
     {
-        Logger_logError(APPLICATION_ERROR, "Failed to create Client Application. Instance already is running.");
+        Logger_logError(APPLICATION_ERROR, "Failed to initialize ClientApplication as it is already initalized.");
         return false;
     }
 
-    RenderSystem_init();
-    CLIENTAPPLICATION_INSTANCE.gameWindow = Window_create(appInfo.props);
+    APP_STATE.appInfo = appInfo;
 
-    if(!CLIENTAPPLICATION_INSTANCE.gameWindow)
-    {   
-        Logger_logError(APPLICATION_ERROR, "Failed to create Client Application. Game Window failed to initialize.");
-        return false;
-    }
+    APP_STATE.version = appInfo.version;
+    APP_STATE.appLayerStack = ArrayList_create(10, sizeof(ApplicationLayer), RESIZE_DOUBLE);
 
-    CLIENTAPPLICATION_INSTANCE.isInitialized = true;
+    APP_STATE.isInitialized = true;
+
     return true;
 }
 
-void ClientApplication_launch()
-{
-    if(CLIENTAPPLICATION_INSTANCE.isRunning || !CLIENTAPPLICATION_INSTANCE.isInitialized)
+void ClientApplication_run()
+{   
+    if(!ClientApplication_isReadyToRun())
     {
-        Logger_logError(APPLICATION_ERROR, "Client Application failed to launch.");
+        Logger_logError(APPLICATION_ERROR, "Failed to run ClientApplication as it is already running or not initalized.");
         return;
     }
+
+    APP_STATE.isRunning = true;
     
-    CLIENTAPPLICATION_INSTANCE.isRunning = true;
-
-    Window_setVisible(CLIENTAPPLICATION_INSTANCE.gameWindow, true);
-
-    //Game Loop
-    char titleBuffer[48];
+    ClientApplication_createGameWindow();
     
-    while(CLIENTAPPLICATION_INSTANCE.isRunning)
-    {   
-        if(Window_shouldClose(CLIENTAPPLICATION_INSTANCE.gameWindow)) 
-            CLIENTAPPLICATION_INSTANCE.isRunning = false;
 
-        Window_PollEvents();
+    //App Loop
+    while(ClientApplication_isRunning())
+    {
+        ClientApplication_PollEvents();
 
-        RenderSystem_startRenderPass();
-        RenderSystem_endRenderPass(CLIENTAPPLICATION_INSTANCE.gameWindow);
-        
-        memset(titleBuffer, 0, sizeof(titleBuffer));
-        sprintf(titleBuffer, "Minecraft (FPS: %d)", FPS());    
-        Window_setTitle(CLIENTAPPLICATION_INSTANCE.gameWindow, titleBuffer);
-        
+        ClientAppliciation_pollKeyboardInput();
+
+        ClientApplication_onUpdate();
+        ClientApplication_onRender();
     }
+
+}
+
+void ClientApplication_stop()
+{
+    APP_STATE.isRunning = false;
+    Window_shouldClose(&APP_STATE.gameWindow);
+}
+
+void ClientApplication_restart()
+{}
+
+bool ClientApplicaton_isRunning()
+{
+    return APP_STATE.isRunning;
 }
 
 
-void ClientApplication_terminate()
+bool ClientApplication_isInitialized()
+{
+    return APP_STATE.isInitialized;
+}
+
+bool ClientApplication_isReadyToRun()
+{
+    return ClientApplication_isInitialized() && !ClientApplication_isRunning();
+}
+
+ApplicationVersion ClientApplicaton_version()
+{
+    return APP_STATE.version;
+}
+
+Window* ClientApplication_getGameWindow()
+{
+    if(ClientApplication_isRunning())
+        return &APP_STATE.gameWindow;
+    else return NULL;
+}
+
+void ClientApplication_pushLayer(ApplicationLayer layer)
+{
+    if(!ClientApplication_isInitialized()) return;
+    ArrayList_add(&APP_STATE.appLayerStack, (byte*)&layer);
+}
+
+ApplicationLayer* ClientApplication_getLayer(ApplicationLayerType layerType)
+{
+    if(!ClientApplication_isInitialized()) return;
+
+    ApplicationLayer currLayer;
+    for(int i = 0; i < ArrayList_length(&APP_STATE.appLayerStack); i++)
+    {   
+        ArrayList_get(&APP_STATE.appLayerStack, i, (byte*)&currLayer);
+        if(currLayer.type == layerType) 
+            return ArrayList_getAddress(&APP_STATE.appLayerStack, i);
+    }
+}
+
+void ClientApplication_removeLayer(ApplicationLayerType layerType)
 {   
-    if(!CLIENTAPPLICATION_INSTANCE.isInitialized) return;
-    Window_destroy(CLIENTAPPLICATION_INSTANCE.gameWindow);
-    
-    CLIENTAPPLICATION_INSTANCE.isInitialized = false;
+    ApplicationLayer currLayer;
+    for(int i = 0; i < ArrayList_length(&APP_STATE.appLayerStack); i++)
+    {   
+        ArrayList_get(&APP_STATE.appLayerStack, i, (byte*)&currLayer);
+        if(currLayer.type == layerType) 
+        {
+            ArrayList_remove(&APP_STATE.appLayerStack, i);
+            return;
+        }
+    }
+}
+
+void ClientApplication_destroy()
+{
+    if(!ClientApplication_isReadyToRun()) return;
+    ArrayList_destroy(&APP_STATE.appLayerStack);
+    Window_destroy(&APP_STATE.gameWindow);
+    memset(&APP_STATE, 0, sizeof(ClientApplication));
+}
+
+
+static inline void ClientApplication_onUpdate()
+{   
+    ApplicationLayer currLayer;
+    for(int i = 0; i < ArrayList_length(&APP_STATE.appLayerStack); i++)
+    {
+        ArrayList_get(&APP_STATE.appLayerStack, i, (byte*)&currLayer);
+
+        if(currLayer.onUpdate)
+        {
+            currLayer.onUpdate(&currLayer);
+        }
+    }
+}
+
+static inline void ClientApplication_onRender()
+{
+    ApplicationLayer currLayer;
+    for(int i = 0; i < ArrayList_length(&APP_STATE.appLayerStack); i++)
+    {
+        ArrayList_get(&APP_STATE.appLayerStack, i, (byte*)&currLayer);
+
+        if(currLayer.onRender)
+        {
+            currLayer.onRender(&currLayer);
+        }
+    }
+}
+
+static inline void ClientApplication_PollEvents()
+{
+    Window_PollEvents();
+}
+
+static inline void ClientApplciation_pollKeyboardInput()
+{
+    ApplicationLayer currLayer;
+    for(int i = 0; i < ArrayList_length(&APP_STATE.appLayerStack); i++)
+    {
+        ArrayList_get(&APP_STATE.appLayerStack, i, (byte*)&currLayer);
+
+        if(currLayer.pollKeyboardInput)
+        {
+            currLayer.pollKeyboardInput(&currLayer);
+        }
+    }  
+}
+
+static inline void ClientApplciation_onMouseInput()
+{
+    ApplicationLayer currLayer;
+    for(int i = 0; i < ArrayList_length(&APP_STATE.appLayerStack); i++)
+    {
+        ArrayList_get(&APP_STATE.appLayerStack, i, (byte*)&currLayer);
+
+        if(currLayer.onMouseInput)
+        {
+            currLayer.onMouseInput(&currLayer);
+        }
+    }     
+}
+
+static inline void ClientApplication_createGameWindow()
+{   
+    if(Window_isValid(APP_STATE.gameWindow))
+    {   
+        Logger_logError(APPLICATION_ERROR, "Failed to create ClientApplication Game Window as a valid instance already exists.");
+        return;
+    }
+
+    APP_STATE.gameWindow = Window_create(APP_STATE.appInfo.windowProps);
 }

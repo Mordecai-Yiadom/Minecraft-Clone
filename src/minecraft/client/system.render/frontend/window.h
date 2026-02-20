@@ -54,6 +54,8 @@ bool Window_shouldClose(Window *window);
 
 void Window_swapBuffers(Window *window);
 
+bool Window_isValid(Window *window);
+
 
 
 #endif

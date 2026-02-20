@@ -16,7 +16,7 @@ typedef void(*AppLayerOnRender)(ApplicationLayer *layer);
 typedef void(*AppLayerOnUpdate)(ApplicationLayer *layer);
 typedef void(*AppLayerTransitionTo)(ApplicationLayer *layer, ApplicationLayerType newLayerType);
 typedef void(*AppLayerSuspend)(ApplicationLayer *layer);
-typedef bool(*AppLayerProcessKeyboardInput)(ApplicationLayer *layer);
+typedef bool(*AppLayerPollKeyboardInput)(ApplicationLayer *layer);
 typedef bool(*AppLayerOnMouseInput)(ApplicationLayer *layer);
 
 
@@ -31,7 +31,7 @@ typedef struct ApplicationLayer
     AppLayerOnUpdate onUpdate;
     AppLayerTransitionTo transitionTo;
     AppLayerSuspend suspend;
-    AppLayerProcessKeyboardInput processKeyboardInput;
+    AppLayerPollKeyboardInput pollKeyboardInput;
     AppLayerOnMouseInput onMouseInput;
 
     ApplicationLayerType type;

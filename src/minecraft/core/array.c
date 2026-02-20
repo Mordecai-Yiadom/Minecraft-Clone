@@ -63,6 +63,7 @@ void Array_resize(Array *array, int newLength)
     array->data = realloc(array->data, newLength * array->elementSize);
 }
 
+
 void Array_swap(Array *array, int index1, int index2)
 {
     if(!array) return;
@@ -84,4 +85,11 @@ bool Array_isValidIndex(Array *array, int index)
 {
     if(!array) return false;
     return ((index > -1) && (index < array->length));
+}
+
+void* Array_getAddress(Array *array, int index)
+{
+    if(!Array_isValidIndex(array, index)) return NULL;
+
+    return &array->data[array->elementSize * index];
 }

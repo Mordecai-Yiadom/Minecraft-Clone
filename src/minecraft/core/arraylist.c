@@ -44,6 +44,13 @@ void ArrayList_get(ArrayList *arrayList, int index, byte *element)
     Array_get(&arrayList->array, index, element);
 }
 
+void* ArrayList_getAddress(ArrayList* arrayList, int index)
+{   
+    if(!arrayList) return NULL;
+    if(!Array_isValidIndex(&arrayList->array, index)) return NULL;
+    return Array_getAddress(&arrayList->array, index);
+}
+
 void ArrayList_add(ArrayList *arrayList, byte *element)
 {
     if(!arrayList) return;

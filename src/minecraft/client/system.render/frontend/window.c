@@ -3,37 +3,39 @@
 #define MINECRAFT_CLIENT_RENDER_SYSTEM_GL_CONTEXT_STD_VERSION_MAJOR 3
 #define MINECRAFT_CLIENT_RENDER_SYSTEM_GL_CONTEXT_STD_VERSION_MINOR 3
 
-Window* Window_create(WindowProps props)
+Window Window_create(WindowProps props)
 {   
     //Context Setup
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, MINECRAFT_CLIENT_RENDER_SYSTEM_GL_CONTEXT_STD_VERSION_MAJOR);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, MINECRAFT_CLIENT_RENDER_SYSTEM_GL_CONTEXT_STD_VERSION_MINOR);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     
-    Window *window = (Window*) malloc(sizeof(Window));
-    window->glfwWindow = glfwCreateWindow(props.width, props.height, (const char*) props.title, NULL, NULL);
+    Window window;
+    memset(&window, 0, sizeof(Window));
+
+    window.glfwWindow = glfwCreateWindow(props.width, props.height, (const char*) props.title, NULL, NULL);
 
     //Context Setup
-    glfwMakeContextCurrent(window->glfwWindow);
+    glfwMakeContextCurrent(window.glfwWindow);
 
     if(!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress))
     {
         Logger_logError(RENDER_SYSTEM, "GLAD failed to load OpenGL functions.");
-        Window_destroy(window);
-        return NULL;
+        Window_destroy(&window);
+        return window;
     }
     
-    if(!window->glfwWindow)
+    if(!window.glfwWindow)
     {   
         Logger_logError(RENDER_SYSTEM, "GLFW failed to create game window.");
-        Window_destroy(window);
-        return NULL;
+        Window_destroy(&window);
+        return window;
     }
 
-    if(props.isFullscreen) Window_setFullscreen(window, true);
+    if(props.isFullscreen) Window_setFullscreen(&window, true);
     
-    Window_setVsync(window, props.isVsync);
-    Window_setVisible(window, props.isVisible);
+    Window_setVsync(&window, props.isVsync);
+    Window_setVisible(&window, props.isVisible);
 
     return window;
 }
@@ -43,7 +45,6 @@ void Window_destroy(Window* window)
     if(!window) return;
     glfwSetWindowShouldClose(window->glfwWindow, 1);
     glfwDestroyWindow(window->glfwWindow);
-    free(window);
 }
  
 void Window_setTitle(Window *window, char* title)
@@ -125,4 +126,9 @@ void Window_swapBuffers(Window *window)
     glfwSwapBuffers(window->glfwWindow);
 }
 
+bool Window_isValid(Window *window)
+{
+    if(!window) return false;
+    return (bool)(window->glfwWindow);
+}
 

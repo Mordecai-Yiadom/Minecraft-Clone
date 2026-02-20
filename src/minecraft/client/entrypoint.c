@@ -10,14 +10,15 @@ int main(void)
         .isVisible=true, 
         .title="Minecraft"};
 
-    ApplicationInfo info = {.props=windowProps};
+    ApplicationInfo info = {.windowProps=windowProps};
     if(!ClientApplication_create(info))
     {
         Logger_logError(APPLICATION_ERROR, "Failed to create Client Application instance.");
         exit(-1);
     }
 
-    ClientApplication_launch();
-    ClientApplication_terminate();
+    ClientApplication_run();
+    ClientApplication_stop();
+    ClientApplication_destroy();
     return 0;
 }

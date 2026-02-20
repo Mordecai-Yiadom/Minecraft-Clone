@@ -1,6 +1,7 @@
 #ifndef MINECRAFT_CORE_ARRAYLIST_H
 #define MINECRAFT_CORE_ARRAYLIST_H
 
+#include <stdlib.h>
 #include "array.h"
 #include "memtypes.h"
 #include <stdbool.h>
@@ -33,6 +34,8 @@ int ArrayList_capacity(ArrayList *arrayList);
 int ArrayList_elementSize(ArrayList *arrayList);
 
 void ArrayList_get(ArrayList *arrayList, int index, byte *element);
+
+void* ArrayList_getAddress(ArrayList* list, int index);
 
 void ArrayList_add(ArrayList *arrayList, byte *element);
 
