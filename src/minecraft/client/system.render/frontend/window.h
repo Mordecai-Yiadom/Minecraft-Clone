@@ -24,7 +24,7 @@ typedef struct Window
     bool isVsync;
 }Window;
 
-Window* Window_create(WindowProps props);
+Window Window_create(WindowProps props);
 
 void Window_destroy(Window* window);
 

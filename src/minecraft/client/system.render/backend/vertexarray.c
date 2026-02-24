@@ -4,7 +4,7 @@
 #include "context.h"
 #include "buffer.h"
 
-//TODO Implement
+
 VertexArray VertexArray_create()
 {   
     VertexArray vao;
@@ -15,19 +15,19 @@ VertexArray VertexArray_create()
     return vao;
 }
 
-//TODO Implement
+
 void VertexArray_destroy(VertexArray vertexArray)
 {
     glDeleteVertexArrays(1, (GLuint*) &vertexArray.id);
 }
 
-//TODO Implement
+
 void VertexArray_bind(VertexArray vertexArray)
 {
     glBindVertexArray((GLuint) vertexArray.id);
 }
 
-//TODO Implement
+
 void VertexArray_unbind()
 {
     glBindVertexArray(0);

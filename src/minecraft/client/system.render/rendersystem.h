@@ -5,8 +5,8 @@
 #include <stdbool.h>
 #include "frontend/frontend.h"
 
-#define DELTA_TIME() RenderSystem_getDeltaTime()
-#define FPS() RenderSystem_getFPS()
+#define DELTA_TIME() RenderSystem_deltaTime()
+#define FPS() RenderSystem_fps()
 
 typedef enum RenderSystemError
 {   
@@ -47,6 +47,7 @@ void RenderSystem_endRenderPass(Window *window);
 float RenderSystem_deltaTime();
 
 int RenderSystem_fps();
+
 
 
 

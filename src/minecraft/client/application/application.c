@@ -4,7 +4,7 @@
 
 bool ClientApplication_create(ApplicationInfo appInfo)
 {
-    if(!ClientApplication_isInitialized())
+    if(ClientApplication_isInitialized())
     {
         Logger_logError(APPLICATION_ERROR, "Failed to initialize ClientApplication as it is already initalized.");
         return false;
@@ -28,6 +28,8 @@ void ClientApplication_run()
         return;
     }
 
+    RenderSystem_init();
+
     APP_STATE.isRunning = true;
     
     ClientApplication_createGameWindow();
@@ -35,13 +37,21 @@ void ClientApplication_run()
 
     //App Loop
     while(ClientApplication_isRunning())
-    {
+    {   
+        
+        if(Window_shouldClose(&APP_STATE.gameWindow))
+            ClientApplication_stop();
+        
         ClientApplication_PollEvents();
+        
+        ClientApplication_pollKeyboardInput();
 
-        ClientAppliciation_pollKeyboardInput();
-
+        
         ClientApplication_onUpdate();
+        
         ClientApplication_onRender();
+
+        Window_swapBuffers(&APP_STATE.gameWindow);
     }
 
 }
@@ -55,7 +65,7 @@ void ClientApplication_stop()
 void ClientApplication_restart()
 {}
 
-bool ClientApplicaton_isRunning()
+bool ClientApplication_isRunning()
 {
     return APP_STATE.isRunning;
 }
@@ -91,15 +101,17 @@ void ClientApplication_pushLayer(ApplicationLayer layer)
 
 ApplicationLayer* ClientApplication_getLayer(ApplicationLayerType layerType)
 {
-    if(!ClientApplication_isInitialized()) return;
+    if(!ClientApplication_isInitialized()) return NULL;
 
     ApplicationLayer currLayer;
     for(int i = 0; i < ArrayList_length(&APP_STATE.appLayerStack); i++)
     {   
         ArrayList_get(&APP_STATE.appLayerStack, i, (byte*)&currLayer);
         if(currLayer.type == layerType) 
-            return ArrayList_getAddress(&APP_STATE.appLayerStack, i);
+            return (ApplicationLayer*) ArrayList_getAddress(&APP_STATE.appLayerStack, i);
     }
+
+    return NULL;
 }
 
 void ClientApplication_removeLayer(ApplicationLayerType layerType)
@@ -126,14 +138,14 @@ void ClientApplication_destroy()
 
 
 static inline void ClientApplication_onUpdate()
-{   
+{    
     ApplicationLayer currLayer;
     for(int i = 0; i < ArrayList_length(&APP_STATE.appLayerStack); i++)
-    {
+    {   
         ArrayList_get(&APP_STATE.appLayerStack, i, (byte*)&currLayer);
-
+        
         if(currLayer.onUpdate)
-        {
+        {   
             currLayer.onUpdate(&currLayer);
         }
     }
@@ -158,7 +170,7 @@ static inline void ClientApplication_PollEvents()
     Window_PollEvents();
 }
 
-static inline void ClientApplciation_pollKeyboardInput()
+static inline void ClientApplication_pollKeyboardInput()
 {
     ApplicationLayer currLayer;
     for(int i = 0; i < ArrayList_length(&APP_STATE.appLayerStack); i++)
@@ -172,7 +184,7 @@ static inline void ClientApplciation_pollKeyboardInput()
     }  
 }
 
-static inline void ClientApplciation_onMouseInput()
+static inline void ClientApplication_onMouseInput()
 {
     ApplicationLayer currLayer;
     for(int i = 0; i < ArrayList_length(&APP_STATE.appLayerStack); i++)
@@ -188,7 +200,7 @@ static inline void ClientApplciation_onMouseInput()
 
 static inline void ClientApplication_createGameWindow()
 {   
-    if(Window_isValid(APP_STATE.gameWindow))
+    if(Window_isValid(&APP_STATE.gameWindow))
     {   
         Logger_logError(APPLICATION_ERROR, "Failed to create ClientApplication Game Window as a valid instance already exists.");
         return;

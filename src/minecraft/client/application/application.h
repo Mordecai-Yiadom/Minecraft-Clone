@@ -22,7 +22,7 @@ typedef struct ClientApplication
 {   
     ApplicationInfo appInfo;
     RenderSystem *renderSystem;
-    Window *gameWindow;
+    Window gameWindow;
     ArrayList appLayerStack;
 
     ApplicationVersion version;
@@ -35,8 +35,8 @@ typedef struct ClientApplication
     static inline void ClientApplication_onUpdate();
     static inline void ClientApplication_onRender();
     static inline void ClientApplication_PollEvents();
-    static inline void ClientApplciation_pollKeyboardInput();
-    static inline void ClientApplciation_onMouseInput();
+    static inline void ClientApplication_pollKeyboardInput();
+    static inline void ClientApplication_onMouseInput();
     
     static inline void ClientApplication_createGameWindow();
     

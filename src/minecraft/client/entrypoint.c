@@ -17,6 +17,11 @@ int main(void)
         exit(-1);
     }
 
+    GameLayerState gameLayerState;
+    ApplicationLayer layer = GameLayer_create(gameLayerState);
+
+    ClientApplication_pushLayer(layer);
+
     ClientApplication_run();
     ClientApplication_stop();
     ClientApplication_destroy();

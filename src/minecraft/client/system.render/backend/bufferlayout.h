@@ -13,10 +13,23 @@ typedef struct BufferData
     void* buffer;
 }BufferData;
 
+typedef enum BufferAttributeType
+{   
+    VEC1_ATTRIBUTE,
+    VEC2_ATTRIBUTE,
+    VEC3_ATTRIBUTE,
+    VEC4_ATTRIBUTE,
+
+    MAT2x2_ATTRIBUTE,
+    MAT3x3_ATTRIBUTE,
+    MAT4x4_ATTRIBUTE,
+
+}BufferAttributeType;
+
 typedef struct BufferAttribute
 {   
     BufferAttributeType type;
-    int offset;
+    size_t offset;
     int size;
 
     int componentCount;
@@ -40,19 +53,6 @@ typedef struct BufferLayout
     BufferLayoutPattern layoutPattern;
 }BufferLayout;
 
-
-typedef enum BufferAttributeType
-{   
-    VEC1_ATTRIBUTE,
-    VEC2_ATTRIBUTE,
-    VEC3_ATTRIBUTE,
-    VEC4_ATTRIBUTE,
-
-    MAT2x2_ATTRIBUTE,
-    MAT3x3_ATTRIBUTE,
-    MAT4x4_ATTRIBUTE,
-
-}BufferAttributeType;
 
 
 #define aVEC1(t) ((BufferAttribute){.componentType=t, .componentCount=1, .isNormalized=false, .size=Primative_sizeof(t), .type=VEC1_ATTRIBUTE}, .offset=0)
