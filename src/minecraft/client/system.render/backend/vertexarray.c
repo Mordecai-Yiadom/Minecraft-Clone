@@ -4,27 +4,38 @@
 #include "context.h"
 #include "buffer.h"
 
+#include <stdarg.h>
 
-VertexArray VertexArray_create()
+VertexArray VertexArray_create(IndexBuffer indexBuffer, int vertexBufferCount, ...)
 {   
     VertexArray vao;
     vao.attributeCount = 0;
     glGenVertexArrays(1, (GLuint*) &vao.id);
-    VertexArray_bind(vao);
+    VertexArray_bind(&vao);
+
+    va_list vertexBuffers;
+    va_start(vertexBuffers, vertexBufferCount);
+    for(int i = 0; i < vertexBufferCount; ++i)
+    {
+        VertexArray_addVertexBuffer(&vao, va_arg(vertexBuffers, VertexBuffer));
+    }
+    va_end(vertexBuffers);
+
+    VertexArray_setIndexBuffer(&vao, indexBuffer);
     VertexArray_unbind();
     return vao;
 }
 
 
-void VertexArray_destroy(VertexArray vertexArray)
+void VertexArray_destroy(VertexArray *vertexArray)
 {
-    glDeleteVertexArrays(1, (GLuint*) &vertexArray.id);
+    glDeleteVertexArrays(1, (GLuint*) &vertexArray->id);
 }
 
 
-void VertexArray_bind(VertexArray vertexArray)
+void VertexArray_bind(VertexArray *vertexArray)
 {
-    glBindVertexArray((GLuint) vertexArray.id);
+    glBindVertexArray((GLuint) vertexArray->id);
 }
 
 
@@ -33,19 +44,19 @@ void VertexArray_unbind()
     glBindVertexArray(0);
 }
 
-bool VertexArray_isValid(VertexArray vertexArray)
+bool VertexArray_isValid(VertexArray *vertexArray)
 {
-    return (bool) glIsVertexArray((GLuint) vertexArray.id);
+    return (bool) glIsVertexArray((GLuint) vertexArray->id);
 }
 
 
 void VertexArray_addVertexBuffer(VertexArray *vertexArray, VertexBuffer vertexBuffer)
 {   
     if(!vertexArray) return;
-    if(!VertexArray_isValid(*vertexArray) || !VertexBuffer_isValid(vertexBuffer)) return;
+    if(!VertexArray_isValid(vertexArray) || !VertexBuffer_isValid(&vertexBuffer)) return;
     
-    VertexArray_bind(*vertexArray);
-    VertexBuffer_bind(vertexBuffer);
+    VertexArray_bind(vertexArray);
+    VertexBuffer_bind(&vertexBuffer);
 
     for(int i = 0; i < vertexBuffer.layout.attributeCount; i++)
     {   
@@ -69,16 +80,18 @@ void VertexArray_addVertexBuffer(VertexArray *vertexArray, VertexBuffer vertexBu
 void VertexArray_setIndexBuffer(VertexArray *vertexArray, IndexBuffer indexBuffer)
 {
     if(!vertexArray) return;
-    if(!VertexArray_isValid(*vertexArray) || !IndexBuffer_isValid(indexBuffer)) return;
+    if(!VertexArray_isValid(vertexArray) || !IndexBuffer_isValid(&indexBuffer)) return;
 
-    VertexArray_bind(*vertexArray);
-    IndexBuffer_bind(indexBuffer);
+    VertexArray_bind(vertexArray);
+    IndexBuffer_bind(&indexBuffer);
     
+    vertexArray->indexBuffer = indexBuffer;
+
     VertexArray_unbind(*vertexArray);
     IndexBuffer_unbind();
 }
 
-void VertexArray_enableAttribute(VertexArray vertexArray, int attributeIndex)
+void VertexArray_enableAttribute(VertexArray *vertexArray, int attributeIndex)
 {
     if(!VertexArray_isValid(vertexArray) 
     || attributeIndex < 0 
@@ -89,7 +102,7 @@ void VertexArray_enableAttribute(VertexArray vertexArray, int attributeIndex)
     VertexArray_unbind();
 }
 
-void VertexArray_disableAttribute(VertexArray vertexArray, int attributeIndex)
+void VertexArray_disableAttribute(VertexArray *vertexArray, int attributeIndex)
 {
     if(!VertexArray_isValid(vertexArray) 
     || attributeIndex < 0 

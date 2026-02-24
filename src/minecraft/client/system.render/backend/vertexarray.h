@@ -3,31 +3,33 @@
 
 #include "../../../core/core.h"
 #include "backend_types.h"
+#include "buffer.h"
 
 typedef struct VertexArray
-{
+{   
+    IndexBuffer indexBuffer;
     unsigned int id;
     unsigned int attributeCount;
 }VertexArray;
 
 
-VertexArray VertexArray_create();
+VertexArray VertexArray_create(IndexBuffer indexBuffer, int vertexBufferCount, ...);
 
-void VertexArray_destroy(VertexArray vertexArray);
+void VertexArray_destroy(VertexArray *vertexArray);
 
-void VertexArray_bind(VertexArray vertexArray);
+void VertexArray_bind(VertexArray *vertexArray);
 
 void VertexArray_unbind();
 
-bool VertexArray_isValid(VertexArray vertexArray);
+bool VertexArray_isValid(VertexArray *vertexArray);
 
 void VertexArray_addVertexBuffer(VertexArray *vertexArray, VertexBuffer vertexBuffer);
 
 void VertexArray_setIndexBuffer(VertexArray *vertexArray, IndexBuffer indexBuffer);
 
-void VertexArray_enableAttribute(VertexArray vertexArray, int attributeIndex);
+void VertexArray_enableAttribute(VertexArray *vertexArray, int attributeIndex);
 
-void VertexArray_disableAttribute(VertexArray vertexArray, int attributeIndex); 
+void VertexArray_disableAttribute(VertexArray *vertexArray, int attributeIndex); 
 
 
 

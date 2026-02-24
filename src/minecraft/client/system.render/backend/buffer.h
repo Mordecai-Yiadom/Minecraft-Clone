@@ -4,7 +4,6 @@
 #include "bufferlayout.h"
 #include "context.h"
 #include "backend_types.h"
-#include "vertexarray.h"
 
 #define BUFFER_DATA_NULL ((BufferData){.size=0, .buffer= NULL})
 
@@ -71,55 +70,55 @@ typedef struct UniformBuffer
 
 VertexBuffer VertexBuffer_create(BufferData data, enum BufferUsage usage, BufferLayout layout);
 
-void VertexBuffer_destroy(VertexBuffer buffer);
+void VertexBuffer_destroy(VertexBuffer *buffer);
 
-void VertexBuffer_write(VertexBuffer buffer, BufferData data, size_t offset);
+void VertexBuffer_write(VertexBuffer *buffer, BufferData data, size_t offset);
 
-BufferData VertexBuffer_read(VertexBuffer buffer);
+BufferData VertexBuffer_read(VertexBuffer *buffer);
 
-void VertexBuffer_bind(VertexBuffer buffer);
+void VertexBuffer_bind(VertexBuffer *buffer);
 
 void VertexBuffer_unbind();
 
-int VertexBuffer_getSize(VertexBuffer buffer);
+int VertexBuffer_getSize(VertexBuffer *buffer);
 
-bool VertexBuffer_isValid(VertexBuffer buffer);
+bool VertexBuffer_isValid(VertexBuffer *buffer);
 
 //Index Buffer
 
 IndexBuffer IndexBuffer_create(BufferData data, enum BufferUsage usage, BufferLayout layout);
 
-void IndexBuffer_destroy(IndexBuffer buffer);
+void IndexBuffer_destroy(IndexBuffer *buffer);
 
-void IndexBuffer_write(IndexBuffer buffer, BufferData data, size_t offset);
+void IndexBuffer_write(IndexBuffer *buffer, BufferData data, size_t offset);
 
-BufferData IndexBuffer_read(IndexBuffer buffer);
+BufferData IndexBuffer_read(IndexBuffer *buffer);
 
-void IndexBuffer_bind(IndexBuffer buffer);
+void IndexBuffer_bind(IndexBuffer *buffer);
 
 void IndexBuffer_unbind();
 
-int IndexBuffer_getSize(IndexBuffer buffer);
+int IndexBuffer_getSize(IndexBuffer *buffer);
 
-bool IndexBuffer_isValid(IndexBuffer buffer);
+bool IndexBuffer_isValid(IndexBuffer *buffer);
 
 
 //Uniform Buffer
 
 UniformBuffer UniformBuffer_create(BufferData data, enum BufferUsage usage, BufferLayout layout);
 
-void UniformBuffer_destroy(UniformBuffer buffer);
+void UniformBuffer_destroy(UniformBuffer *buffer);
 
-void UniformBuffer_write(UniformBuffer buffer, BufferData data, size_t offset);
+void UniformBuffer_write(UniformBuffer *buffer, BufferData data, size_t offset);
 
-BufferData UniformBuffer_read(UniformBuffer buffer);
+BufferData UniformBuffer_read(UniformBuffer *buffer);
 
-void UniformBuffer_bind(UniformBuffer buffer);
+void UniformBuffer_bind(UniformBuffer *buffer);
 
 void UniformBuffer_unbind();
 
-int UniformBuffer_getSize(UniformBuffer buffer);
+int UniformBuffer_getSize(UniformBuffer *buffer);
 
-bool UniformBuffer_isValid(UniformBuffer buffer);
+bool UniformBuffer_isValid(UniformBuffer *buffer);
 
 #endif

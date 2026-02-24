@@ -71,24 +71,24 @@ VertexBuffer VertexBuffer_create(BufferData data, enum BufferUsage usage, Buffer
     return (VertexBuffer){.id=Buffer_create(GL_ARRAY_BUFFER, data, usage), .layout=layout};
 }
 
-void VertexBuffer_destroy(VertexBuffer buffer)
+void VertexBuffer_destroy(VertexBuffer *buffer)
 {
-    Buffer_destroy(buffer.id);
+    Buffer_destroy(buffer->id);
 }
 
-void VertexBuffer_write(VertexBuffer buffer, BufferData data, size_t offset)
+void VertexBuffer_write(VertexBuffer *buffer, BufferData data, size_t offset)
 {   
-    Buffer_write(GL_ARRAY_BUFFER, buffer.id, data, offset);
+    Buffer_write(GL_ARRAY_BUFFER, buffer->id, data, offset);
 }
 
-BufferData VertexBuffer_read(VertexBuffer buffer)
+BufferData VertexBuffer_read(VertexBuffer *buffer)
 {   
-    return Buffer_read(GL_ARRAY_BUFFER, buffer.id);
+    return Buffer_read(GL_ARRAY_BUFFER, buffer->id);
 }
 
-void VertexBuffer_bind(VertexBuffer buffer)
+void VertexBuffer_bind(VertexBuffer *buffer)
 {
-    Buffer_bind(GL_ARRAY_BUFFER, buffer.id);
+    Buffer_bind(GL_ARRAY_BUFFER, buffer->id);
 }
 
 void VertexBuffer_unbind()
@@ -96,15 +96,15 @@ void VertexBuffer_unbind()
     Buffer_unbind(GL_ARRAY_BUFFER);
 }
 
-int VertexBuffer_getSize(VertexBuffer buffer)
+int VertexBuffer_getSize(VertexBuffer *buffer)
 {
-    if(!Buffer_isValid(buffer.id)) return -1;
-    return Buffer_getSize(GL_ARRAY_BUFFER, buffer.id);
+    if(!Buffer_isValid(buffer->id)) return -1;
+    return Buffer_getSize(GL_ARRAY_BUFFER, buffer->id);
 }
 
-bool VertexBuffer_isValid(VertexBuffer buffer)
+bool VertexBuffer_isValid(VertexBuffer *buffer)
 {
-    return Buffer_isValid(buffer.id);
+    return Buffer_isValid(buffer->id);
 }
 
 
@@ -116,24 +116,24 @@ IndexBuffer IndexBuffer_create(BufferData data, enum BufferUsage usage, BufferLa
     return ebo;
 }
 
-void IndexBuffer_destroy(IndexBuffer buffer)
+void IndexBuffer_destroy(IndexBuffer *buffer)
 {
-    Buffer_destroy(buffer.id);
+    Buffer_destroy(buffer->id);
 }
 
-void IndexBuffer_write(IndexBuffer buffer, BufferData data, size_t offset)
+void IndexBuffer_write(IndexBuffer *buffer, BufferData data, size_t offset)
 {   
-    Buffer_write(GL_ELEMENT_ARRAY_BUFFER, buffer.id, data, offset);
+    Buffer_write(GL_ELEMENT_ARRAY_BUFFER, buffer->id, data, offset);
 }
 
-BufferData IndexBuffer_read(IndexBuffer buffer)
+BufferData IndexBuffer_read(IndexBuffer *buffer)
 {   
-    return Buffer_read(GL_ELEMENT_ARRAY_BUFFER, buffer.id);
+    return Buffer_read(GL_ELEMENT_ARRAY_BUFFER, buffer->id);
 }
 
-void IndexBuffer_bind(IndexBuffer buffer)
+void IndexBuffer_bind(IndexBuffer *buffer)
 {
-    Buffer_bind(GL_ELEMENT_ARRAY_BUFFER, buffer.id);
+    Buffer_bind(GL_ELEMENT_ARRAY_BUFFER, buffer->id);
 }
 
 void IndexBuffer_unbind()
@@ -141,9 +141,9 @@ void IndexBuffer_unbind()
     Buffer_unbind(GL_ELEMENT_ARRAY_BUFFER);
 }
 
-bool IndexBuffer_isValid(IndexBuffer buffer)
+bool IndexBuffer_isValid(IndexBuffer *buffer)
 {
-    return Buffer_isValid(buffer.id);
+    return Buffer_isValid(buffer->id);
 }
 
 
@@ -153,24 +153,24 @@ UniformBuffer UniformBuffer_create(BufferData data, enum BufferUsage usage, Buff
     return (UniformBuffer){.id=Buffer_create(GL_UNIFORM_BUFFER, data, usage), .layout=layout};
 }
 
-void UniformBuffer_destroy(UniformBuffer buffer)
+void UniformBuffer_destroy(UniformBuffer *buffer)
 {
-    Buffer_destroy(buffer.id);
+    Buffer_destroy(buffer->id);
 }
 
-void UniformBuffer_write(UniformBuffer buffer, BufferData data, size_t offset)
+void UniformBuffer_write(UniformBuffer *buffer, BufferData data, size_t offset)
 {
-    Buffer_write(GL_UNIFORM_BUFFER, buffer.id, data, offset);
+    Buffer_write(GL_UNIFORM_BUFFER, buffer->id, data, offset);
 }
 
-BufferData UniformBuffer_read(UniformBuffer buffer)
+BufferData UniformBuffer_read(UniformBuffer *buffer)
 {
-    return Buffer_read(GL_UNIFORM_BUFFER, buffer.id);
+    return Buffer_read(GL_UNIFORM_BUFFER, buffer->id);
 }
 
-void UniformBuffer_bind(UniformBuffer buffer)
+void UniformBuffer_bind(UniformBuffer *buffer)
 {
-    Buffer_bind(GL_UNIFORM_BUFFER, buffer.id);
+    Buffer_bind(GL_UNIFORM_BUFFER, buffer->id);
 }
 
 void UniformBuffer_unbind()
@@ -178,7 +178,7 @@ void UniformBuffer_unbind()
     Buffer_unbind(GL_UNIFORM_BUFFER);
 }
 
-bool UniformBuffer_isValid(UniformBuffer buffer)
+bool UniformBuffer_isValid(UniformBuffer *buffer)
 {
-    return Buffer_isValid(buffer.id);
+    return Buffer_isValid(buffer->id);
 }

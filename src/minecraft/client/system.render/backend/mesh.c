@@ -1,14 +1,20 @@
 #include "mesh.h"
 
-Mesh* Mesh_create()
-{   
-    Mesh *mesh = (Mesh*) calloc(sizeof(Mesh), sizeof(char));
-    if(!mesh) return NULL;
-
-
-    return NULL;
-}
-Mesh* Mesh_destroy()
+Mesh3D Mesh3D_create(VertexArray vao)
 {
-    return NULL;
+    Mesh3D mesh;
+    memset(&mesh, 0, sizeof(Mesh3D));
+
+    mesh.vao = vao;
+    return mesh;
+}
+
+
+Mesh2D Mesh2D_create(VertexArray vao)
+{
+    Mesh2D mesh;
+    memset(&mesh, 0, sizeof(Mesh2D));
+
+    mesh.vao = vao;
+    return mesh;  
 }

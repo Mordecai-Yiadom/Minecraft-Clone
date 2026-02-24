@@ -58,17 +58,17 @@ void GameLayer_onRender(ApplicationLayer *gamelayer)
         BufferLayout vbolayout = BufferLayout_create(INTERLEAVED, 3, aVEC3(FLOAT), aVEC3(FLOAT), aVEC2(FLOAT));
 
         vbo = VertexBuffer_create(data, STATIC_DRAW, vbolayout);
-        if(!VertexBuffer_isValid(vbo)) Logger_logError(RENDER_SYSTEM, "VBO handle is invalid.");
+        if(!VertexBuffer_isValid(&vbo)) Logger_logError(RENDER_SYSTEM, "VBO handle is invalid.");
         
         printf("VBO handle: %d\n", vbo.id);
-        printf("VBO size: %d\n",  VertexBuffer_getSize(vbo));
+        printf("VBO size: %d\n",  VertexBuffer_getSize(&vbo));
         
-        vao = VertexArray_create();
+        vao = VertexArray_create(INDEXBUFFER_NULL, 1, vbo);
         VertexArray_addVertexBuffer(&vao, vbo);
         
         shader = Shader_create("assets/shaders/default.vs", NULL, "assets/shaders/default.fs");
 
-        if(!VertexArray_isValid(vao)) Logger_logError(RENDER_SYSTEM, "VAO handle is invalid.");
+        if(!VertexArray_isValid(&vao)) Logger_logError(RENDER_SYSTEM, "VAO handle is invalid.");
         if(!Shader_isValid(shader)) Logger_logError(RENDER_SYSTEM, "Shader Program handle is invalid.");
 
         PerspCameraProjectionData projData;
@@ -83,7 +83,7 @@ void GameLayer_onRender(ApplicationLayer *gamelayer)
     glClear(GL_COLOR_BUFFER_BIT);
     
     Shader_enable(shader);
-    VertexArray_bind(vao);
+    VertexArray_bind(&vao);
     
     Shader_setFloat(shader, "r", sin(glfwGetTime()));
     Shader_setFloat(shader, "g", cos(glfwGetTime()));
@@ -94,6 +94,7 @@ void GameLayer_onRender(ApplicationLayer *gamelayer)
     vec3 camera_position = {0, 0, 0};
     
     mat4 modelMatrix;
+    
     vec3 modelPos = {0, 0, 5};
     
     glm_mat4_identity(modelMatrix);
