@@ -1,15 +1,16 @@
 #ifndef MINECRAFT_CLIENT_RENDER_SYSTEM_BUFFER_H
 #define MINECRAFT_CLIENT_RENDER_SYSTEM_BUFFER_H
 
+#include "bufferlayout.h"
+#include "context.h"
+#include "backend_types.h"
+#include "vertexarray.h"
+
 #define BUFFER_DATA_NULL ((BufferData){.size=0, .buffer= NULL})
 
 #define INDEXBUFFER_NULL ((IndexBuffer){.id=0})
 #define UNIFORMBUFFER_NULL ((UniformBuffer){.id=0})
 #define VERTEXBUFFER_NULL ((VertexBuffer){.id=0})
-
-#include "context.h"
-#include "backend_types.h"
-#include "vertexattributes.h"
 
 typedef unsigned int bufferId_t;
 
@@ -27,24 +28,22 @@ enum BufferUsage
     DYNAMIC_COPY = GL_DYNAMIC_COPY,
 };
 
-typedef struct BufferData
-{
-    size_t size;
-    void* buffer;
-}BufferData;
 
 typedef struct VertexBuffer
-{
+{   
+    BufferLayout layout;
     unsigned int id;
 }VertexBuffer;
 
 typedef struct IndexBuffer
-{
+{   
+    BufferLayout layout;
     unsigned int id;
 }IndexBuffer;
 
 typedef struct UniformBuffer
-{
+{   
+    BufferLayout layout;
     unsigned int id;
 }UniformBuffer;
 
@@ -70,13 +69,13 @@ typedef struct UniformBuffer
 
 //Vertex Buffer
 
-VertexBuffer VertexBuffer_create(BufferData data, enum BufferUsage usage);
+VertexBuffer VertexBuffer_create(BufferData data, enum BufferUsage usage, BufferLayout layout);
+
+void VertexBuffer_destroy(VertexBuffer buffer);
 
 void VertexBuffer_write(VertexBuffer buffer, BufferData data, size_t offset);
 
 BufferData VertexBuffer_read(VertexBuffer buffer);
-
-void VertexBuffer_destroy(VertexBuffer buffer);
 
 void VertexBuffer_bind(VertexBuffer buffer);
 
@@ -86,10 +85,9 @@ int VertexBuffer_getSize(VertexBuffer buffer);
 
 bool VertexBuffer_isValid(VertexBuffer buffer);
 
-
 //Index Buffer
 
-IndexBuffer IndexBuffer_create(VertexArray refArray, BufferData data, enum BufferUsage usage);
+IndexBuffer IndexBuffer_create(BufferData data, enum BufferUsage usage, BufferLayout layout);
 
 void IndexBuffer_destroy(IndexBuffer buffer);
 
@@ -108,7 +106,7 @@ bool IndexBuffer_isValid(IndexBuffer buffer);
 
 //Uniform Buffer
 
-UniformBuffer UniformBuffer_create(BufferData data, enum BufferUsage usage);
+UniformBuffer UniformBuffer_create(BufferData data, enum BufferUsage usage, BufferLayout layout);
 
 void UniformBuffer_destroy(UniformBuffer buffer);
 

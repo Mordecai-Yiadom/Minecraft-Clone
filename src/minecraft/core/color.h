@@ -3,10 +3,10 @@
 
 typedef struct Color
 {
-    float r;
-    float g;
-    float b;
-    float a;
+    float red;
+    float green;
+    float blue;
+    float alpha;
 }Color;
 
 

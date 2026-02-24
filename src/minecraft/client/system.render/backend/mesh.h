@@ -3,7 +3,7 @@
 
 #include "../../../core/core.h"
 #include "buffer.h"
-#include "vertexattributes.h"
+#include "vertexarray.h"
 
 typedef struct Mesh
 {   

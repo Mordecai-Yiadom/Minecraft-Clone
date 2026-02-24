@@ -66,9 +66,9 @@ static inline bool Buffer_isValid(unsigned int bufferId)
 }
 
 
-VertexBuffer VertexBuffer_create(BufferData data, enum BufferUsage usage)
+VertexBuffer VertexBuffer_create(BufferData data, enum BufferUsage usage, BufferLayout layout)
 {   
-    return (VertexBuffer){.id=Buffer_create(GL_ARRAY_BUFFER, data, usage)};
+    return (VertexBuffer){.id=Buffer_create(GL_ARRAY_BUFFER, data, usage), .layout=layout};
 }
 
 void VertexBuffer_destroy(VertexBuffer buffer)
@@ -109,12 +109,9 @@ bool VertexBuffer_isValid(VertexBuffer buffer)
 
 
 
-IndexBuffer IndexBuffer_create(VertexArray refArray, BufferData data, enum BufferUsage usage)
+IndexBuffer IndexBuffer_create(BufferData data, enum BufferUsage usage, BufferLayout layout)
 {   
-    if(VertexArray_isArray(refArray)) return ((IndexBuffer){.id=0});
-    VertexArray_bind(refArray);
-    IndexBuffer ebo = {.id=Buffer_create(GL_ELEMENT_ARRAY_BUFFER, data, usage)};
-    VertexArray_unbind();
+    IndexBuffer ebo = {.id=Buffer_create(GL_ELEMENT_ARRAY_BUFFER, data, usage), .layout=layout};
     IndexBuffer_unbind();
     return ebo;
 }
@@ -151,9 +148,9 @@ bool IndexBuffer_isValid(IndexBuffer buffer)
 
 
 
-UniformBuffer UniformBuffer_create(BufferData data, enum BufferUsage usage)
+UniformBuffer UniformBuffer_create(BufferData data, enum BufferUsage usage, BufferLayout layout)
 {
-    return (UniformBuffer){.id=Buffer_create(GL_UNIFORM_BUFFER, data, usage)};
+    return (UniformBuffer){.id=Buffer_create(GL_UNIFORM_BUFFER, data, usage), .layout=layout};
 }
 
 void UniformBuffer_destroy(UniformBuffer buffer)

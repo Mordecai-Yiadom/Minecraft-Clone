@@ -6,9 +6,9 @@
 #include "../../../core/core.h"
 #include "context.h"
 #include "buffer.h"
-#include "vertexattributes.h"
+#include "vertexarray.h"
 #include "shader.h"
 #include "mesh.h"
-
+#include "primatives.h"
 
 #endif
