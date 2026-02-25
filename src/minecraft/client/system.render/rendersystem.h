@@ -38,6 +38,10 @@ void RenderSystem_init();
 
 void RenderSystem_terminate();
 
+void RenderSystem_beginScene();
+
+void RenderSystem_endScene();
+
 void RenderSystem_startRenderPass();
 
 void RenderSystem_queueRenderBatch(RenderBatch batch);

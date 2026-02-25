@@ -9,6 +9,7 @@
 #include "array.h"
 #include "arraylist.h"
 #include "memtypes.h"
+#include "image.h"
 
 #include <stdbool.h>
 #include <stdlib.h>

@@ -66,7 +66,7 @@ void GameLayer_onRender(ApplicationLayer *gamelayer)
         vao = VertexArray_create(INDEXBUFFER_NULL, 1, vbo);
         VertexArray_addVertexBuffer(&vao, vbo);
         
-        shader = Shader_create("assets/shaders/default.vs", NULL, "assets/shaders/default.fs");
+        shader = Shader_create("assets/minecraft/shaders/default.vs", NULL, "assets/minecraft/shaders/default.fs");
 
         if(!VertexArray_isValid(&vao)) Logger_logError(RENDER_SYSTEM, "VAO handle is invalid.");
         if(!Shader_isValid(shader)) Logger_logError(RENDER_SYSTEM, "Shader Program handle is invalid.");

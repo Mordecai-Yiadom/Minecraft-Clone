@@ -132,3 +132,14 @@ bool Window_isValid(Window *window)
     return (bool)(window->glfwWindow);
 }
 
+void Window_setIcon(Window *window, Image *image)
+{
+    if(!Window_isValid(window) || !Image_isValid(image)) return;
+
+    GLFWimage glfwImage;
+    glfwImage.pixels = image->pixels;
+    glfwImage.height = image->height;
+    glfwImage.width = image->width;
+
+    glfwSetWindowIcon(window->glfwWindow, 1, &glfwImage);
+}

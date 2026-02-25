@@ -56,6 +56,8 @@ void Window_swapBuffers(Window *window);
 
 bool Window_isValid(Window *window);
 
+void Window_setIcon(Window *window, Image *image);
+
 
 
 #endif

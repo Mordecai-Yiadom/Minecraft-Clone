@@ -8,7 +8,6 @@
 #include "buffer.h"
 #include "vertexarray.h"
 #include "shader.h"
-#include "mesh.h"
 #include "primatives.h"
 
 #endif

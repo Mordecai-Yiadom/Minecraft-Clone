@@ -25,6 +25,7 @@ typedef struct ClientApplication
     Window gameWindow;
     ArrayList appLayerStack;
 
+    Image windowIcon;
     ApplicationVersion version;
     bool isRunning;
     bool isInitialized;

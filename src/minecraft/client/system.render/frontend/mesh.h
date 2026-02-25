@@ -2,8 +2,8 @@
 #define MINECRAFT_CLIENT_RENDER_SYSTEM_MESH_H
 
 #include "../../../core/core.h"
-#include "buffer.h"
-#include "vertexarray.h"
+
+#include "../backend/backend.h"
 
 typedef struct Mesh2DTransform
 {
@@ -13,7 +13,8 @@ typedef struct Mesh2DTransform
 }Mesh2DTransform;
 
 typedef struct Mesh3DTransform
-{
+{   
+    mat4 matrix;
     vec3 position;
     vec3 scale;
     vec3 rotation;
@@ -32,6 +33,12 @@ typedef struct Mesh3D
     Mesh3DTransform transform;
 }Mesh3D;
 
+
+typedef struct Mesh3DGroup
+{   
+    Mesh3DTransform transform;
+    ArrayList meshes;
+}Mesh3DGroup;
 
 Mesh3D Mesh3D_create(VertexArray vao);
 

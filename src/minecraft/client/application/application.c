@@ -16,7 +16,7 @@ bool ClientApplication_create(ApplicationInfo appInfo)
     APP_STATE.appLayerStack = ArrayList_create(10, sizeof(ApplicationLayer), RESIZE_DOUBLE);
 
     APP_STATE.isInitialized = true;
-
+    APP_STATE.windowIcon = Image_create("assets/minecraft/textures/gui/window-icon.png", false);
     return true;
 }
 
@@ -207,4 +207,5 @@ static inline void ClientApplication_createGameWindow()
     }
 
     APP_STATE.gameWindow = Window_create(APP_STATE.appInfo.windowProps);
+    Window_setIcon(&APP_STATE.gameWindow, &APP_STATE.windowIcon);
 }
