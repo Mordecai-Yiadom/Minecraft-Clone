@@ -22,7 +22,7 @@ void Renderer_drawPoint();
 
 void Renderer_drawLine();
 
-void Renderer_drawQuad();
+void Renderer_drawQuad(Quad quad);
 
 void Renderer_drawMesh();
 

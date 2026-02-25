@@ -44,6 +44,7 @@ void RenderSystem_endScene();
 
 void RenderSystem_startRenderPass();
 
+
 void RenderSystem_queueRenderBatch(RenderBatch batch);
 
 void RenderSystem_endRenderPass(Window *window);

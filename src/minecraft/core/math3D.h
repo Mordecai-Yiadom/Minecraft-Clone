@@ -13,6 +13,21 @@
 #define vec4f(v, x, y, z, w) v[0] = (float)(x); v[1] = (float)(y); v[2] = (float)(z); v[3] = (float)(w)
 
 
+typedef struct Transform2D
+{   
+    mat3 matrix;
+    vec2 position;
+    vec2 scale;
+    vec2 rotation; 
+}Transform2D;
+
+typedef struct Transform3D
+{
+    mat4 matrix;
+    vec3 position;
+    vec3 scale;
+    vec3 rotation; 
+}Transform3D;
 
 typedef struct EulerOrientation
 {   

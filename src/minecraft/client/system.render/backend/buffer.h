@@ -36,7 +36,7 @@ typedef struct VertexBuffer
 
 typedef struct IndexBuffer
 {   
-    BufferLayout layout;
+    Primative type;
     unsigned int id;
 }IndexBuffer;
 
@@ -86,7 +86,7 @@ bool VertexBuffer_isValid(VertexBuffer *buffer);
 
 //Index Buffer
 
-IndexBuffer IndexBuffer_create(BufferData data, enum BufferUsage usage, BufferLayout layout);
+IndexBuffer IndexBuffer_create(BufferData data, enum BufferUsage usage, Primative type);
 
 void IndexBuffer_destroy(IndexBuffer *buffer);
 
@@ -99,6 +99,8 @@ void IndexBuffer_bind(IndexBuffer *buffer);
 void IndexBuffer_unbind();
 
 int IndexBuffer_getSize(IndexBuffer *buffer);
+
+int IndexBuffer_length(IndexBuffer *buffer);
 
 bool IndexBuffer_isValid(IndexBuffer *buffer);
 

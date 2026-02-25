@@ -3,5 +3,7 @@
 
 #include "window.h"
 #include "camera.h"
+#include "quad.h"
+#include "mesh.h"
 
 #endif

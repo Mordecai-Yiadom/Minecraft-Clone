@@ -103,15 +103,16 @@ int VertexBuffer_getSize(VertexBuffer *buffer)
 }
 
 bool VertexBuffer_isValid(VertexBuffer *buffer)
-{
+{   
+    if(!buffer) return false;
     return Buffer_isValid(buffer->id);
 }
 
 
 
-IndexBuffer IndexBuffer_create(BufferData data, enum BufferUsage usage, BufferLayout layout)
+IndexBuffer IndexBuffer_create(BufferData data, enum BufferUsage usage, Primative type)
 {   
-    IndexBuffer ebo = {.id=Buffer_create(GL_ELEMENT_ARRAY_BUFFER, data, usage), .layout=layout};
+    IndexBuffer ebo = {.id=Buffer_create(GL_ELEMENT_ARRAY_BUFFER, data, usage), .type=type};
     IndexBuffer_unbind();
     return ebo;
 }
@@ -141,8 +142,22 @@ void IndexBuffer_unbind()
     Buffer_unbind(GL_ELEMENT_ARRAY_BUFFER);
 }
 
-bool IndexBuffer_isValid(IndexBuffer *buffer)
+int IndexBuffer_getSize(IndexBuffer *buffer)
 {
+    if(!IndexBuffer_isValid(buffer)) return -1;
+    return Buffer_getSize(GL_ELEMENT_ARRAY_BUFFER, buffer->id);
+}
+
+int IndexBuffer_length(IndexBuffer *buffer)
+{   
+    
+    if(!IndexBuffer_isValid(buffer)) return -1;
+    return IndexBuffer_getSize(buffer) / Primative_sizeof(buffer->type);
+}
+
+bool IndexBuffer_isValid(IndexBuffer *buffer)
+{   
+    if(!buffer) return false;
     return Buffer_isValid(buffer->id);
 }
 
@@ -179,6 +194,7 @@ void UniformBuffer_unbind()
 }
 
 bool UniformBuffer_isValid(UniformBuffer *buffer)
-{
+{   
+    if(!buffer) return false;
     return Buffer_isValid(buffer->id);
 }
