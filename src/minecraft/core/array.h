@@ -44,4 +44,6 @@ bool Array_isValidIndex(Array *array, int index);
 
 void* Array_getAddress(Array *array, int index);
 
+bool Array_isValid(Array *array);
+
 #endif

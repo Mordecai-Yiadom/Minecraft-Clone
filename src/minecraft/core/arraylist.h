@@ -6,22 +6,16 @@
 #include "memtypes.h"
 #include <stdbool.h>
 
-typedef enum ArrayListResizePolicy
-{   
-    RESIZE_FALSE,
-    RESIZE_DOUBLE,
-    RESIZE_INCREMENT,
-
-}ArrayListResizePolicy;
+#include "datastructures.h"
 
 typedef struct ArrayList
 {   
     Array array;
     int currentLength;
-    ArrayListResizePolicy resizePolicy;
+    MemoryType memoryType;
 }ArrayList;
 
-ArrayList ArrayList_create(int initialCapacity, int elementSize, ArrayListResizePolicy resizePolicy);
+ArrayList ArrayList_create(int initialCapacity, int elementSize, MemoryType memoryType);
 
 void ArrayList_destroy(ArrayList *arrayList);
 
@@ -44,5 +38,9 @@ void ArrayList_remove(ArrayList *arrayList, int index);
 void ArrayList_set(ArrayList *arrayList, int index, byte *element);
 
 bool ArrayList_isEmpty(ArrayList *arrayList);
+
+bool ArrayList_isFull(ArrayList *arrayList);
+
+bool ArrayList_isValid(ArrayList *arrayList);
 
 #endif

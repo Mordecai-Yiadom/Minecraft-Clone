@@ -1,0 +1,10 @@
+#ifndef MINECRAFT_CORE_DATASTRUCTUES_H
+#define MINECRAFT_CORE_DATASTRUCTUES_H
+
+typedef enum MemoryType
+{
+    STATIC_MEMORY,
+    DYNAMIC_MEMORY
+}MemoryType;
+
+#endif

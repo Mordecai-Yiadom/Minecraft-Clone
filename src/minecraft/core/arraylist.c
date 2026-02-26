@@ -1,9 +1,9 @@
 #include "arraylist.h"
 
 
-ArrayList ArrayList_create(int initialCapacity, int elementSize, ArrayListResizePolicy resizePolicy)
+ArrayList ArrayList_create(int initialCapacity, int elementSize, MemoryType memoryType)
 {
-    ArrayList list = {.resizePolicy=resizePolicy, .currentLength=0};
+    ArrayList list = {.memoryType=memoryType, .currentLength=0};
     list.array = Array_create(initialCapacity, elementSize);
     return list;
 }
@@ -56,17 +56,13 @@ void ArrayList_add(ArrayList *arrayList, byte *element)
     if(!arrayList) return;
     if(arrayList->currentLength == arrayList->array.length)
     {
-        switch(arrayList->resizePolicy)
+        switch(arrayList->memoryType)
         {   
-            case RESIZE_FALSE:
-                return;
-
-            case RESIZE_DOUBLE:
+            case DYNAMIC_MEMORY:
                 Array_resize(&arrayList->array, arrayList->currentLength * 2);
                 break;
 
-            case RESIZE_INCREMENT:
-                Array_resize(&arrayList->array, arrayList->currentLength + 1);
+            case STATIC_MEMORY:
                 break;
         }
     }
@@ -99,4 +95,10 @@ bool ArrayList_isEmpty(ArrayList *arrayList)
 {
     if(!arrayList) return false;
     return (arrayList->currentLength == 0);
+}
+
+bool ArrayList_isFull(ArrayList *arrayList)
+{
+    if(!arrayList) return false;
+    return (arrayList->currentLength == arrayList->array.length);
 }

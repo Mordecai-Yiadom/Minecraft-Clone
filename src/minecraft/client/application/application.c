@@ -13,7 +13,7 @@ bool ClientApplication_create(ApplicationInfo appInfo)
     APP_STATE.appInfo = appInfo;
 
     APP_STATE.version = appInfo.version;
-    APP_STATE.appLayerStack = ArrayList_create(10, sizeof(ApplicationLayer), RESIZE_DOUBLE);
+    APP_STATE.appLayerStack = ArrayList_create(10, sizeof(ApplicationLayer), DYNAMIC_MEMORY);
 
     APP_STATE.isInitialized = true;
     APP_STATE.windowIcon = Image_create("assets/minecraft/textures/gui/window-icon.png", false);
@@ -133,6 +133,7 @@ void ClientApplication_destroy()
     if(!ClientApplication_isReadyToRun()) return;
     ArrayList_destroy(&APP_STATE.appLayerStack);
     Window_destroy(&APP_STATE.gameWindow);
+    Image_destroy(&APP_STATE.windowIcon);
     memset(&APP_STATE, 0, sizeof(ClientApplication));
 }
 
