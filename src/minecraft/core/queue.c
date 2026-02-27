@@ -68,6 +68,16 @@ bool Queue_isEmpty(Queue *queue)
 }
 
 
+void Queue_clear(Queue *queue)
+{
+    if(Queue_isEmpty(queue)) return;
+    queue->frontIndex = 0;
+    queue->backIndex = -1;
+    queue->length = 0;
+    
+}
+
+
 static inline void StaticQueue_enqueue(Queue *queue, byte* element)
 {
     if(Queue_isFull(queue)) return;

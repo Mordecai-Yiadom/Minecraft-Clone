@@ -2,12 +2,9 @@
 #define MINECRAFT_CLIENT_RENDER_SYSTEM_QUAD_H
 
 #include "../backend/backend.h"
-#include "mesh.h"
 
 #ifdef MINECRAFT_CLIENT_RENDER_SYSTEM_QUAD_C
-    static VertexArray QUAD_VAO;
-    static VertexBuffer QUAD_VBO;
-    static IndexBuffer QUAD_EBO;
+    Mesh QUAD_MESH;
     static float QUAD_VERTEX_DATA[] = 
     {
         1, 1, 0,    0, 0, -1,    1, 1,

@@ -4,9 +4,13 @@
 #include <pthread.h>
 #include <stdbool.h>
 #include "frontend/frontend.h"
+#include "renderpass.h"
+#include "../../core/queue.h"
 
 #define DELTA_TIME() RenderSystem_deltaTime()
 #define FPS() RenderSystem_fps()
+
+#define FPS_ULIMITED INTMAX
 
 typedef enum RenderSystemError
 {   
@@ -20,37 +24,77 @@ typedef struct RenderBatch
     Array array;
 }RenderBatch;
 
+typedef struct RenderSystemProps
+{
+    u64 commandQueueLength;
+    int targetFPS;
+}RenderSystemProps;
+
+
+//Holds state for the Minecraft Client RenderSystem
 typedef struct RenderSystem
 {   
-    pthread_t renderThread;
-    bool calcFPS;
+    ArrayList renderPasses;
+    float deltaTime;
+    int fps;
+    int targetFPS;
     bool isInitialized;
 }RenderSystem;
 
 #ifdef MINECRAFT_CLIENT_RENDER_SYSTEM_C
+    //Global state for Minecraft Client RenderSystem 
     static RenderSystem RENDERSYSTEM_STATE;
 
-    static void 
+    //Recalculates RenderSystem's delta time. This is done after every frame is completes
+    static inline void RenderSystem_updateDeltaTime();
+
+    //Recalculates RenderSystem's fps. This is done after every frame is completes
+    static inline void RenderSystem_updateFPS();
 #endif
 
 
+//Initalizes the global state for the RenderSystem other related utilities.
 void RenderSystem_init();
 
-void RenderSystem_terminate();
+//De-initializes and clears the global state for the RenderSystem and other relate utilites
+void RenderSystem_shutdown();
 
-void RenderSystem_beginScene();
+/* 
+    Checks whether the RenderSystem and its global state has been initialized.
+    @return true or false
+*/
+bool RenderSystem_isInitialized();
 
-void RenderSystem_endScene();
 
-void RenderSystem_startRenderPass();
+void RenderSystem_beginFrame();
 
+void RenderSystem_endFrame();
 
-void RenderSystem_queueRenderBatch(RenderBatch batch);
+void RenderSystem_createRenderPass();
 
-void RenderSystem_endRenderPass(Window *window);
+void RenderSystem_destoryRenderPass();
 
+/*
+    Gets the current delta time for the RenderSystem global state
+    @returns deltaTime > 0
+*/
 float RenderSystem_deltaTime();
 
+
+/*
+    Sets the target fps for the RenderSystem's global state
+    @param targetFPS fps for RenderSystem to target when rendering frames. 
+    Does not accept negative numbers. 
+    FPS_UNLIMITED may be used to remove the targetFPS and allow the RenderSystem to render as fast as possible
+    
+*/
+void RenderSystem_setTargetFPS(int targetFPS);
+
+
+/*
+    Gets the current frames per second (fps) for the RenderSystem global state
+    @returns fps >= 0
+*/
 int RenderSystem_fps();
 
 

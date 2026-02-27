@@ -9,5 +9,6 @@
 #include "vertexarray.h"
 #include "shader.h"
 #include "primatives.h"
+#include "mesh.h"
 
 #endif

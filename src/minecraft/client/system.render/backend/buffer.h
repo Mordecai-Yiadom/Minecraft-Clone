@@ -84,6 +84,8 @@ int VertexBuffer_getSize(VertexBuffer *buffer);
 
 bool VertexBuffer_isValid(VertexBuffer *buffer);
 
+int VertexBuffer_vertexCount(VertexBuffer *buffer);
+
 //Index Buffer
 
 IndexBuffer IndexBuffer_create(BufferData data, enum BufferUsage usage, Primative type);

@@ -48,8 +48,10 @@ void ClientApplication_run()
 
         
         ClientApplication_onUpdate();
-        
+
+       
         ClientApplication_onRender();
+    
 
         Window_swapBuffers(&APP_STATE.gameWindow);
     }

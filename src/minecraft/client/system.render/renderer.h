@@ -12,29 +12,52 @@ typedef enum RendererBuffer
     STENCIL_BUFFER = GL_STENCIL_BUFFER_BIT,
 }RendererBuffer;
 
-typedef enum RendererFeature
+typedef enum RendererTest
 {
     DEPTH_TEST = GL_DEPTH_TEST,
     STENCIL_TEST = GL_STENCIL_TEST,
-}RendererFeature;
+}RendererTest;
+
+typedef enum RendererCullMode
+{
+    FRONT = GL_FRONT,
+    BACK = GL_BACK,
+    FRONT_AND_BACK = GL_FRONT_AND_BACK,
+}RendererCullMode;
+
+
+typedef enum RendererPolygonMode
+{
+    POINT = GL_POINT,
+    LINE = GL_LINE,
+    FILL = GL_FILL,
+}RendererPolygonMode;
+
 
 void Renderer_drawPoint();
 
 void Renderer_drawLine();
 
-void Renderer_drawQuad(Quad quad);
+void Renderer_drawMesh(Mesh *mesh);
 
-void Renderer_drawMesh();
+void Renderer_setPolygonMode(RendererPolygonMode mode);
 
-void Renderer_drawBatch();
-
-void Renderer_enableCulling();
-
-void Renderer_clear(RendererBuffer buffer);
+void Renderer_clearBuffer(RendererBuffer buffer);
 
 void Renderer_setClearColor(Color color);
 
-void Renderer_enable(RendererFeature feature);
+void Renderer_enableTest(RendererTest test);
+
+void Renderer_disableTest(RendererTest test);
+
+void Renderer_setCullMode(RendererCullMode cullMode);
+
+void Renderer_enableCulling();
+
+void Renderer_disableCulling();
+
+void Renderer_setViewport(int xOrigin, int yOrigin, int width, int height);
+
 
 
 

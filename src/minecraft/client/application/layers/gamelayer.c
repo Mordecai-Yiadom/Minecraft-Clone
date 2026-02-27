@@ -2,6 +2,7 @@
 
 #include "../../system.render/backend/backend.h"
 #include "../../system.render/rendersystem.h"
+#include "../../system.render/renderer.h"
 
 
 
@@ -53,13 +54,13 @@ void GameLayer_onRender(ApplicationLayer *gamelayer)
         isInitialized = true;
     }
 
-    glClearColor(0,0,0, 1);
-    glClear(GL_COLOR_BUFFER_BIT);
+    Renderer_setClearColor((Color){.red=0.1, 0.2, 0.4, 1});
+    Renderer_clearBuffer(COLOR_BUFFER);
     
     Shader_enable(shader);
     Shader_setFloat(shader, "r", sin(glfwGetTime()));
     Shader_setFloat(shader, "g", cos(glfwGetTime()));
-    Shader_setFloat(shader, "b", tan(glfwGetTime()));
+    Shader_setFloat(shader, "b", sin(glfwGetTime()) * cos(glfwGetTime()));
 
     //Camera_setFov(&camera, 100 * sin(glfwGetTime()));
 
@@ -76,7 +77,8 @@ void GameLayer_onRender(ApplicationLayer *gamelayer)
     Shader_setMat4x4f(shader, "projection", camera.matrix.projection);
     Shader_setMat4x4f(shader, "view", camera.matrix.view);
     Shader_setMat4x4f(shader, "model", quad1Transform.matrix);
-    
+
+    Renderer_setPolygonMode(FILL);
     Quad_draw();
      
 }

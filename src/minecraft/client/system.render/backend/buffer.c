@@ -109,7 +109,6 @@ bool VertexBuffer_isValid(VertexBuffer *buffer)
 }
 
 
-
 IndexBuffer IndexBuffer_create(BufferData data, enum BufferUsage usage, Primative type)
 {   
     IndexBuffer ebo = {.id=Buffer_create(GL_ELEMENT_ARRAY_BUFFER, data, usage), .type=type};

@@ -37,6 +37,9 @@ bool Queue_isFull(Queue *queue);
 
 bool Queue_isEmpty(Queue *queue);
 
+void Queue_clear(Queue *queue);
+
+
 
 
 #endif
