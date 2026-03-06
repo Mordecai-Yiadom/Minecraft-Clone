@@ -14,12 +14,13 @@ typedef void(*RenderCommandAddress)(void *args);
 
 typedef struct RenderCommand
 {   
-    RenderCommandType type;
-    RenderCommandAddress commandAddress;
+    RenderCommandAddress address;
     void *args;
 }RenderCommand;
 
 void RenderCommand_execute(RenderCommand command);
+
+bool RenderCommand_isValid(RenderCommand command);
 
 
 

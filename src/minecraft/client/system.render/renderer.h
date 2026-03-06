@@ -40,6 +40,8 @@ void Renderer_drawLine();
 
 void Renderer_drawMesh(Mesh *mesh);
 
+void Renderer_drawMeshInstanced(Mesh *mesh);
+
 void Renderer_setPolygonMode(RendererPolygonMode mode);
 
 void Renderer_clearBuffer(RendererBuffer buffer);

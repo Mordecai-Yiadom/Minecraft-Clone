@@ -1,7 +1,9 @@
 #define MINECRAFT_CLIENT_RENDER_SYSTEM_QUAD_C
 #include "quad.h"
 
+#include "../renderer.h"
 
+static bool quadMeshInitialized = false;
 static inline void Quad_init()
 {   
     BufferData vertexData = {.buffer=QUAD_VERTEX_DATA, .size=sizeof(QUAD_VERTEX_DATA)};
@@ -14,22 +16,30 @@ static inline void Quad_init()
     meshData.type = STATIC;
 
     QUAD_MESH = Mesh_create(meshData);
+    
+    quadMeshInitialized = true;
+    puts("Quad Mesh Initialized");
 }
 
 
 Quad Quad_create(Transform3D transform)
 {
-    if(!Mesh_isValid(&QUAD_MESH)) Quad_init();
+    if(!quadMeshInitialized)
+    {   
+        puts("Quad Mesh not valid");
+        Quad_init();
+    } 
 
     Quad quad = {.transform=transform};
     return quad;
 }
 
 void Quad_draw()
-{   
-    int length = IndexBuffer_length(&QUAD_MESH.ebo);
-
-    VertexArray_bind(&QUAD_MESH.vao);
-    glDrawElements(GL_TRIANGLES, length, QUAD_MESH.ebo.type, NULL);
-    VertexArray_unbind();
+{    
+    puts("Draw Quad Command Requested");
+    if(quadMeshInitialized)
+    {   
+        Renderer_drawMesh(&QUAD_MESH);
+        // puts("Quad Draw Command Submited");
+    } 
 }

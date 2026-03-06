@@ -48,10 +48,9 @@ void ClientApplication_run()
 
         
         ClientApplication_onUpdate();
-
-       
         ClientApplication_onRender();
-    
+
+        RenderSystem_update();
 
         Window_swapBuffers(&APP_STATE.gameWindow);
     }
@@ -160,7 +159,7 @@ static inline void ClientApplication_onRender()
     for(int i = 0; i < ArrayList_length(&APP_STATE.appLayerStack); i++)
     {
         ArrayList_get(&APP_STATE.appLayerStack, i, (byte*)&currLayer);
-
+        printf("OnRender Layer [%d]\n", i);
         if(currLayer.onRender)
         {
             currLayer.onRender(&currLayer);

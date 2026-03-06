@@ -112,7 +112,6 @@ bool VertexBuffer_isValid(VertexBuffer *buffer)
 IndexBuffer IndexBuffer_create(BufferData data, enum BufferUsage usage, Primative type)
 {   
     IndexBuffer ebo = {.id=Buffer_create(GL_ELEMENT_ARRAY_BUFFER, data, usage), .type=type};
-    IndexBuffer_unbind();
     return ebo;
 }
 
@@ -149,15 +148,16 @@ int IndexBuffer_getSize(IndexBuffer *buffer)
 
 int IndexBuffer_length(IndexBuffer *buffer)
 {   
-    
     if(!IndexBuffer_isValid(buffer)) return -1;
-    return IndexBuffer_getSize(buffer) / Primative_sizeof(buffer->type);
+    int size = (IndexBuffer_getSize(buffer) / Primative_sizeof(buffer->type));
+    return size;
 }
 
 bool IndexBuffer_isValid(IndexBuffer *buffer)
 {   
     if(!buffer) return false;
-    return Buffer_isValid(buffer->id);
+    bool isValid = Buffer_isValid(buffer->id);
+    return isValid;
 }
 
 

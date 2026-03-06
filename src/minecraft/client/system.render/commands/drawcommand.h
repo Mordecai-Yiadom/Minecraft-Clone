@@ -3,18 +3,12 @@
 
 #include "../backend/mesh.h"
 
-typedef void(*DrawMeshIndexedCommandAddress)(Mesh *mesh);
-
 typedef struct DrawMeshIndexedCommandArgs
 {
     Mesh *mesh;
 }DrawMeshIndexedCommandArgs;
 
-typedef struct DrawMeshIndexedCommand
-{
-    DrawMeshIndexedCommandAddress cmdAddress;
-    DrawMeshIndexedCommandArgs args;
-}DrawMeshIndexedCommand;
+void DrawMeshIndexedCommand(void *args);
 
 
 

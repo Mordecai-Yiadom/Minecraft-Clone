@@ -58,39 +58,39 @@ int Queue_length(Queue *queue)
 bool Queue_isFull(Queue *queue)
 {
     if(!queue) return true;
-    return (queue->length == queue->array.length) && (queue->memoryType == STATIC_MEMORY);
+    return ((queue->length == queue->array.length) && (queue->memoryType == STATIC_MEMORY));
 }
 
 bool Queue_isEmpty(Queue *queue)
 {
     if(!queue) return true;
-    return queue->length < 1;
+    return (queue->length < 1);
 }
 
 
 void Queue_clear(Queue *queue)
 {
-    if(Queue_isEmpty(queue)) return;
     queue->frontIndex = 0;
     queue->backIndex = -1;
     queue->length = 0;
-    
 }
 
 
 static inline void StaticQueue_enqueue(Queue *queue, byte* element)
 {
     if(Queue_isFull(queue)) return;
-
+    
     //backindex = backindex % capacity
     queue->backIndex = (queue->backIndex + 1) % queue->array.length;
     Array_insert(&queue->array, queue->backIndex, element);
-    queue->length++;
+    queue->length += 1;
+
 }
 
 static inline void StaticQueue_dequeue(Queue *queue)
 {
     if(Queue_isEmpty(queue)) return;
     queue->frontIndex = (queue->frontIndex + 1) % queue->array.length;
-    queue->length--;
+    queue->length -= 1;
+    if(queue->length == 0) Queue_clear(queue);
 }

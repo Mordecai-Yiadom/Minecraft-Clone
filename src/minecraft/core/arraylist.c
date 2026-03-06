@@ -102,3 +102,17 @@ bool ArrayList_isFull(ArrayList *arrayList)
     if(!arrayList) return false;
     return (arrayList->currentLength == arrayList->array.length);
 }
+
+bool ArrayList_isValid(ArrayList *arrayList)
+{   
+    if(!arrayList) return false;
+    return ((arrayList != NULL) && Array_isValid(&arrayList->array));
+}
+
+void ArrayList_clear(ArrayList *arrayList)
+{
+    if(!ArrayList_isValid(arrayList)) return;
+
+    Array_clear(&arrayList->array);
+    arrayList->currentLength = 0;
+}

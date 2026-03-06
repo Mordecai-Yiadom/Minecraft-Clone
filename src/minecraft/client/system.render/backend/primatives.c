@@ -22,6 +22,5 @@ int Primative_sizeof(Primative primative)
         case DOUBLE:
             return sizeof(GLdouble);
     }
-
-    return 0;
+    return 1;
 }

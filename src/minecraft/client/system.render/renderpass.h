@@ -8,16 +8,17 @@
 #include "renderpipeline.h"
 #include "rendertarget.h"
 
-
+#define COMMAND_TAG_LEN 16
 
 typedef struct RenderPass
 {   
-    Queue commandQueue;
+    char tag[COMMAND_TAG_LEN];
+    ArrayList commandBuffer;
     RenderPipeline pipeline;
     RenderTarget renderTarget;
 }RenderPass;
 
-RenderPass RenderPass_create(RenderPipeline pipeline, RenderTarget renderTarget);
+RenderPass RenderPass_create(char* tag, RenderPipeline pipeline, RenderTarget renderTarget);
 
 void RenderPass_submitCommand(RenderPass *renderPass, RenderCommand command);
 

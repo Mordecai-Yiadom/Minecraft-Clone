@@ -4,7 +4,9 @@
 #include "../../system.render/rendersystem.h"
 #include "../../system.render/renderer.h"
 
+#include "../application.h"
 
+static Camera camera;
 
 ApplicationLayer GameLayer_create(GameLayerState state)
 {
@@ -34,7 +36,7 @@ void GameLayer_onRender(ApplicationLayer *gamelayer)
     //static Quad quad1;
     static Transform3D quad1Transform;
     static Shader shader;
-    static Camera camera;
+    
     
     if(!gamelayer) return;
 
@@ -78,8 +80,10 @@ void GameLayer_onRender(ApplicationLayer *gamelayer)
     Shader_setMat4x4f(shader, "view", camera.matrix.view);
     Shader_setMat4x4f(shader, "model", quad1Transform.matrix);
 
-    Renderer_setPolygonMode(FILL);
+    
     Quad_draw();
+
+    //printf("[FPS] %d\n", RenderSystem_fps());
      
 }
 
@@ -102,6 +106,12 @@ void GameLayer_suspend(ApplicationLayer *gamelayer)
 bool GameLayer_pollKeyboardInput(ApplicationLayer *gamelayer)
 {
     if(!gamelayer) return false;
+
+    if(glfwGetKey(ClientApplication_getGameWindow()->glfwWindow, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+    {
+        ClientApplication_stop();
+    }
+
     return true;
 }
 

@@ -50,6 +50,12 @@ typedef struct RenderSystem
 
     //Recalculates RenderSystem's fps. This is done after every frame is completes
     static inline void RenderSystem_updateFPS();
+
+    static inline void RenderSystem_beginFrame();
+
+    static inline void RenderSystem_endFrame();
+
+    static inline void RenderSystem_executePasses();
 #endif
 
 
@@ -65,14 +71,18 @@ void RenderSystem_shutdown();
 */
 bool RenderSystem_isInitialized();
 
+/*
+    Reads the current scene data for the RenderSystem global state and begins renderpasses to draw next frame
+*/
+void RenderSystem_update();
 
-void RenderSystem_beginFrame();
 
-void RenderSystem_endFrame();
+void RenderSystem_addRenderPass(RenderPass renderPass);
 
-void RenderSystem_createRenderPass();
+void RenderSystem_removeRenderPass();
 
-void RenderSystem_destoryRenderPass();
+///FOR TESTING ONLY
+void* RenderSystem_getRenderPass(int index);
 
 /*
     Gets the current delta time for the RenderSystem global state

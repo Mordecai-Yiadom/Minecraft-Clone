@@ -1,6 +1,10 @@
 #ifndef MINECRAFT_CLIENT_INPUT_SYSTEM_H
 #define MINECRAFT_CLIENT_INPUT_SYSTEM_H
 
+#include <GLFW/glfw3.h>
+
+
+
 
 
 #endif

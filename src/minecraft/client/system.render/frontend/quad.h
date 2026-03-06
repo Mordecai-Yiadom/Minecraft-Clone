@@ -4,7 +4,7 @@
 #include "../backend/backend.h"
 
 #ifdef MINECRAFT_CLIENT_RENDER_SYSTEM_QUAD_C
-    Mesh QUAD_MESH;
+    static Mesh QUAD_MESH;
     static float QUAD_VERTEX_DATA[] = 
     {
         1, 1, 0,    0, 0, -1,    1, 1,

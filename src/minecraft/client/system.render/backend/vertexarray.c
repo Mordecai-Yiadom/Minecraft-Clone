@@ -34,7 +34,8 @@ void VertexArray_destroy(VertexArray *vertexArray)
 
 
 void VertexArray_bind(VertexArray *vertexArray)
-{
+{   
+    if(!vertexArray) return;
     glBindVertexArray((GLuint) vertexArray->id);
 }
 
@@ -45,8 +46,9 @@ void VertexArray_unbind()
 }
 
 bool VertexArray_isValid(VertexArray *vertexArray)
-{
-    return (bool) glIsVertexArray((GLuint) vertexArray->id);
+{   
+    if(!vertexArray) return false;
+    return glIsVertexArray((GLuint) vertexArray->id);
 }
 
 

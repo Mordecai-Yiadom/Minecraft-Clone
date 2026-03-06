@@ -1,12 +1,17 @@
 #include "renderer.h"
-
+#include "renderpass.h"
+#include "rendersystem.h"
+#include "commands/drawcommand.h"
 
 void Renderer_drawMesh(Mesh *mesh)
 {
     if(!Mesh_isValid(mesh)) return;
-    VertexArray_bind(&mesh->vao);
-    glDrawElements(GL_TRIANGLES, IndexBuffer_length(&mesh->ebo), mesh->ebo.type, NULL);
-    VertexArray_unbind();
+    
+    RenderCommand command;
+    memset(&command, 0, sizeof(RenderCommand));
+    command.address = DrawMeshIndexedCommand;
+    command.args = &mesh;
+    RenderPass_submitCommand(RenderSystem_getRenderPass(0), command);
 }
 
 void Renderer_setPolygonMode(RendererPolygonMode mode)

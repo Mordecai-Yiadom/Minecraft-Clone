@@ -46,4 +46,6 @@ void* Array_getAddress(Array *array, int index);
 
 bool Array_isValid(Array *array);
 
+void Array_clear(Array *array);
+
 #endif

@@ -43,4 +43,6 @@ bool ArrayList_isFull(ArrayList *arrayList);
 
 bool ArrayList_isValid(ArrayList *arrayList);
 
+void ArrayList_clear(ArrayList *arrayList);
+
 #endif

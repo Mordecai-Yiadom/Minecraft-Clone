@@ -1,6 +1,6 @@
 #include "array.h"
 #include <stdlib.h>
-
+#include <string.h>
 
 Array Array_create(int length, int elementSize)
 {
@@ -92,4 +92,17 @@ void* Array_getAddress(Array *array, int index)
     if(!Array_isValidIndex(array, index)) return NULL;
 
     return &array->data[array->elementSize * index];
+}
+
+bool Array_isValid(Array *array)
+{
+    if(!array) return false;
+    return ((array->data != NULL) && (array->length) > 0 && (array->elementSize > 0));
+}
+
+
+void Array_clear(Array *array)
+{
+    if(!Array_isValid(array)) return;
+    memset(&array->data, 0, sizeof(Array_size(array)));
 }

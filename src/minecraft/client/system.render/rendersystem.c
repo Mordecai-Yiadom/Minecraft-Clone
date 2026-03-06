@@ -22,6 +22,12 @@ void RenderSystem_init()
 
     RENDERSYSTEM_STATE.renderPasses = ArrayList_create(5, sizeof(RenderPass), DYNAMIC_MEMORY);
     RENDERSYSTEM_STATE.isInitialized = true;
+
+    RenderPipeline pipeline;
+    RenderTarget target;
+    RenderPass quadPass = RenderPass_create("quad-test", pipeline, target);
+    RenderSystem_addRenderPass(quadPass);
+    puts("[RenderSystem] RenderSystem has been initialized.");
 }
 
 void RenderSystem_shutdown()
@@ -31,27 +37,32 @@ void RenderSystem_shutdown()
     memset(&RENDERSYSTEM_STATE, 0, sizeof(RenderSystem));
 }
 
-void RenderSystem_beginFrame()
-{}
 
-void RenderSystem_endFrame()
-{}
+void RenderSystem_update()
+{   
+    static int frameCount = 1;
+    RenderSystem_beginFrame();
+    RenderSystem_endFrame();
+    printf("[RenderSystem] frame {%d} complete.\n", frameCount);
+    frameCount++;
+}
+
+void RenderSystem_addRenderPass(RenderPass renderPass)
+{
+    ArrayList_add(&RENDERSYSTEM_STATE.renderPasses, (byte*)&renderPass);
+}
+
+void* RenderSystem_getRenderPass(int index)
+{
+    return ArrayList_getAddress(&RENDERSYSTEM_STATE.renderPasses, index);
+}
+
 
 
 bool RenderSystem_isInitialized()
 {
     return RENDERSYSTEM_STATE.isInitialized;
 }
-
-void RenderSystem_endRenderPass(Window *window)
-{   
-    Window_swapBuffers(window);
-
-    RenderSystem_updateDeltaTime();
-    RenderSystem_updateFPS();
-}
-
-
 
 
 float RenderSystem_deltaTime()
@@ -91,5 +102,28 @@ static inline void RenderSystem_updateFPS()
         RENDERSYSTEM_STATE.fps = currentFrameCount;
         currentFrameCount = 0;
         lastSampledFrame = glfwGetTime();
+    }
+}
+
+
+static inline void RenderSystem_beginFrame()
+{
+    RenderSystem_executePasses();
+}
+
+static inline void RenderSystem_endFrame()
+{   
+    RenderSystem_updateDeltaTime();
+    RenderSystem_updateFPS();
+}
+
+static inline void RenderSystem_executePasses()
+{   
+    int length = ArrayList_length(&RENDERSYSTEM_STATE.renderPasses);
+    RenderPass currPass;
+    for(int i = 0; i < length; i++)
+    {
+        ArrayList_get(&RENDERSYSTEM_STATE.renderPasses, i, (byte*)&currPass);
+        RenderPass_execute(&currPass);
     }
 }
