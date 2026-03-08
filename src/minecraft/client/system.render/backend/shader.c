@@ -17,11 +17,11 @@ static GLuint complileIndividualShader(GLenum shaderType, const char* path)
         Logger_logError(FILE_IO, logBuffer);
         return 0;
     }
-     
+    
     GLuint shader = glCreateShader(shaderType);
     glShaderSource(shader, (GLsizei) 1, (const GLchar**) &shaderSrc, NULL);
     glCompileShader(shader);
-
+    
     GLint compileStatus;
     glGetShaderiv(shader, GL_COMPILE_STATUS, &compileStatus);
 
@@ -39,7 +39,7 @@ static GLuint complileIndividualShader(GLenum shaderType, const char* path)
 
 
 Shader Shader_create(const char* vertexShaderPath, const char* geometryShaderPath, const char* fragmentShaderPath)
-{
+{   
     if(!vertexShaderPath || !fragmentShaderPath)
     {
         fputs("Failed to create shader. Null vertex and/or fragment path(s).", stderr);
@@ -48,7 +48,8 @@ Shader Shader_create(const char* vertexShaderPath, const char* geometryShaderPat
     
     GLuint vertexShader = complileIndividualShader(GL_VERTEX_SHADER, vertexShaderPath);
     if(!glIsShader(vertexShader)) return SHADER_NULL;
-   
+    
+    
     GLuint fragmentShader = complileIndividualShader(GL_FRAGMENT_SHADER, fragmentShaderPath);
     if(!glIsShader(fragmentShader))
     {   
@@ -87,7 +88,8 @@ bool Shader_isValid(Shader shader)
 }
 
 void Shader_enable(Shader shader)
-{
+{   
+    if(!Shader_isValid(shader)) return;
     glUseProgram((GLuint) shader.id);
 }
 void Shader_disable()

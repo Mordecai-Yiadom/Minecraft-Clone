@@ -159,7 +159,6 @@ static inline void ClientApplication_onRender()
     for(int i = 0; i < ArrayList_length(&APP_STATE.appLayerStack); i++)
     {
         ArrayList_get(&APP_STATE.appLayerStack, i, (byte*)&currLayer);
-        printf("OnRender Layer [%d]\n", i);
         if(currLayer.onRender)
         {
             currLayer.onRender(&currLayer);

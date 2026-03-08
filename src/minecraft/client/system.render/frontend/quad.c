@@ -36,10 +36,9 @@ Quad Quad_create(Transform3D transform)
 
 void Quad_draw()
 {    
-    puts("Draw Quad Command Requested");
     if(quadMeshInitialized)
     {   
         Renderer_drawMesh(&QUAD_MESH);
-        // puts("Quad Draw Command Submited");
+        
     } 
 }

@@ -1,5 +1,5 @@
 CC = gcc
-CCFLAGS := -Wall -Wextra -Werror -g
+CCFLAGS := -Wall -Wextra -Werror
 
 SRC_DIR := src/
 BIN_DIR := bin/

@@ -4,7 +4,7 @@
 #define MINECRAFT_CLIENT_RENDER_SYSTEM_C
 #include "rendersystem.h"
 
-
+#include "renderers/chunkrenderer.h"
 
 void RenderSystem_init()
 {   
@@ -23,10 +23,6 @@ void RenderSystem_init()
     RENDERSYSTEM_STATE.renderPasses = ArrayList_create(5, sizeof(RenderPass), DYNAMIC_MEMORY);
     RENDERSYSTEM_STATE.isInitialized = true;
 
-    RenderPipeline pipeline;
-    RenderTarget target;
-    RenderPass quadPass = RenderPass_create("quad-test", pipeline, target);
-    RenderSystem_addRenderPass(quadPass);
     puts("[RenderSystem] RenderSystem has been initialized.");
 }
 
@@ -43,7 +39,6 @@ void RenderSystem_update()
     static int frameCount = 1;
     RenderSystem_beginFrame();
     RenderSystem_endFrame();
-    printf("[RenderSystem] frame {%d} complete.\n", frameCount);
     frameCount++;
 }
 
@@ -52,7 +47,7 @@ void RenderSystem_addRenderPass(RenderPass renderPass)
     ArrayList_add(&RENDERSYSTEM_STATE.renderPasses, (byte*)&renderPass);
 }
 
-void* RenderSystem_getRenderPass(int index)
+RenderPass* RenderSystem_getRenderPass(int index)
 {
     return ArrayList_getAddress(&RENDERSYSTEM_STATE.renderPasses, index);
 }

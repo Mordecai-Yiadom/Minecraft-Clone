@@ -33,6 +33,25 @@ typedef enum RendererPolygonMode
     FILL = GL_FILL,
 }RendererPolygonMode;
 
+typedef struct RendererViewport
+{
+    int xOrigin;
+    int yOrigin;
+    int width; 
+    int height;
+}RendererViewport;
+
+typedef struct RenderState
+{
+    RendererPolygonMode polygonMode;
+    RendererCullMode cullMode;
+    Color clearColor;
+    RendererViewport viewport;
+
+    bool stencilTestEnabled;
+    bool depthTestEnabled;
+    bool cullingEnabled;
+}RenderState;
 
 void Renderer_drawPoint();
 
@@ -58,7 +77,7 @@ void Renderer_enableCulling();
 
 void Renderer_disableCulling();
 
-void Renderer_setViewport(int xOrigin, int yOrigin, int width, int height);
+void Renderer_setViewport(RendererViewport viewport);
 
 
 

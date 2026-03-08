@@ -82,7 +82,7 @@ void RenderSystem_addRenderPass(RenderPass renderPass);
 void RenderSystem_removeRenderPass();
 
 ///FOR TESTING ONLY
-void* RenderSystem_getRenderPass(int index);
+RenderPass* RenderSystem_getRenderPass(int index);
 
 /*
     Gets the current delta time for the RenderSystem global state

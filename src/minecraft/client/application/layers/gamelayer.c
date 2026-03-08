@@ -5,8 +5,7 @@
 #include "../../system.render/renderer.h"
 
 #include "../application.h"
-
-static Camera camera;
+#include "../../system.render/renderers/chunkrenderer.h"
 
 ApplicationLayer GameLayer_create(GameLayerState state)
 {
@@ -22,6 +21,7 @@ ApplicationLayer GameLayer_create(GameLayerState state)
     gamelayer.suspend = GameLayer_suspend;
     gamelayer.pollKeyboardInput = GameLayer_pollKeyboardInput;
     gamelayer.onMouseInput = GameLayer_onMouseInput;
+    gamelayer.onUpdate = GameLayer_onUpdate;
     return gamelayer;
 }
 
@@ -32,65 +32,19 @@ void GameLayer_destroy(ApplicationLayer *gamelayer)
 
 void GameLayer_onRender(ApplicationLayer *gamelayer)
 {   
-    static bool isInitialized = false;
-    //static Quad quad1;
-    static Transform3D quad1Transform;
-    static Shader shader;
-    
-    
     if(!gamelayer) return;
-
-    if(!isInitialized)
-    {   
-        shader = Shader_create("assets/minecraft/shaders/default.vs", NULL, "assets/minecraft/shaders/default.fs");
-        if(!Shader_isValid(shader)) Logger_logError(RENDER_SYSTEM, "Shader Program handle is invalid.");
-
-        memset(&quad1Transform, 0, sizeof(Transform3D));
-        Quad_create(quad1Transform);
-        
-        PerspCameraProjectionData projData;
-        projData.fov = 90;
-        projData.aspectRatio = 1280.0f/720.0f;
-        camera = Camera_createPerspective(projData, 0.1, 1000);
-        
-        isInitialized = true;
-    }
-
-    Renderer_setClearColor((Color){.red=0.1, 0.2, 0.4, 1});
-    Renderer_clearBuffer(COLOR_BUFFER);
-    
-    Shader_enable(shader);
-    Shader_setFloat(shader, "r", sin(glfwGetTime()));
-    Shader_setFloat(shader, "g", cos(glfwGetTime()));
-    Shader_setFloat(shader, "b", sin(glfwGetTime()) * cos(glfwGetTime()));
-
-    //Camera_setFov(&camera, 100 * sin(glfwGetTime()));
-
-    vec3 camera_position = {0, 0, 0};
-    vec3f(quad1Transform.position, 0, 0, 5);
-
-    glm_mat4_identity(quad1Transform.matrix);
-    glm_translate(quad1Transform.matrix, quad1Transform.position);
-
-    Camera_setPosition(&camera, camera_position);
-    camera.direction[2] = 10 * sin(glfwGetTime());
-    Camera_updateMatrix(&camera);
-    
-    Shader_setMat4x4f(shader, "projection", camera.matrix.projection);
-    Shader_setMat4x4f(shader, "view", camera.matrix.view);
-    Shader_setMat4x4f(shader, "model", quad1Transform.matrix);
-
-    
-    Quad_draw();
-
-    //printf("[FPS] %d\n", RenderSystem_fps());
-     
+    ChunkMesh mesh;
+    ChunkRenderer_drawChunkMesh(&mesh);
 }
 
 void GameLayer_onUpdate(ApplicationLayer *gamelayer)
 {
     if(!gamelayer) return;
-    puts("GameLayer OnUpdate");
+    Transform3D transform;
+    Quad_create(transform);
+    ChunkRenderer_init();
+    
+    
 }
 
 void GameLayer_transitionTo(ApplicationLayer *gamelayer, ApplicationLayerType newLayerType)

@@ -10,6 +10,4 @@ typedef struct DrawMeshIndexedCommandArgs
 
 void DrawMeshIndexedCommand(void *args);
 
-
-
 #endif

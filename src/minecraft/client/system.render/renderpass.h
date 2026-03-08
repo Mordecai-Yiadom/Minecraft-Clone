@@ -10,12 +10,16 @@
 
 #define COMMAND_TAG_LEN 16
 
+#define CHUNKRENDERPASS_INDEX 0
+
+
 typedef struct RenderPass
 {   
     char tag[COMMAND_TAG_LEN];
     ArrayList commandBuffer;
     RenderPipeline pipeline;
     RenderTarget renderTarget;
+    RenderState renderstate;
 }RenderPass;
 
 RenderPass RenderPass_create(char* tag, RenderPipeline pipeline, RenderTarget renderTarget);

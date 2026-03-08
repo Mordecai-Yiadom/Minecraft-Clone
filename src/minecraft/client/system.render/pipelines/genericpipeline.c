@@ -1,0 +1,55 @@
+
+#define MINECRAFT_CLIENT_GENERICPIPELINE_C
+#include "genericpipeline.h"
+#include "../../../core/core.h"
+
+
+
+RenderPipeline GenericPipeline_create()
+{   
+
+    Shader shader = Shader_create("assets/minecraft/shaders/default.vs", NULL, "assets/minecraft/shaders/default.fs");
+    
+    if(!Shader_isValid(shader)) Logger_logError(RENDER_SYSTEM, "Shader Program handle is invalid.");
+    RenderPipeline pipeline = RenderPipeline_create(shader, GenericPipeline_load, GenericPipeline_unload);
+    return pipeline;
+}
+
+
+
+
+static inline void GenericPipeline_load(RenderPipeline *pipeline, RenderTarget *renderTarget)
+{   
+    if(!pipeline || !renderTarget) return;
+
+    Renderer_setClearColor((Color){.red=sin(glfwGetTime()), cos(glfwGetTime()), sin(glfwGetTime()), 1});
+    Renderer_clearBuffer(COLOR_BUFFER);
+    
+    
+    Shader_setFloat(pipeline->shader, "r", sin(glfwGetTime()));
+    Shader_setFloat(pipeline->shader, "g", cos(glfwGetTime()));
+    Shader_setFloat(pipeline->shader, "b", sin(glfwGetTime()) * cos(glfwGetTime()));
+
+    //Camera_setFov(&camera, 100 * sin(glfwGetTime()));
+    Transform3D quad1Transform;
+    vec3 camera_position = {0, 0, 0};
+    vec3f(quad1Transform.position, 0, 0, 5);
+
+    glm_mat4_identity(quad1Transform.matrix);
+    glm_translate(quad1Transform.matrix, quad1Transform.position);
+
+    Camera_setPosition(&renderTarget->camera, camera_position);
+    renderTarget->camera.direction[2] = 10 * sin(glfwGetTime());
+    Camera_updateMatrix(&renderTarget->camera);
+    
+    Shader_setMat4x4f(pipeline->shader, "projection", renderTarget->camera.matrix.projection);
+    Shader_setMat4x4f(pipeline->shader, "view", renderTarget->camera.matrix.view);
+    Shader_setMat4x4f(pipeline->shader, "model", quad1Transform.matrix);
+}
+
+static inline void GenericPipeline_unload(RenderPipeline *pipeline, RenderTarget *renderTarget)
+{
+    if(!pipeline || !renderTarget) return;
+
+    
+}

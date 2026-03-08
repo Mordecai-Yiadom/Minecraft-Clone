@@ -6,12 +6,12 @@
 void Renderer_drawMesh(Mesh *mesh)
 {
     if(!Mesh_isValid(mesh)) return;
-    
     RenderCommand command;
     memset(&command, 0, sizeof(RenderCommand));
     command.address = DrawMeshIndexedCommand;
     command.args = &mesh;
     RenderPass_submitCommand(RenderSystem_getRenderPass(0), command);
+    
 }
 
 void Renderer_setPolygonMode(RendererPolygonMode mode)
@@ -54,7 +54,7 @@ void Renderer_disableCulling()
     glDisable(GL_CULL_FACE);
 }
 
-void Renderer_setViewport(int xOrigin, int yOrigin, int width, int height)
+void Renderer_setViewport(RendererViewport viewport)
 {
-    glViewport(xOrigin, yOrigin, width, height);
+    glViewport(viewport.xOrigin, viewport.yOrigin, viewport.width, viewport.height);
 }

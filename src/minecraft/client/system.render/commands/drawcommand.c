@@ -8,11 +8,9 @@ void DrawMeshIndexedCommand(void *args)
     
     if(!Mesh_isValid(mesh))
     {   
-        printf("[DrawMeshIndexedCommand] Mesh is invalid\n");
         return;
     }
     
-
     int eboLength = IndexBuffer_length(&mesh->ebo);
     if(eboLength > 0)
     {   
@@ -22,5 +20,4 @@ void DrawMeshIndexedCommand(void *args)
         VertexArray_unbind();
         
     }
-    printf("EBO Len: %d\n", eboLength);
 }
