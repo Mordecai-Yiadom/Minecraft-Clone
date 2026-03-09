@@ -33,6 +33,7 @@ void GameLayer_destroy(ApplicationLayer *gamelayer)
 void GameLayer_onRender(ApplicationLayer *gamelayer)
 {   
     if(!gamelayer) return;
+
     ChunkMesh mesh;
     ChunkRenderer_drawChunkMesh(&mesh);
 }
@@ -43,8 +44,6 @@ void GameLayer_onUpdate(ApplicationLayer *gamelayer)
     Transform3D transform;
     Quad_create(transform);
     ChunkRenderer_init();
-    
-    
 }
 
 void GameLayer_transitionTo(ApplicationLayer *gamelayer, ApplicationLayerType newLayerType)

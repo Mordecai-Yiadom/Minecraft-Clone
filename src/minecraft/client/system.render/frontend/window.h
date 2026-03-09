@@ -28,6 +28,8 @@ Window Window_create(WindowProps props);
 
 void Window_destroy(Window* window);
 
+void Window_close(Window *window);
+
 void Window_setTitle(Window *window, char* title);
 
 char* Window_getTitle(Window *window);

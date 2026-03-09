@@ -2,7 +2,7 @@
 
 void RenderCommand_execute(RenderCommand command)
 {
-    if(!command.address || !command.args) return;
+    if(!command.address) return;
     command.address(command.args);
 }
 

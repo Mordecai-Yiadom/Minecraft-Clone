@@ -6,10 +6,11 @@
 void Renderer_drawMesh(Mesh *mesh)
 {
     if(!Mesh_isValid(mesh)) return;
+    
     RenderCommand command;
     memset(&command, 0, sizeof(RenderCommand));
     command.address = DrawMeshIndexedCommand;
-    command.args = &mesh;
+    command.args = mesh;
     RenderPass_submitCommand(RenderSystem_getRenderPass(0), command);
     
 }

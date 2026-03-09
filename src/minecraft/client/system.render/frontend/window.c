@@ -46,6 +46,12 @@ void Window_destroy(Window* window)
     glfwSetWindowShouldClose(window->glfwWindow, 1);
     glfwDestroyWindow(window->glfwWindow);
 }
+
+void Window_close(Window *window)
+{
+    if(!Window_isValid(window)) return;
+    glfwWindowShouldClose(window->glfwWindow);
+}
  
 void Window_setTitle(Window *window, char* title)
 {   

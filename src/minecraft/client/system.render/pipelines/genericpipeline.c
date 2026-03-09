@@ -22,9 +22,8 @@ static inline void GenericPipeline_load(RenderPipeline *pipeline, RenderTarget *
 {   
     if(!pipeline || !renderTarget) return;
 
-    Renderer_setClearColor((Color){.red=sin(glfwGetTime()), cos(glfwGetTime()), sin(glfwGetTime()), 1});
+    Renderer_setClearColor((Color){.red=0.1, 0.2, 0.3, 1});
     Renderer_clearBuffer(COLOR_BUFFER);
-    
     
     Shader_setFloat(pipeline->shader, "r", sin(glfwGetTime()));
     Shader_setFloat(pipeline->shader, "g", cos(glfwGetTime()));

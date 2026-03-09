@@ -39,6 +39,5 @@ void Quad_draw()
     if(quadMeshInitialized)
     {   
         Renderer_drawMesh(&QUAD_MESH);
-        
     } 
 }

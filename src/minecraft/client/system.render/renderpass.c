@@ -31,14 +31,16 @@ void RenderPass_execute(RenderPass *renderPass)
     memset(&currCommand, 0, sizeof(RenderCommand));
 
     for(int i = 0; i < commandsSumbitted; i++)
-    {        
+    {   
+        
         ArrayList_get(&renderPass->commandBuffer, i, (byte*)&currCommand);
         RenderCommand_execute(currCommand);
     }
-
+    
+    RenderPipeline_unload(&renderPass->pipeline, &renderPass->renderTarget);
     ArrayList_clear(&renderPass->commandBuffer);
 
-    RenderPipeline_unload(&renderPass->pipeline, &renderPass->renderTarget);
+    
 
     commandsSumbitted = 0;
 }
