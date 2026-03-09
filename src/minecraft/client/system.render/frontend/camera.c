@@ -56,7 +56,7 @@ void Camera_updateProjectionMatrix(Camera *camera)
 {
     if(!camera) return;
     switch(camera->type)
-    {
+    {   
         case PERSPECTIVE:
                 glm_perspective(camera->projectionData.perspective.fov, 
             camera->projectionData.perspective.aspectRatio, 

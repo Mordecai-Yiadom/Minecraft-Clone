@@ -22,23 +22,25 @@ static inline void GenericPipeline_load(RenderPipeline *pipeline, RenderTarget *
 {   
     if(!pipeline || !renderTarget) return;
 
-    Renderer_setClearColor((Color){.red=0.1, 0.2, 0.3, 1});
+    Renderer_setClearColor(COLOR_RGB(66, 206, 245));
     Renderer_clearBuffer(COLOR_BUFFER);
     
-    Shader_setFloat(pipeline->shader, "r", sin(glfwGetTime()));
-    Shader_setFloat(pipeline->shader, "g", cos(glfwGetTime()));
-    Shader_setFloat(pipeline->shader, "b", sin(glfwGetTime()) * cos(glfwGetTime()));
+    Color quadColor = COLOR_RGB(222, 69, 201);
+    Shader_setFloat(pipeline->shader, "r", quadColor.red);
+    Shader_setFloat(pipeline->shader, "g", quadColor.green);
+    Shader_setFloat(pipeline->shader, "b", quadColor.blue);
 
     //Camera_setFov(&camera, 100 * sin(glfwGetTime()));
     Transform3D quad1Transform;
     vec3 camera_position = {0, 0, 0};
+    // vec3f(quad1Transform.position, 10 * sin(glfwGetTime()), 0, 10 * cos(glfwGetTime()));
     vec3f(quad1Transform.position, 0, 0, 5);
 
     glm_mat4_identity(quad1Transform.matrix);
     glm_translate(quad1Transform.matrix, quad1Transform.position);
 
     Camera_setPosition(&renderTarget->camera, camera_position);
-    renderTarget->camera.direction[2] = 10 * sin(glfwGetTime());
+    renderTarget->camera.direction[2] = 90;
     Camera_updateMatrix(&renderTarget->camera);
     
     Shader_setMat4x4f(pipeline->shader, "projection", renderTarget->camera.matrix.projection);
