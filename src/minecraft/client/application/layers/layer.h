@@ -4,6 +4,8 @@
 typedef struct ApplicationLayer ApplicationLayer;
 typedef enum ApplicationLayerType ApplicationLayerType;
 
+#include "../event/event.h"
+
 #include "gamelayer.h"
 
 typedef enum ApplicationLayerType
@@ -16,8 +18,17 @@ typedef void(*AppLayerOnRender)(ApplicationLayer *layer);
 typedef void(*AppLayerOnUpdate)(ApplicationLayer *layer);
 typedef void(*AppLayerTransitionTo)(ApplicationLayer *layer, ApplicationLayerType newLayerType);
 typedef void(*AppLayerSuspend)(ApplicationLayer *layer);
-typedef bool(*AppLayerPollKeyboardInput)(ApplicationLayer *layer);
-typedef bool(*AppLayerOnMouseInput)(ApplicationLayer *layer);
+
+
+typedef bool(*AppLayerPollKeyInput)(ApplicationLayer *layer, InputContext inputContext);
+
+//Events
+
+typedef bool(*AppLayerOnMouseMove)(ApplicationLayer *layer, MouseMoveEvent event);
+typedef bool(*AppLayerOnMouseButtonInput)(ApplicationLayer *layer, MouseButtonInputEvent event);
+typedef bool(*AppLayerOnMouseScrollInput)(ApplicationLayer *layer, MouseScrollEvent event);
+
+typedef bool(*AppLayerOnKeyInput)(ApplicationLayer *layer, KeyInputEvent event);
 
 
 typedef struct ApplicationLayer
@@ -31,8 +42,13 @@ typedef struct ApplicationLayer
     AppLayerOnUpdate onUpdate;
     AppLayerTransitionTo transitionTo;
     AppLayerSuspend suspend;
-    AppLayerPollKeyboardInput pollKeyboardInput;
-    AppLayerOnMouseInput onMouseInput;
+
+    AppLayerPollKeyInput pollKeyInput;
+
+    AppLayerOnMouseMove onMouseMove;
+    AppLayerOnMouseButtonInput onMouseButtonInput;
+    AppLayerOnMouseScrollInput onMouseScrollInput;
+    AppLayerOnKeyInput onKeyInput;
 
     ApplicationLayerType type;
     bool isSuspended;

@@ -3,6 +3,7 @@
 
 #include "layers/layer.h"
 #include "../system.render/rendersystem.h"
+#include "event/event.h"
 
 typedef struct ApplicationVersion
 {    
@@ -23,6 +24,7 @@ typedef struct ClientApplication
     ApplicationInfo appInfo;
     RenderSystem *renderSystem;
     Window gameWindow;
+    InputContext inputContext;
     ArrayList appLayerStack;
 
     Image windowIcon;
@@ -37,9 +39,13 @@ typedef struct ClientApplication
     static inline void ClientApplication_onRender();
     static inline void ClientApplication_PollEvents();
     static inline void ClientApplication_pollKeyboardInput();
-    static inline void ClientApplication_onMouseInput();
     
     static inline void ClientApplication_createGameWindow();
+
+    void ClientApplication_dispatchOnMouseMoveEventAsync(GLFWwindow *window, double xPos, double yPos);
+    void ClientApplication_dispatchOnMouseScrollEventAsync(GLFWwindow *window, double xOffset, double yOffset);
+    void ClientApplication_dispatchOnMouseButtonInputEventAsync(GLFWwindow *window, int button, int action, int mods);
+    void ClientApplication_dispatchOnKeyInputEventAsync(GLFWwindow *window, int key, int scancode, int action, int mods);
     
 #endif
 

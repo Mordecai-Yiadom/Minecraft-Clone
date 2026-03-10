@@ -24,8 +24,15 @@ void GameLayer_transitionTo(ApplicationLayer *gamelayer, ApplicationLayerType ne
 
 void GameLayer_suspend(ApplicationLayer *gamelayer);
 
-bool GameLayer_pollKeyboardInput(ApplicationLayer *gamelayer);
 
-bool GameLayer_onMouseInput(ApplicationLayer *gamelayer);
+bool GameLayer_pollKeyInput(ApplicationLayer *gamelayer, InputContext inputContext);
+
+bool GameLayer_onMouseMove(ApplicationLayer *gamelayer, MouseMoveEvent event);
+
+bool GameLayer_onMouseButtonInput(ApplicationLayer *gamelayer, MouseButtonInputEvent event);
+
+bool GameLayer_onMouseScrollInput(ApplicationLayer *gamelayer, MouseScrollEvent event);
+
+bool GameLayer_onKeyInput(ApplicationLayer *gamelayer, KeyInputEvent event);
 
 #endif

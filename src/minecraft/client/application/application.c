@@ -178,26 +178,26 @@ static inline void ClientApplication_pollKeyboardInput()
     {
         ArrayList_get(&APP_STATE.appLayerStack, i, (byte*)&currLayer);
 
-        if(currLayer.pollKeyboardInput)
+        if(currLayer.pollKeyInput)
         {
-            currLayer.pollKeyboardInput(&currLayer);
+            currLayer.pollKeyInput(&currLayer, APP_STATE.inputContext);
         }
     }  
 }
 
-static inline void ClientApplication_onMouseInput()
-{
-    ApplicationLayer currLayer;
-    for(int i = 0; i < ArrayList_length(&APP_STATE.appLayerStack); i++)
-    {
-        ArrayList_get(&APP_STATE.appLayerStack, i, (byte*)&currLayer);
+// static inline void ClientApplication_onMouseInput()
+// {
+//     ApplicationLayer currLayer;
+//     for(int i = 0; i < ArrayList_length(&APP_STATE.appLayerStack); i++)
+//     {
+//         ArrayList_get(&APP_STATE.appLayerStack, i, (byte*)&currLayer);
 
-        if(currLayer.onMouseInput)
-        {
-            currLayer.onMouseInput(&currLayer);
-        }
-    }     
-}
+//         if(currLayer.onMouseInput)
+//         {
+//             currLayer.onMouseInput(&currLayer);
+//         }
+//     }     
+// }
 
 static inline void ClientApplication_createGameWindow()
 {   
@@ -209,4 +209,82 @@ static inline void ClientApplication_createGameWindow()
 
     APP_STATE.gameWindow = Window_create(APP_STATE.appInfo.windowProps);
     Window_setIcon(&APP_STATE.gameWindow, &APP_STATE.windowIcon);
+
+    APP_STATE.inputContext = InputContext_create(APP_STATE.gameWindow.glfwWindow);
+
+    //Setup Event dispatchers
+    MouseButtonInputEvent_setDispatcher(APP_STATE.inputContext, ClientApplication_dispatchOnMouseButtonInputEventAsync);
+    MouseMoveEvent_setDispatcher(APP_STATE.inputContext, ClientApplication_dispatchOnMouseMoveEventAsync);
+    MouseScrollEvent_setDispatcher(APP_STATE.inputContext, ClientApplication_dispatchOnMouseScrollEventAsync);
+    
+    KeyInputEvent_setDispatcher(APP_STATE.inputContext, ClientApplication_dispatchOnKeyInputEventAsync);
+}
+
+void ClientApplication_dispatchOnMouseMoveEventAsync(GLFWwindow *window, double xPos, double yPos)
+{   
+    MouseMoveEvent event = {.xPos=xPos, .yPos=yPos, .context=((InputContext){.glfwWindow=window})};
+
+    ApplicationLayer currLayer;
+    bool isHandled = false;
+    for(int i = 0; i < ArrayList_length(&APP_STATE.appLayerStack); i++)
+    {
+        ArrayList_get(&APP_STATE.appLayerStack, i, (byte*)&currLayer);
+
+        if(!(currLayer.onMouseMove)) continue;   
+
+        isHandled = currLayer.onMouseMove(&currLayer, event);
+        if(isHandled) return;
+        
+    }  
+}
+
+void ClientApplication_dispatchOnMouseScrollEventAsync(GLFWwindow *window, double xOffset, double yOffset)
+{
+    MouseScrollEvent event = {.xOffset=xOffset, .yOffset=yOffset, .context=((InputContext){.glfwWindow=window})};
+
+    ApplicationLayer currLayer;
+    bool isHandled = false;
+    for(int i = 0; i < ArrayList_length(&APP_STATE.appLayerStack); i++)
+    {
+        ArrayList_get(&APP_STATE.appLayerStack, i, (byte*)&currLayer);
+
+        if(!(currLayer.onMouseScrollInput)) continue;   
+
+        isHandled = currLayer.onMouseScrollInput(&currLayer, event);
+        if(isHandled) return;
+    }  
+}
+
+void ClientApplication_dispatchOnMouseButtonInputEventAsync(GLFWwindow *window, int button, int action, int mods)
+{
+    MouseButtonInputEvent event = {.button=button, .action=action, .modifiers=mods, .context=((InputContext){.glfwWindow=window})};
+
+    ApplicationLayer currLayer;
+    bool isHandled = false;
+    for(int i = 0; i < ArrayList_length(&APP_STATE.appLayerStack); i++)
+    {
+        ArrayList_get(&APP_STATE.appLayerStack, i, (byte*)&currLayer);
+
+        if(!(currLayer.onMouseButtonInput)) continue;   
+
+        isHandled = currLayer.onMouseButtonInput(&currLayer, event);
+        if(isHandled) return;
+    }    
+}
+
+void ClientApplication_dispatchOnKeyInputEventAsync(GLFWwindow *window, int key, int scancode, int action, int mods)
+{
+    KeyInputEvent event = {.key=key, .scancode=scancode, .action=action, .modifiers=mods, .context=((InputContext){.glfwWindow=window})};
+
+    ApplicationLayer currLayer;
+    bool isHandled = false;
+    for(int i = 0; i < ArrayList_length(&APP_STATE.appLayerStack); i++)
+    {
+        ArrayList_get(&APP_STATE.appLayerStack, i, (byte*)&currLayer);
+
+        if(!(currLayer.onKeyInput)) continue;   
+
+        isHandled = currLayer.onKeyInput(&currLayer, event);
+        if(isHandled) return;
+    }    
 }

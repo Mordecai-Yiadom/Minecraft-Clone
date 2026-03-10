@@ -19,8 +19,8 @@ ApplicationLayer GameLayer_create(GameLayerState state)
     gamelayer.onRender = GameLayer_onRender;
     gamelayer.transitionTo = GameLayer_transitionTo;
     gamelayer.suspend = GameLayer_suspend;
-    gamelayer.pollKeyboardInput = GameLayer_pollKeyboardInput;
-    gamelayer.onMouseInput = GameLayer_onMouseInput;
+    gamelayer.onKeyInput = GameLayer_onKeyInput;
+    //gamelayer.onMouseInput = GameLayer_onMouseInput;
     gamelayer.onUpdate = GameLayer_onUpdate;
     return gamelayer;
 }
@@ -56,11 +56,11 @@ void GameLayer_suspend(ApplicationLayer *gamelayer)
     if(!gamelayer) return;
 }
 
-bool GameLayer_pollKeyboardInput(ApplicationLayer *gamelayer)
+bool GameLayer_onKeyInput(ApplicationLayer *gamelayer, KeyInputEvent event)
 {
     if(!gamelayer) return false;
 
-    if(glfwGetKey(ClientApplication_getGameWindow()->glfwWindow, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+    if(event.action == KEY_PRESS)
     {
         ClientApplication_stop();
     }
@@ -71,5 +71,5 @@ bool GameLayer_pollKeyboardInput(ApplicationLayer *gamelayer)
 bool GameLayer_onMouseInput(ApplicationLayer *gamelayer)
 {
     if(!gamelayer) return false;
-    return true;
+    return false;
 }
