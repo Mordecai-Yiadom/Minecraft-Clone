@@ -3,7 +3,7 @@
 
 #include "backend/backend.h"
 #include "frontend/frontend.h"
-#include "../../core/color.h"
+#include "../../core/util/color.h"
 
 typedef enum RendererBuffer
 {

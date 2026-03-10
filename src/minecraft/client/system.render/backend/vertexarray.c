@@ -89,7 +89,7 @@ void VertexArray_setIndexBuffer(VertexArray *vertexArray, IndexBuffer indexBuffe
     
     vertexArray->indexBuffer = indexBuffer;
 
-    VertexArray_unbind(*vertexArray);
+    VertexArray_unbind();
     IndexBuffer_unbind();
 }
 

@@ -5,7 +5,7 @@
 #include <stdbool.h>
 #include "frontend/frontend.h"
 #include "renderpass.h"
-#include "../../core/queue.h"
+#include "../../core/core.h"
 
 #define DELTA_TIME() RenderSystem_deltaTime()
 #define FPS() RenderSystem_fps()

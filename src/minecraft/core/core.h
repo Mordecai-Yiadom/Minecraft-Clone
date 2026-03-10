@@ -1,15 +1,16 @@
 #ifndef MINECRAFT_CORE_H
 #define MINECRAFT_CORE_H
 
-#include "assert.h"
-#include "datetime.h"
-#include "filemanager.h"
-#include "logger.h"
-#include "math3D.h"
-#include "array.h"
-#include "arraylist.h"
-#include "memtypes.h"
-#include "image.h"
+#include "util/assert.h"
+#include "util/datetime.h"
+#include "util/filemanager.h"
+#include "util/logger.h"
+#include "util/math3D.h"
+#include "util/array.h"
+#include "util/arraylist.h"
+#include "util/memtypes.h"
+#include "util/image.h"
+#include "util/queue.h"
 
 #include <stdbool.h>
 #include <stdlib.h>

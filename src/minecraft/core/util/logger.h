@@ -1,7 +1,7 @@
 #ifndef MINECRAFT_CORE_LOGGER_H
 #define MINECRAFT_CORE_LOGGER_H
 
-#include "core.h"
+#include "../core.h"
 
 typedef enum ErrorType
 {
