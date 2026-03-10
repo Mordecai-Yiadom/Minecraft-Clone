@@ -38,14 +38,10 @@ void ClientApplication_run()
     //App Loop
     while(ClientApplication_isRunning())
     {   
-        
         if(Window_shouldClose(&APP_STATE.gameWindow))
             ClientApplication_stop();
         
         ClientApplication_PollEvents();
-        
-        ClientApplication_pollKeyboardInput();
-
         
         ClientApplication_onUpdate();
         ClientApplication_onRender();
@@ -60,7 +56,7 @@ void ClientApplication_run()
 void ClientApplication_stop()
 {
     APP_STATE.isRunning = false;
-    Window_shouldClose(&APP_STATE.gameWindow);
+    Window_close(&APP_STATE.gameWindow);
 }
 
 void ClientApplication_restart()
@@ -145,7 +141,7 @@ static inline void ClientApplication_onUpdate()
     for(int i = 0; i < ArrayList_length(&APP_STATE.appLayerStack); i++)
     {   
         ArrayList_get(&APP_STATE.appLayerStack, i, (byte*)&currLayer);
-        
+        if(currLayer.isSuspended) continue;
         if(currLayer.onUpdate)
         {   
             currLayer.onUpdate(&currLayer);
@@ -159,6 +155,8 @@ static inline void ClientApplication_onRender()
     for(int i = 0; i < ArrayList_length(&APP_STATE.appLayerStack); i++)
     {
         ArrayList_get(&APP_STATE.appLayerStack, i, (byte*)&currLayer);
+        if(currLayer.isSuspended) continue;
+
         if(currLayer.onRender)
         {
             currLayer.onRender(&currLayer);
@@ -169,14 +167,18 @@ static inline void ClientApplication_onRender()
 static inline void ClientApplication_PollEvents()
 {
     Window_PollEvents();
+    ClientApplication_pollKeyInput();
+    ClientApplication_pollMouseInput();
+    
 }
 
-static inline void ClientApplication_pollKeyboardInput()
+static inline void ClientApplication_pollKeyInput()
 {
     ApplicationLayer currLayer;
-    for(int i = 0; i < ArrayList_length(&APP_STATE.appLayerStack); i++)
+    for(int i = ArrayList_length(&APP_STATE.appLayerStack) - 1; i >= 0; i--)
     {
         ArrayList_get(&APP_STATE.appLayerStack, i, (byte*)&currLayer);
+        if(currLayer.isSuspended) continue;
 
         if(currLayer.pollKeyInput)
         {
@@ -185,19 +187,21 @@ static inline void ClientApplication_pollKeyboardInput()
     }  
 }
 
-// static inline void ClientApplication_onMouseInput()
-// {
-//     ApplicationLayer currLayer;
-//     for(int i = 0; i < ArrayList_length(&APP_STATE.appLayerStack); i++)
-//     {
-//         ArrayList_get(&APP_STATE.appLayerStack, i, (byte*)&currLayer);
+static inline void ClientApplication_pollMouseInput()
+{
+    ApplicationLayer currLayer;
+    for(int i = ArrayList_length(&APP_STATE.appLayerStack) - 1; i >= 0; i--)
+    {
+        ArrayList_get(&APP_STATE.appLayerStack, i, (byte*)&currLayer);
+        if(currLayer.isSuspended) continue;
 
-//         if(currLayer.onMouseInput)
-//         {
-//             currLayer.onMouseInput(&currLayer);
-//         }
-//     }     
-// }
+        if(currLayer.pollMouseInput)
+        {
+            currLayer.pollMouseInput(&currLayer, APP_STATE.inputContext);
+        }
+    }  
+}
+
 
 static inline void ClientApplication_createGameWindow()
 {   
@@ -226,15 +230,13 @@ void ClientApplication_dispatchOnMouseMoveEventAsync(GLFWwindow *window, double 
 
     ApplicationLayer currLayer;
     bool isHandled = false;
-    for(int i = 0; i < ArrayList_length(&APP_STATE.appLayerStack); i++)
+    for(int i = ArrayList_length(&APP_STATE.appLayerStack) - 1; i >= 0; i--)
     {
         ArrayList_get(&APP_STATE.appLayerStack, i, (byte*)&currLayer);
-
-        if(!(currLayer.onMouseMove)) continue;   
-
+        if(currLayer.onMouseMove == NULL || currLayer.isSuspended) continue;   
+        
         isHandled = currLayer.onMouseMove(&currLayer, event);
         if(isHandled) return;
-        
     }  
 }
 
@@ -244,11 +246,11 @@ void ClientApplication_dispatchOnMouseScrollEventAsync(GLFWwindow *window, doubl
 
     ApplicationLayer currLayer;
     bool isHandled = false;
-    for(int i = 0; i < ArrayList_length(&APP_STATE.appLayerStack); i++)
+    for(int i = ArrayList_length(&APP_STATE.appLayerStack) - 1; i >= 0; i--)
     {
         ArrayList_get(&APP_STATE.appLayerStack, i, (byte*)&currLayer);
 
-        if(!(currLayer.onMouseScrollInput)) continue;   
+        if(!(currLayer.onMouseScrollInput) || currLayer.isSuspended) continue;   
 
         isHandled = currLayer.onMouseScrollInput(&currLayer, event);
         if(isHandled) return;
@@ -261,11 +263,11 @@ void ClientApplication_dispatchOnMouseButtonInputEventAsync(GLFWwindow *window, 
 
     ApplicationLayer currLayer;
     bool isHandled = false;
-    for(int i = 0; i < ArrayList_length(&APP_STATE.appLayerStack); i++)
+    for(int i = ArrayList_length(&APP_STATE.appLayerStack) - 1; i >= 0; i--)
     {
         ArrayList_get(&APP_STATE.appLayerStack, i, (byte*)&currLayer);
 
-        if(!(currLayer.onMouseButtonInput)) continue;   
+        if(!(currLayer.onMouseButtonInput) || currLayer.isSuspended) continue;   
 
         isHandled = currLayer.onMouseButtonInput(&currLayer, event);
         if(isHandled) return;
@@ -278,11 +280,11 @@ void ClientApplication_dispatchOnKeyInputEventAsync(GLFWwindow *window, int key,
 
     ApplicationLayer currLayer;
     bool isHandled = false;
-    for(int i = 0; i < ArrayList_length(&APP_STATE.appLayerStack); i++)
+    for(int i = ArrayList_length(&APP_STATE.appLayerStack) - 1; i >= 0; i--)
     {
         ArrayList_get(&APP_STATE.appLayerStack, i, (byte*)&currLayer);
 
-        if(!(currLayer.onKeyInput)) continue;   
+        if(!(currLayer.onKeyInput) || currLayer.isSuspended) continue;   
 
         isHandled = currLayer.onKeyInput(&currLayer, event);
         if(isHandled) return;

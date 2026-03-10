@@ -21,6 +21,7 @@ typedef void(*AppLayerSuspend)(ApplicationLayer *layer);
 
 
 typedef bool(*AppLayerPollKeyInput)(ApplicationLayer *layer, InputContext inputContext);
+typedef bool(*AppLayerPollMouseInput)(ApplicationLayer *layer, InputContext inputContext);
 
 //Events
 
@@ -44,6 +45,7 @@ typedef struct ApplicationLayer
     AppLayerSuspend suspend;
 
     AppLayerPollKeyInput pollKeyInput;
+    AppLayerPollMouseInput pollMouseInput;
 
     AppLayerOnMouseMove onMouseMove;
     AppLayerOnMouseButtonInput onMouseButtonInput;

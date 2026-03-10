@@ -27,6 +27,9 @@ void GameLayer_suspend(ApplicationLayer *gamelayer);
 
 bool GameLayer_pollKeyInput(ApplicationLayer *gamelayer, InputContext inputContext);
 
+bool GameLayer_pollMouseInput(ApplicationLayer *gamelayer, InputContext inputContext);
+
+
 bool GameLayer_onMouseMove(ApplicationLayer *gamelayer, MouseMoveEvent event);
 
 bool GameLayer_onMouseButtonInput(ApplicationLayer *gamelayer, MouseButtonInputEvent event);

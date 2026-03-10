@@ -56,6 +56,14 @@ void GameLayer_suspend(ApplicationLayer *gamelayer)
     if(!gamelayer) return;
 }
 
+
+bool GameLayer_pollKeyInput(ApplicationLayer *gamelayer, InputContext inputContext)
+{
+
+}
+
+
+
 bool GameLayer_onKeyInput(ApplicationLayer *gamelayer, KeyInputEvent event)
 {
     if(!gamelayer) return false;
@@ -68,8 +76,21 @@ bool GameLayer_onKeyInput(ApplicationLayer *gamelayer, KeyInputEvent event)
     return true;
 }
 
-bool GameLayer_onMouseInput(ApplicationLayer *gamelayer)
+bool GameLayer_onMouseMove(ApplicationLayer *gamelayer, MouseMoveEvent event)
 {
     if(!gamelayer) return false;
     return false;
 }
+
+bool GameLayer_onMouseButtonInput(ApplicationLayer *gamelayer, MouseButtonInputEvent event)
+{
+    if(!gamelayer) return false;
+    return false;
+}
+
+bool GameLayer_onMouseScrollInput(ApplicationLayer *gamelayer, MouseScrollEvent event)
+{
+    if(!gamelayer) return false;
+    return false;
+}
+

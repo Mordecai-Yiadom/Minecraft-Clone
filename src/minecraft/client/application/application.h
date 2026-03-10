@@ -38,7 +38,10 @@ typedef struct ClientApplication
     static inline void ClientApplication_onUpdate();
     static inline void ClientApplication_onRender();
     static inline void ClientApplication_PollEvents();
-    static inline void ClientApplication_pollKeyboardInput();
+
+    
+    static inline void ClientApplication_pollKeyInput();
+    static inline void ClientApplication_pollMouseInput();
     
     static inline void ClientApplication_createGameWindow();
 
