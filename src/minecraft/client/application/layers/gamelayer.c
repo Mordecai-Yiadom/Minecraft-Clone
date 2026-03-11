@@ -22,6 +22,9 @@ ApplicationLayer GameLayer_create(GameLayerState state)
     gamelayer.onKeyInput = GameLayer_onKeyInput;
     //gamelayer.onMouseInput = GameLayer_onMouseInput;
     gamelayer.onUpdate = GameLayer_onUpdate;
+
+    gamelayer.gameLayerState.world = World_create(-193013);
+
     return gamelayer;
 }
 
@@ -68,9 +71,13 @@ bool GameLayer_onKeyInput(ApplicationLayer *gamelayer, KeyInputEvent event)
 {
     if(!gamelayer) return false;
 
-    if(event.action == KEY_PRESS)
+    switch(event.key)
     {
-        ClientApplication_stop();
+        case KEY_ESC:
+            if(event.action == KEY_PRESS) ClientApplication_stop();
+            break;
+        default:
+            return false;
     }
 
     return true;

@@ -12,6 +12,11 @@
 #include "util/image.h"
 #include "util/queue.h"
 
+
+#include "game/world/world.h"
+#include "game/block/block.h"
+
+
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>

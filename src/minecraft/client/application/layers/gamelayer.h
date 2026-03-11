@@ -3,9 +3,12 @@
 
 #include "../../system.render/rendersystem.h"
 
+#include "../../../core/core.h"
+
 typedef struct GameLayerState
 {
     Camera camera;
+    World world;
 }GameLayerState;
 
 #include "layer.h"
