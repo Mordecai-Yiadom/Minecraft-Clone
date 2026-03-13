@@ -34,7 +34,7 @@ static inline void GenericPipeline_load(RenderPipeline *pipeline, RenderTarget *
     Transform3D quad1Transform;
     vec3 camera_position = {0, 0, 0};
     // vec3f(quad1Transform.position, 10 * sin(glfwGetTime()), 0, 10 * cos(glfwGetTime()));
-    vec3f(quad1Transform.position, 0, 0, 5);
+    vec3f(quad1Transform.position, 4, 0, 5);
 
     glm_mat4_identity(quad1Transform.matrix);
     glm_translate(quad1Transform.matrix, quad1Transform.position);

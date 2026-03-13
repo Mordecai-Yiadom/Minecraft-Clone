@@ -33,30 +33,12 @@ void ChunkRenderer_init()
 }
 
 
-void ChunkRenderer_drawChunkMesh(ChunkMesh *chunkMesh)
+void ChunkRenderer_drawChunkMesh()
 {
-    if(!chunkMesh) return;
-    // Renderer_drawMesh(&chunkMesh->mesh);
     Quad_draw();
 }
 
-ChunkMesh ChunkMesh_create(ChunkDimensions dimensions)
-{
-    ChunkMesh chunkMesh;
-    chunkMesh.dimensions = dimensions;
 
-    // BufferData vboData = {.buffer=};
-    // MeshData meshData;
-    // meshData.format = POS3f_NORM3f_UV2f;
-    // meshData.type = DYNAMIC;
-    // meshData.indexData
-    
-    return chunkMesh;
-}
 
-bool ChunkMesh_isValid(ChunkMesh *chunkMesh)
-{
-    if(!chunkMesh) return false;
-    return (Mesh_isValid(&chunkMesh->mesh) && IS_VALID_DIMENSION(chunkMesh->dimensions));
-}
+
 

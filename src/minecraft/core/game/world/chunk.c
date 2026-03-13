@@ -8,7 +8,8 @@ Chunk Chunk_create()
     Chunk chunk;
     chunk.xOffset = 0;
     chunk.yOffset = 0;
+    
+    //memset(chunk.blocks, GRASS, sizeof(chunk.blocks));
 
-    memset(chunk.blocks, GRASS, sizeof(chunk.blocks));
     return chunk;
 }

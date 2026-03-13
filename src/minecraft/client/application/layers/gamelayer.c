@@ -23,7 +23,7 @@ ApplicationLayer GameLayer_create(GameLayerState state)
     //gamelayer.onMouseInput = GameLayer_onMouseInput;
     gamelayer.onUpdate = GameLayer_onUpdate;
 
-    gamelayer.gameLayerState.world = World_create(-193013);
+    //gamelayer.gameLayerState.world = World_create(-193013);
 
     return gamelayer;
 }
@@ -37,8 +37,7 @@ void GameLayer_onRender(ApplicationLayer *gamelayer)
 {   
     if(!gamelayer) return;
 
-    ChunkMesh mesh;
-    ChunkRenderer_drawChunkMesh(&mesh);
+    ChunkRenderer_drawChunkMesh();
 }
 
 void GameLayer_onUpdate(ApplicationLayer *gamelayer)

@@ -4,27 +4,12 @@
 #include "../renderer.h"
 #include "../renderpass.h"
 
-typedef struct ChunkDimensions
-{
-    int xLen;
-    int yLen;
-    int zLen;
-}ChunkDimensions;
-
-
-typedef struct ChunkMesh
-{   
-    Mesh mesh;
-    ChunkDimensions dimensions;
-}ChunkMesh;
 
 typedef struct ChunkRenderer
 {
     RenderPass *renderpass;
 }ChunkRenderer;
 
-
-#define IS_VALID_DIMENSION(d) ((bool) d.xLen > 0 || d.yLen > 0 || d.zLen > 0)
 
 #ifdef MINECRAFT_CLIENT_CHUNKRENDERER_C
 static bool isInitialized = false;
@@ -35,10 +20,7 @@ static ChunkRenderer INSTANCE;
 
 void ChunkRenderer_init();
 
-void ChunkRenderer_drawChunkMesh(ChunkMesh *chunkMesh);
+void ChunkRenderer_drawChunkMesh();
 
-ChunkMesh ChunkMesh_create(ChunkDimensions dimensions);
-
-bool ChunkMesh_isValid(ChunkMesh *chunkMesh);
 
 #endif

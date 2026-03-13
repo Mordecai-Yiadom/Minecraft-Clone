@@ -12,6 +12,18 @@
 #define vec3f(v, x, y, z) v[0] = (float)(x); v[1] = (float)(y); v[2] = (float)(z)
 #define vec4f(v, x, y, z, w) v[0] = (float)(x); v[1] = (float)(y); v[2] = (float)(z); v[3] = (float)(w)
 
+#define vec2x(v) v[0]
+#define vec2y(v) v[1]
+
+#define vec3x(v) v[0]
+#define vec3y(v) v[1]
+#define vec3z(v) v[2]
+
+#define vec4x(v) v[0]
+#define vec4y(v) v[1]
+#define vec4z(v) v[2]
+#define vec4w(v) v[3]
+
 
 typedef struct Transform2D
 {   
