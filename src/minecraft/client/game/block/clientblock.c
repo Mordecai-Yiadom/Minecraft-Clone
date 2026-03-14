@@ -1,6 +1,9 @@
 #define MINECRAFT_CLIENT_GAME_CLIENTBLOCK_C
 #include "clientblock.h"
 
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 void BlockMesh_init()
 {   
@@ -14,9 +17,9 @@ void BlockMesh_init()
     vec3f(north.topLeft.normal, 0, 0, -1);
     vec2f(north.topLeft.uvCoord, 0, 1);
 
-    vec3f(north.botttomLeft.position, -1, -1, -0.5);
-    vec3f(north.botttomLeft.normal, 0, 0, -1);
-    vec2f(north.botttomLeft.uvCoord, 0, 0);
+    vec3f(north.bottomLeft.position, -1, -1, -0.5);
+    vec3f(north.bottomLeft.normal, 0, 0, -1);
+    vec2f(north.bottomLeft.uvCoord, 0, 0);
 
     vec3f(north.bottomRight.position, 1, -1, -0.5);
     vec3f(north.bottomRight.normal, 0, 0, -1);
@@ -33,9 +36,9 @@ void BlockMesh_init()
     vec3f(south.topLeft.normal, 0, 0, 1);
     vec2f(south.topLeft.uvCoord, 0, 1);
 
-    vec3f(south.botttomLeft.position, 1, -1, 0.5);
-    vec3f(south.botttomLeft.normal, 0, 0, 1);
-    vec2f(south.botttomLeft.uvCoord, 0, 0);
+    vec3f(south.bottomLeft.position, 1, -1, 0.5);
+    vec3f(south.bottomLeft.normal, 0, 0, 1);
+    vec2f(south.bottomLeft.uvCoord, 0, 0);
 
     vec3f(south.bottomRight.position, -1, -1, 0.5);
     vec3f(south.bottomRight.normal, 0, 0, 1);
@@ -51,9 +54,9 @@ void BlockMesh_init()
     vec3f(east.topLeft.normal, 1, 0, 0);
     vec2f(east.topLeft.uvCoord, 0, 1);
 
-    vec3f(east.botttomLeft.position, -1, -1, 0.5);
-    vec3f(east.botttomLeft.normal, 1, 0, 0);
-    vec2f(east.botttomLeft.uvCoord, 0, 0);
+    vec3f(east.bottomLeft.position, -1, -1, 0.5);
+    vec3f(east.bottomLeft.normal, 1, 0, 0);
+    vec2f(east.bottomLeft.uvCoord, 0, 0);
 
     vec3f(east.bottomRight.position, -1, -1, -0.5);
     vec3f(east.bottomRight.normal, 1, 0, 0);
@@ -70,9 +73,9 @@ void BlockMesh_init()
     vec3f(west.topLeft.normal, -1, 0, 0);
     vec2f(west.topLeft.uvCoord, 0, 1);
 
-    vec3f(west.botttomLeft.position, 1, -1, -0.5);
-    vec3f(west.botttomLeft.normal, -1, 0, 0);
-    vec2f(west.botttomLeft.uvCoord, 0, 0);
+    vec3f(west.bottomLeft.position, 1, -1, -0.5);
+    vec3f(west.bottomLeft.normal, -1, 0, 0);
+    vec2f(west.bottomLeft.uvCoord, 0, 0);
 
     vec3f(west.bottomRight.position, 1, -1, 0.5);
     vec3f(west.bottomRight.normal, -1, 0, 0);
@@ -89,9 +92,9 @@ void BlockMesh_init()
     vec3f(top.topLeft.normal, 0, 1, 0);
     vec2f(top.topLeft.uvCoord, 0, 1);
 
-    vec3f(top.botttomLeft.position, 1, 1, 0.5);
-    vec3f(top.botttomLeft.normal, 0, 1, 0);
-    vec2f(top.botttomLeft.uvCoord, 0, 0);
+    vec3f(top.bottomLeft.position, 1, 1, 0.5);
+    vec3f(top.bottomLeft.normal, 0, 1, 0);
+    vec2f(top.bottomLeft.uvCoord, 0, 0);
 
     vec3f(top.bottomRight.position, -1, 1, 0.5);
     vec3f(top.bottomRight.normal, 0, 1, 0);
@@ -107,9 +110,9 @@ void BlockMesh_init()
     vec3f(bottom.topLeft.normal, 0, -1, 0);
     vec2f(bottom.topLeft.uvCoord, 0, 1);
 
-    vec3f(bottom.botttomLeft.position, 1, -1, 0.5);
-    vec3f(bottom.botttomLeft.normal, 0, -1, 0);
-    vec2f(bottom.botttomLeft.uvCoord, 0, 0);
+    vec3f(bottom.bottomLeft.position, 1, -1, 0.5);
+    vec3f(bottom.bottomLeft.normal, 0, -1, 0);
+    vec2f(bottom.bottomLeft.uvCoord, 0, 0);
 
     vec3f(bottom.bottomRight.position, -1, -1, 0.5);
     vec3f(bottom.bottomRight.normal, 0, -1, 0);
@@ -122,4 +125,42 @@ void BlockMesh_init()
     DEFAULT_BLOCKMESH.west = west;
     DEFAULT_BLOCKMESH.top = top;
     DEFAULT_BLOCKMESH.bottom = bottom;
+}
+
+BlockFace BlockMesh_getFace(BlockType type, BlockSide side)
+{   
+    BlockFace face;
+
+    switch(side)
+    {
+        case BLOCKFACE_NORTH:
+            memcpy(&face, &DEFAULT_BLOCKMESH.north, sizeof(BlockFace));
+            break;
+
+        case BLOCKFACE_SOUTH:
+            memcpy(&face, &DEFAULT_BLOCKMESH.south, sizeof(BlockFace));
+            break;
+
+        case BLOCKFACE_EAST:
+            memcpy(&face, &DEFAULT_BLOCKMESH.east, sizeof(BlockFace));
+            break;
+
+        case BLOCKFACE_WEST:
+            memcpy(&face, &DEFAULT_BLOCKMESH.west, sizeof(BlockFace));
+            break;
+
+        case BLOCKFACE_TOP:
+            memcpy(&face, &DEFAULT_BLOCKMESH.top, sizeof(BlockFace));
+            break;
+
+        case BLOCKFACE_BOTTOM:
+            memcpy(&face, &DEFAULT_BLOCKMESH.bottom, sizeof(BlockFace));
+            break;
+    }
+
+    face.topRight.textureID = type;
+    face.topLeft.textureID = type;
+    face.bottomLeft.textureID = type;
+    face.bottomRight.textureID = type;
+    return face;
 }

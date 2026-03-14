@@ -25,8 +25,28 @@ ChunkMesh ChunkMesh_create(Chunk *chunk)
 
 
 void ChunkMesh_build(ChunkMesh *mesh)
-{
+{   
+    BlockFace chunkMeshBuffer[DEFAULT_CHUNK_VERTEXBUFFER_SIZE];
+    memset(chunkMeshBuffer, 0, sizeof(chunkMeshBuffer));
     if(!mesh) return;
+    int i = 0;
+    for(int x = 0; x < CHUNK_X_LIMIT; x++)
+    {
+        for(int y = 0; y < CHUNK_Y_LIMIT; y++)
+        {
+            for(int z = 0; y < CHUNK_Z_LIMIT; z++)
+            {   
+                chunkMeshBuffer[i++] = BlockMesh_getFace(mesh->chunk->blocks[x][y][z], BLOCKFACE_NORTH);
+                chunkMeshBuffer[i++] = BlockMesh_getFace(mesh->chunk->blocks[x][y][z], BLOCKFACE_SOUTH);
+                chunkMeshBuffer[i++] = BlockMesh_getFace(mesh->chunk->blocks[x][y][z], BLOCKFACE_EAST);
+                chunkMeshBuffer[i++] = BlockMesh_getFace(mesh->chunk->blocks[x][y][z], BLOCKFACE_WEST);
+                chunkMeshBuffer[i++] = BlockMesh_getFace(mesh->chunk->blocks[x][y][z], BLOCKFACE_TOP);
+                chunkMeshBuffer[i++] = BlockMesh_getFace(mesh->chunk->blocks[x][y][z], BLOCKFACE_BOTTOM);     
+            }
+        }
+    }
+    BufferData data = {.buffer=chunkMeshBuffer, .size=VertexBuffer_getSize(&mesh->mesh.vbo)};
+    VertexBuffer_write(&mesh->mesh.vbo, data, 0);
 }
 
 
