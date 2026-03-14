@@ -55,7 +55,6 @@ typedef struct UniformBuffer
     static inline void Buffer_write(GLenum target, unsigned int bufferId, BufferData data, size_t offset);
 
     static inline BufferData Buffer_read(GLenum target, unsigned int bufferId);
-    
 
     static inline void Buffer_bind(GLenum target, unsigned int bufferId);
 

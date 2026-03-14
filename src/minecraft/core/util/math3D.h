@@ -24,6 +24,10 @@
 #define vec4z(v) v[2]
 #define vec4w(v) v[3]
 
+#define vec2fill(v, xy) v[0] = xy; v[1] = xy
+#define vec3fill(v, xyz) v[0] = xyz; v[1] = xyz; v[2] = xyz
+#define vec4fill(v, xyzw) v[0] = xyzw; v[1] = xyzw v[2] = xyzw; v[3] = xyzw
+
 
 typedef struct Transform2D
 {   

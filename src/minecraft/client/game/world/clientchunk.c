@@ -27,8 +27,6 @@ ChunkMesh ChunkMesh_create(Chunk *chunk)
 void ChunkMesh_build(ChunkMesh *mesh)
 {
     if(!mesh) return;
-
-    
 }
 
 

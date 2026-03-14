@@ -147,7 +147,7 @@ void Camera_moveForward(Camera *camera)
     static vec3 multResult;
 
     Camera_calcSpeedDeltaTime(camera->speed, cameraSpeed);
-
+    
     vec3f(transformDirection, 
         cos(glm_rad(camera->orientation.yaw)), 
         0.f, sin(glm_rad(camera->orientation.yaw)));
@@ -207,7 +207,7 @@ void Camera_moveUp(Camera *camera)
 {
     if(!camera) return;
     
-    vec3 transformDirection = {0, camera->speed[1] * DELTA_TIME(), 0};
+    vec3 transformDirection = {0, vec3y(camera->speed) * DELTA_TIME(), 0};
     glm_vec3_add(camera->position, transformDirection, camera->position);
 }
 
@@ -215,6 +215,43 @@ void Camera_moveDown(Camera *camera)
 {
     if(!camera) return;
     
-    vec3 transformDirection = {0, camera->speed[1] * DELTA_TIME(), 0};
+    vec3 transformDirection = {0, vec3y(camera->speed) * DELTA_TIME(), 0};
     glm_vec3_sub(camera->position, transformDirection, camera->position);
+}
+
+
+
+
+void Camera_rotateOnCursorMove(Camera *camera, double xPos, double yPos)
+{
+    if(!camera) return;
+
+    static double lastXPos = 0;
+    static double lastYPos = 0;
+
+    // static bool isFirstMouseInput = false;
+
+    // if(isFirstMouseInput)
+    // {
+    //     lastXPos = xPos;
+    //     lastYPos = yPos;
+    //     isFirstMouseInput = false;
+    // }
+
+    double xOffset = (xPos - lastXPos) * 0.5f;
+    double yOffset = (lastYPos - yPos) * 0.5f;
+
+    camera->orientation.yaw += xOffset;
+
+    camera->orientation.pitch += yOffset;
+
+    if(camera->orientation.pitch > 89.999) camera->orientation.pitch = 89.999;
+    else if(camera->orientation.pitch < -89.999) camera->orientation.pitch = -89.999;
+
+    lastXPos = xPos;
+    lastYPos = yPos;
+
+    vec3x(camera->direction) = cos(glm_rad(camera->orientation.yaw)) * cos(glm_rad(camera->orientation.pitch));
+    vec3y(camera->direction) = sin(glm_rad(camera->orientation.pitch));
+    vec3z(camera->direction) = sin(glm_rad(camera->orientation.yaw)) * cos(glm_rad(camera->orientation.pitch));
 }

@@ -13,6 +13,14 @@ typedef struct BufferData
     void* buffer;
 }BufferData;
 
+typedef struct IndexBufferData
+{
+    size_t size;
+    void* buffer;
+    Primative elementType;
+}IndexBufferData;
+
+
 typedef enum BufferAttributeType
 {   
     VEC1_ATTRIBUTE,
@@ -60,6 +68,10 @@ typedef struct BufferLayout
 #define aVEC3(t) ((BufferAttribute){.componentType=t, .componentCount=3, .isNormalized=false, .size=Primative_sizeof(t) * 3, .type=VEC3_ATTRIBUTE, .offset=0})
 #define aVEC4(t) ((BufferAttribute){.componentType=t, .componentCount=4, .isNormalized=false, .size=Primative_sizeof(t) * 4, .type=VEC4_ATTRIBUTE, .offset=0})
 
+#define aMAT2x2(t) ((BufferAttribute){.componentType=t, .isNormalized=false, .size=(Primative_sizeof(t) * 2) * 2, .type=MAT2x2_ATTRIBUTE, .offset=0})
+#define aMAT3x3(t) ((BufferAttribute){.componentType=t, .isNormalized=false, .size=(Primative_sizeof(t) * 3) * 3, .type=MAT3x3_ATTRIBUTE, .offset=0})
+#define aMAT4x4(t) ((BufferAttribute){.componentType=t, .isNormalized=false, .size=(Primative_sizeof(t) * 4) * 4, .type=MAT4x4_ATTRIBUTE, .offset=0})
+
 #define aUBYTE() aVEC1(UNSIGNED_BYTE)
 #define aBYTE() aVEC1(BYTE)
 
@@ -71,11 +83,6 @@ typedef struct BufferLayout
 
 #define aFLOAT() aVEC1(FLOAT)
 #define aDOUBLE() aVEC1(DOUBLE)
-
-#define aMAT2x2(t) ((BufferAttribute){.componentType=t, .isNormalized=false, .size=(Primative_sizeof(t) * 2) * 2, .type=MAT2x2_ATTRIBUTE, .offset=0})
-#define aMAT3x3(t) ((BufferAttribute){.componentType=t, .isNormalized=false, .size=(Primative_sizeof(t) * 3) * 3, .type=MAT3x3_ATTRIBUTE, .offset=0})
-#define aMAT4x4(t) ((BufferAttribute){.componentType=t, .isNormalized=false, .size=(Primative_sizeof(t) * 4) * 4, .type=MAT4x4_ATTRIBUTE, .offset=0})
-
 
 BufferLayout BufferLayout_create(BufferLayoutPattern layoutPattern, int attributeCount, ...);
 

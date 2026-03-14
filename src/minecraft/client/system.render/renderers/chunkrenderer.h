@@ -22,5 +22,7 @@ void ChunkRenderer_init();
 
 void ChunkRenderer_drawChunkMesh();
 
+Camera* ChunkRenderer_getRenderTargetCamera();
+
 
 #endif

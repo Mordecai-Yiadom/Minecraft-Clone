@@ -9,7 +9,9 @@ typedef enum Key
     KEY_A = GLFW_KEY_A,
     KEY_S = GLFW_KEY_S,
     KEY_D = GLFW_KEY_D,
-    KEY_ESC = GLFW_KEY_ESCAPE
+    KEY_ESC = GLFW_KEY_ESCAPE,
+    KEY_SPACE = GLFW_KEY_SPACE,
+    KEY_LEFT_SHIFT = GLFW_KEY_LEFT_SHIFT,
 }Key;
 
 typedef enum KeyAction
@@ -67,7 +69,7 @@ InputContext InputContext_create(GLFWwindow *glfwWindow);
 
 void InputContext_setMouseInputMode(InputContext inputContext, MouseInputMode mode);
 
-MouseInputMode InputContext_getMouseInputMode(InputContext inputContext, MouseInputMode mode);
+MouseInputMode InputContext_getMouseInputMode(InputContext inputContext);
 
 KeyAction InputContext_getKeyAction(InputContext inputContext, Key key);
 

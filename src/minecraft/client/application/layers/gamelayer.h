@@ -41,4 +41,5 @@ bool GameLayer_onMouseScrollInput(ApplicationLayer *gamelayer, MouseScrollEvent 
 
 bool GameLayer_onKeyInput(ApplicationLayer *gamelayer, KeyInputEvent event);
 
+Camera* GameLayer_getMainCamera();
 #endif

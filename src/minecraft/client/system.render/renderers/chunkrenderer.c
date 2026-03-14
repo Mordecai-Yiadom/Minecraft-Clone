@@ -38,6 +38,12 @@ void ChunkRenderer_drawChunkMesh()
     Quad_draw();
 }
 
+Camera* ChunkRenderer_getRenderTargetCamera()
+{
+    if(!isInitialized) return NULL;
+    return &INSTANCE.renderpass->renderTarget.camera;
+}
+
 
 
 

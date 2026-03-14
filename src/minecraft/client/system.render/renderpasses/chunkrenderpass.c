@@ -9,6 +9,10 @@ RenderPass ChunkRenderPass_create()
     projData.fov = 90;
     projData.aspectRatio = 1280.0f/720.0f;
     renderTarget.camera = Camera_createPerspective(projData, 0.1, 1000);
+    vec3 speed;
+    vec3f(speed, 3, 3, 3);
+    
+    Camera_setSpeed(&renderTarget.camera, speed);
     
     RenderPass renderPass = RenderPass_create("Chunk-Pass", GenericPipeline_create(), renderTarget);
 

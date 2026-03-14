@@ -32,16 +32,14 @@ static inline void GenericPipeline_load(RenderPipeline *pipeline, RenderTarget *
 
     //Camera_setFov(&camera, 100 * sin(glfwGetTime()));
     Transform3D quad1Transform;
-    vec3 camera_position = {0, 0, 0};
+   
     // vec3f(quad1Transform.position, 10 * sin(glfwGetTime()), 0, 10 * cos(glfwGetTime()));
-    vec3f(quad1Transform.position, 4, 0, 5);
+    vec3f(quad1Transform.position, 0, 0, 10);
 
     glm_mat4_identity(quad1Transform.matrix);
     glm_translate(quad1Transform.matrix, quad1Transform.position);
-
-    Camera_setPosition(&renderTarget->camera, camera_position);
-    renderTarget->camera.direction[2] = 90;
-    Camera_updateMatrix(&renderTarget->camera);
+    
+    Camera_updateViewMatrix(&renderTarget->camera);
     
     Shader_setMat4x4f(pipeline->shader, "projection", renderTarget->camera.matrix.projection);
     Shader_setMat4x4f(pipeline->shader, "view", renderTarget->camera.matrix.view);

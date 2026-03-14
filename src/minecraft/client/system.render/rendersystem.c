@@ -6,6 +6,8 @@
 
 #include "renderers/chunkrenderer.h"
 
+
+
 void RenderSystem_init()
 {   
     if(RenderSystem_isInitialized())
@@ -90,7 +92,7 @@ static inline void RenderSystem_updateDeltaTime()
 static inline void RenderSystem_updateFPS()
 {   
     static int currentFrameCount = 0;
-    static int lastSampledFrame = 0;
+    static double lastSampledFrame = 0;
     if((glfwGetTime() - lastSampledFrame) < 1) ++currentFrameCount;
     else 
     {

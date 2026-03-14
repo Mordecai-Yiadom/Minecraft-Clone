@@ -10,9 +10,9 @@ void InputContext_setMouseInputMode(InputContext inputContext, MouseInputMode mo
     glfwSetInputMode(inputContext.glfwWindow, GLFW_CURSOR, mode);
 }
 
-MouseInputMode InputContext_getMouseInputMode(InputContext inputContext, MouseInputMode mode)
+MouseInputMode InputContext_getMouseInputMode(InputContext inputContext)
 {
-    return (MouseInputMode) glfwGetInputMode(inputContext.glfwWindow, mode);
+    return (MouseInputMode) glfwGetInputMode(inputContext.glfwWindow, GLFW_CURSOR);
 }
 
 KeyAction InputContext_getKeyAction(InputContext inputContext, Key key)

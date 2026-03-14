@@ -106,6 +106,10 @@ void Camera_moveUp(Camera *camera);
 
 void Camera_moveDown(Camera *camera);
 
+
+//TEMPORARY FUNCTION TO BE REMOVED FOR SOMETHING MORE REUSABLE
+void Camera_rotateOnCursorMove(Camera *camera, double xPos, double yPos);
+
 // void Camera_setOrientation(Camera *camera, EulerOrientation rotation);
 
 // void Camera_setYaw(Camera *camera, double yaw);
