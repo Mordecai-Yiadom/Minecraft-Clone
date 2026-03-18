@@ -47,8 +47,8 @@ void ChunkMesh_build(ChunkMesh *mesh)
         {
             for(int z = 0; z < CHUNK_Z_LIMIT; z++)
             {   
-                vec3 translation = {(float)x, (float)y, (float)z};
-
+                vec3 translation = {((float)x) * 2, ((float)y) * 2, ((float)z) * 2};
+                printf("Translation: <%.2f, %.2f, %.2f>\n", vec3x(translation), vec3y(translation), vec3z(translation));
                 BlockFace north = BlockMesh_getFace(mesh->chunk->blocks[x][y][z], BLOCKFACE_NORTH);
                 BlockFace_translate(&north, translation);
                 chunkMeshBuffer[i++] = north;
@@ -59,11 +59,6 @@ void ChunkMesh_build(ChunkMesh *mesh)
                 indexBuffer[indexBufferLength++] = topLeftIndex;
                 indexBuffer[indexBufferLength++] = bottomLeftIndex;
                 indexBuffer[indexBufferLength++] = bottomRightIndex;
-
-                // printf("topRightIndex: %d\n", topRightIndex);
-                // printf("topLeftIndex: %d\n", topLeftIndex);
-                // printf("bottomLeftIndex: %d\n", bottomLeftIndex);
-                // printf("bottomRightIndex: %d\n\n", bottomRightIndex);
 
                 topRightIndex += 4;
                 topLeftIndex += 4;

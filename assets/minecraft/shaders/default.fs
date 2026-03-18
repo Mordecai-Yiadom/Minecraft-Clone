@@ -14,5 +14,5 @@ uniform float b;
 
 void main()
 {
-    FragColor = vec4(fs_in.normal, 1.0);
+    FragColor = vec4(fs_in.texCoord, 1, 1.0);
 }
