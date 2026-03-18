@@ -28,25 +28,22 @@ static inline void GenericPipeline_load(RenderPipeline *pipeline, RenderTarget *
     Renderer_clearBuffer(DEPTH_BUFFER);
     Renderer_enableTest(DEPTH_TEST);
     
+
     Color quadColor = COLOR_RGB(222, 69, 201);
     Shader_setFloat(pipeline->shader, "r", quadColor.red);
     Shader_setFloat(pipeline->shader, "g", quadColor.green);
     Shader_setFloat(pipeline->shader, "b", quadColor.blue);
 
-    //Camera_setFov(&camera, 100 * sin(glfwGetTime()));
-    Transform3D quad1Transform;
-   
-    // vec3f(quad1Transform.position, 10 * sin(glfwGetTime()), 0, 10 * cos(glfwGetTime()));
-    vec3f(quad1Transform.position, 0, 0, 10);
-
-    glm_mat4_identity(quad1Transform.matrix);
-    glm_translate(quad1Transform.matrix, quad1Transform.position);
+    Transform3D chunkTransform;
+    vec3f(chunkTransform.position, 0, 0, 0);
+    glm_mat4_identity(chunkTransform.matrix);
+    glm_translate(chunkTransform.matrix, chunkTransform.position);
     
     Camera_updateViewMatrix(&renderTarget->camera);
     
     Shader_setMat4x4f(pipeline->shader, "projection", renderTarget->camera.matrix.projection);
     Shader_setMat4x4f(pipeline->shader, "view", renderTarget->camera.matrix.view);
-    Shader_setMat4x4f(pipeline->shader, "model", quad1Transform.matrix);
+    Shader_setMat4x4f(pipeline->shader, "model", chunkTransform.matrix);
 
     
 }

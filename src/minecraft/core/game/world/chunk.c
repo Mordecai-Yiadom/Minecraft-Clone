@@ -8,9 +8,19 @@ Chunk* Chunk_create()
 {
     Chunk *chunk = calloc(1, sizeof(Chunk));
     chunk->xOffset = 0;
-    chunk->yOffset = 0;
+    chunk->zOffset = 0;
     
     memset(chunk->blocks, GRASS, sizeof(chunk->blocks));
+    
+    //TESTING || REMOVE WHEN DONE
+    // int airLayer = 1;
+    // for(int x = 0; x < CHUNK_X_LIMIT; x++)
+    // {
+    //     for(int z = 0; z < CHUNK_Z_LIMIT; z++)
+    //     {
+    //         chunk->blocks[x][airLayer][z] = AIR;
+    //     }
+    // }
 
     return chunk;
 }

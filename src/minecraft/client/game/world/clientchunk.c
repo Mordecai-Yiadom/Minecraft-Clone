@@ -47,8 +47,12 @@ void ChunkMesh_build(ChunkMesh *mesh)
         {
             for(int z = 0; z < CHUNK_Z_LIMIT; z++)
             {   
-                vec3 translation = {((float)x) * 2, ((float)y) * 2, ((float)z) * 2};
-                printf("Translation: <%.2f, %.2f, %.2f>\n", vec3x(translation), vec3y(translation), vec3z(translation));
+                //Skip adding air blocks to render
+                if(mesh->chunk->blocks[x][y][z] == AIR) continue;
+
+                vec3 translation = {((float)x) + mesh->chunk->xOffset, ((float)y), ((float)z) + mesh->chunk->zOffset};
+
+                
                 BlockFace north = BlockMesh_getFace(mesh->chunk->blocks[x][y][z], BLOCKFACE_NORTH);
                 BlockFace_translate(&north, translation);
                 chunkMeshBuffer[i++] = north;
