@@ -7,21 +7,8 @@
 #include "../application.h"
 #include "../../system.render/renderers/chunkrenderer.h"
 static Camera* GAMELAYER_MAIN_CAMERA;
-static void printCameraMetrics()
-{
-    if(GAMELAYER_MAIN_CAMERA)
-    {
-        printf("[MAIN CAMERA POSITION]: (%.2f, %.2f, %.2f)\n", 
-            vec3x(GAMELAYER_MAIN_CAMERA->position),
-            vec3y(GAMELAYER_MAIN_CAMERA->position), 
-            vec3z(GAMELAYER_MAIN_CAMERA->position));
-        
-        printf("[MAIN CAMERA CENTER]: (%.2f, %.2f, %.2f)\n\n", 
-            vec3x(GAMELAYER_MAIN_CAMERA->center),
-            vec3y(GAMELAYER_MAIN_CAMERA->center), 
-            vec3z(GAMELAYER_MAIN_CAMERA->center));
-    }
-}
+static Chunk *chunk;
+static ChunkMesh chunkMesh;
 
 ApplicationLayer GameLayer_create(GameLayerState state)
 {
@@ -53,24 +40,37 @@ void GameLayer_destroy(ApplicationLayer *gamelayer)
 void GameLayer_onRender(ApplicationLayer *gamelayer)
 {   
     if(!gamelayer) return;
-
-    ChunkRenderer_drawChunkMesh();
+    
+    ChunkRenderer_drawChunkMesh(&chunkMesh);
+    
 }
 
 void GameLayer_onUpdate(ApplicationLayer *gamelayer)
-{
+{   
     if(!gamelayer) return;
-    Transform3D transform;
-    Quad_create(transform);
+    //Transform3D transform;
+    //Quad_create(transform);
+    
     ChunkRenderer_init();
-
-    if(!GAMELAYER_MAIN_CAMERA) GAMELAYER_MAIN_CAMERA = ChunkRenderer_getRenderTargetCamera();
+    
+    
+    if(!GAMELAYER_MAIN_CAMERA)
+    {   
+        GAMELAYER_MAIN_CAMERA = ChunkRenderer_getRenderTargetCamera();
+        
+        BlockMesh_init();
+        chunk = Chunk_create();
+        chunkMesh = ChunkMesh_create(chunk);
+        
+        ChunkMesh_build(&chunkMesh);
+    } 
 
     //Update FPS on Window bar
     static char fpsBuffer[32];
     sprintf(fpsBuffer, "FPS: %d", RenderSystem_fps());
     Window_setTitle(ClientApplication_getGameWindow(), fpsBuffer);
     memset(fpsBuffer, 0, sizeof(fpsBuffer));
+    
 }
 
 void GameLayer_transitionTo(ApplicationLayer *gamelayer, ApplicationLayerType newLayerType)
@@ -90,37 +90,31 @@ bool GameLayer_pollKeyInput(ApplicationLayer *gamelayer, InputContext inputConte
     if(InputContext_getKeyAction(inputContext, KEY_W) == KEY_PRESS)
     {
         Camera_moveForward(GAMELAYER_MAIN_CAMERA);
-        printCameraMetrics();
     }
 
     if(InputContext_getKeyAction(inputContext, KEY_S) == KEY_PRESS)
     {
         Camera_moveBackward(GAMELAYER_MAIN_CAMERA);
-        printCameraMetrics();
     }
 
     if(InputContext_getKeyAction(inputContext, KEY_A) == KEY_PRESS)
     {
         Camera_moveLeft(GAMELAYER_MAIN_CAMERA);
-        printCameraMetrics();
     }
 
     if(InputContext_getKeyAction(inputContext, KEY_D) == KEY_PRESS)
     {
         Camera_moveRight(GAMELAYER_MAIN_CAMERA);
-        printCameraMetrics();
     }
 
     if(InputContext_getKeyAction(inputContext, KEY_SPACE) == KEY_PRESS)
     {
         Camera_moveUp(GAMELAYER_MAIN_CAMERA);
-        printCameraMetrics();
     }
 
     if(InputContext_getKeyAction(inputContext, KEY_LEFT_SHIFT) == KEY_PRESS)
     {
         Camera_moveDown(GAMELAYER_MAIN_CAMERA);
-        printCameraMetrics();
     }
 
 

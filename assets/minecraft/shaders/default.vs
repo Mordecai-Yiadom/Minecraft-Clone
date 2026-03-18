@@ -3,12 +3,13 @@
 layout (location = 0) in vec3 aPos;
 layout (location = 1) in vec3 aNormal;
 layout (location = 2) in vec2 aTexCoord;
+layout (location = 3) in int aTexID;
 
-// out VS_OUT
-// {
-//     vec2 TexCoord;
-//     vec3 Normal;
-// } vs_out;
+out VS_OUT
+{
+    vec2 texCoord;
+    vec3 normal;
+} vs_out;
 
 uniform mat4 projection;
 uniform mat4 view;
@@ -18,6 +19,6 @@ uniform mat4 model;
 void main()
 {
     gl_Position =  projection * view * model * vec4(aPos, 1.0);
-    // vs_out.TexCoord = aTexCoord;
-    // vs_out.Normal = aNormal;
+    vs_out.texCoord = aTexCoord;
+    vs_out.normal = aNormal;
 }

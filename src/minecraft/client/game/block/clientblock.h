@@ -2,7 +2,7 @@
 #define MINECRAFT_CLIENT_GAME_CLIENTBLOCK_H
 
 #include "../../../core/core.h"
-#include "../../system.render/renderers/chunkrenderer.h"
+
 
 
 typedef struct BlockVertex
@@ -51,6 +51,16 @@ void BlockMesh_init();
 
 
 BlockFace BlockMesh_getFace(BlockType type, BlockSide side);
+
+void BlockMesh_setPosition(BlockMesh *mesh, vec3 position);
+
+void BlockMesh_translate(BlockMesh *mesh, vec3 translation);
+
+
+void BlockFace_setPosition(BlockFace *face, vec3 position);
+
+void BlockFace_translate(BlockFace *face, vec3 translation);
+
 
 
 

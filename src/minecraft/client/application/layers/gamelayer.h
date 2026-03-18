@@ -7,7 +7,7 @@
 
 typedef struct GameLayerState
 {
-    Camera camera;
+    Camera *mainCamera;
     World world;
 }GameLayerState;
 

@@ -25,7 +25,7 @@ typedef enum WorldDirection
 //For now world are only one chunk
 typedef struct World
 {
-    Chunk chunk;
+    Chunk *chunk;
     i32 loadedChunks;
     i64 seed;
 }World;

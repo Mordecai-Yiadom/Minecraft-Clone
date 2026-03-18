@@ -4,6 +4,7 @@
 #include "../renderer.h"
 #include "../renderpass.h"
 
+#include "../../game/world/clientchunk.h"
 
 typedef struct ChunkRenderer
 {
@@ -20,7 +21,7 @@ static ChunkRenderer INSTANCE;
 
 void ChunkRenderer_init();
 
-void ChunkRenderer_drawChunkMesh();
+void ChunkRenderer_drawChunkMesh(ChunkMesh *chunkMesh);
 
 Camera* ChunkRenderer_getRenderTargetCamera();
 

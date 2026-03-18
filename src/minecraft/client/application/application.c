@@ -20,6 +20,7 @@ bool ClientApplication_create(ApplicationInfo appInfo)
     return true;
 }
 
+//APP LOOP
 void ClientApplication_run()
 {   
     if(!ClientApplication_isReadyToRun())
@@ -43,8 +44,10 @@ void ClientApplication_run()
         
         ClientApplication_PollEvents();
         
+        
         ClientApplication_onUpdate();
         ClientApplication_onRender();
+        
 
         RenderSystem_update();
 

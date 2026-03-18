@@ -24,6 +24,9 @@ static inline void GenericPipeline_load(RenderPipeline *pipeline, RenderTarget *
 
     Renderer_setClearColor(COLOR_RGB(66, 206, 245));
     Renderer_clearBuffer(COLOR_BUFFER);
+
+    Renderer_clearBuffer(DEPTH_BUFFER);
+    Renderer_enableTest(DEPTH_TEST);
     
     Color quadColor = COLOR_RGB(222, 69, 201);
     Shader_setFloat(pipeline->shader, "r", quadColor.red);
@@ -44,11 +47,13 @@ static inline void GenericPipeline_load(RenderPipeline *pipeline, RenderTarget *
     Shader_setMat4x4f(pipeline->shader, "projection", renderTarget->camera.matrix.projection);
     Shader_setMat4x4f(pipeline->shader, "view", renderTarget->camera.matrix.view);
     Shader_setMat4x4f(pipeline->shader, "model", quad1Transform.matrix);
+
+    
 }
 
 static inline void GenericPipeline_unload(RenderPipeline *pipeline, RenderTarget *renderTarget)
 {
     if(!pipeline || !renderTarget) return;
 
-    
+    Renderer_disableTest(DEPTH_TEST);
 }

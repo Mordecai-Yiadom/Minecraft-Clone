@@ -13,6 +13,10 @@ Mesh Mesh_create(MeshData meshData)
 
         case POS2f_UV2f:
             break;
+
+        case POS3f_NORM3f_UV2f_TEXID1i:
+            vboLayout = BufferLayout_create(INTERLEAVED, 4, aVEC3(FLOAT), aVEC3(FLOAT), aVEC2(FLOAT), aINT());
+            break;
     }
 
     mesh.vbo = VertexBuffer_create(meshData.vertexData, (enum BufferUsage) meshData.type, vboLayout);

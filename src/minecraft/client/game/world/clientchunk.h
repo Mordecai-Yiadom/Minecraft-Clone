@@ -2,9 +2,11 @@
 #define MINECRAFT_CLIENT_GAME_CLIENTCHUNK_H
 
 #include "../../../core/core.h"
-#include "../../system.render/renderers/chunkrenderer.h"
+
 
 #include "../block/clientblock.h"
+
+#include "../../system.render/backend/mesh.h"
 
 typedef struct ChunkMesh
 {
@@ -22,6 +24,8 @@ void ChunkMesh_build(ChunkMesh *mesh);
 // void ChunkMesh_addBlock(ChunkMesh *chunkMesh, BlockMesh blockMesh, int xOffset, int yOffset, int zOffset);
 
 bool ChunkMesh_isValid(ChunkMesh *chunkMesh);
+
+
 
 
 

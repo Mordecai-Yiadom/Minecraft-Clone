@@ -164,3 +164,45 @@ BlockFace BlockMesh_getFace(BlockType type, BlockSide side)
     face.bottomRight.textureID = type;
     return face;
 }
+
+
+void BlockMesh_setPosition(BlockMesh *mesh, vec3 position)
+{
+    if(!mesh) return;
+    BlockFace_setPosition(&mesh->north, position);
+    BlockFace_setPosition(&mesh->south, position);
+    BlockFace_setPosition(&mesh->east, position);
+    BlockFace_setPosition(&mesh->west, position);
+    BlockFace_setPosition(&mesh->top, position);
+    BlockFace_setPosition(&mesh->bottom, position);
+}
+
+void BlockMesh_translate(BlockMesh *mesh, vec3 translation)
+{
+    if(!mesh) return;
+    BlockFace_translate(&mesh->north, translation);
+    BlockFace_translate(&mesh->south, translation);
+    BlockFace_translate(&mesh->east, translation);
+    BlockFace_translate(&mesh->west, translation);
+    BlockFace_translate(&mesh->top, translation);
+    BlockFace_translate(&mesh->bottom, translation);
+}
+
+
+void BlockFace_setPosition(BlockFace *face, vec3 position)
+{
+    if(!face) return;
+    glm_vec3_copy(position, face->topRight.position);
+    glm_vec3_copy(position, face->topLeft.position);
+    glm_vec3_copy(position, face->bottomLeft.position);
+    glm_vec3_copy(position, face->bottomRight.position);
+}
+
+void BlockFace_translate(BlockFace *face, vec3 translation)
+{
+    if(!face) return;
+    glm_vec3_add(translation, face->topRight.position, face->topRight.position);
+    glm_vec3_add(translation, face->topLeft.position, face->topLeft.position);
+    glm_vec3_add(translation, face->bottomLeft.position, face->bottomLeft.position);
+    glm_vec3_add(translation, face->bottomRight.position, face->bottomRight.position);
+}

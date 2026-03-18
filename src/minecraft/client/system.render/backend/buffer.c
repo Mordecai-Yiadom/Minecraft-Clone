@@ -78,6 +78,7 @@ void VertexBuffer_destroy(VertexBuffer *buffer)
 
 void VertexBuffer_write(VertexBuffer *buffer, BufferData data, size_t offset)
 {   
+    if(!buffer) return;
     Buffer_write(GL_ARRAY_BUFFER, buffer->id, data, offset);
 }
 
@@ -122,6 +123,7 @@ void IndexBuffer_destroy(IndexBuffer *buffer)
 
 void IndexBuffer_write(IndexBuffer *buffer, BufferData data, size_t offset)
 {   
+    if(!buffer) return;
     Buffer_write(GL_ELEMENT_ARRAY_BUFFER, buffer->id, data, offset);
 }
 
@@ -173,7 +175,8 @@ void UniformBuffer_destroy(UniformBuffer *buffer)
 }
 
 void UniformBuffer_write(UniformBuffer *buffer, BufferData data, size_t offset)
-{
+{   
+    if(!buffer) return;
     Buffer_write(GL_UNIFORM_BUFFER, buffer->id, data, offset);
 }
 

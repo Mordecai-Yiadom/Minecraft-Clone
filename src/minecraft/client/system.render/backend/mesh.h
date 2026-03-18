@@ -16,7 +16,7 @@ typedef enum MeshFormat
 {
     POS3f_NORM3f_UV2f,
     POS2f_UV2f,
-    
+    POS3f_NORM3f_UV2f_TEXID1i
 }MeshFormat;
 
 

@@ -33,9 +33,12 @@ void ChunkRenderer_init()
 }
 
 
-void ChunkRenderer_drawChunkMesh()
-{
-    Quad_draw();
+void ChunkRenderer_drawChunkMesh(ChunkMesh *chunkMesh)
+{   
+    if(!chunkMesh) return;
+
+    Renderer_drawMesh(&chunkMesh->mesh);
+    //Quad_draw();
 }
 
 Camera* ChunkRenderer_getRenderTargetCamera()

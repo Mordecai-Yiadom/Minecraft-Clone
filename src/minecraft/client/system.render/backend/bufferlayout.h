@@ -63,7 +63,7 @@ typedef struct BufferLayout
 
 
 
-#define aVEC1(t) ((BufferAttribute){.componentType=t, .componentCount=1, .isNormalized=false, .size=Primative_sizeof(t), .type=VEC1_ATTRIBUTE}, .offset=0)
+#define aVEC1(t) ((BufferAttribute){.componentType=t, .componentCount=1, .isNormalized=false, .size=Primative_sizeof(t), .type=VEC1_ATTRIBUTE, .offset=0})
 #define aVEC2(t) ((BufferAttribute){.componentType=t, .componentCount=2, .isNormalized=false, .size=Primative_sizeof(t) * 2, .type=VEC2_ATTRIBUTE, .offset=0})
 #define aVEC3(t) ((BufferAttribute){.componentType=t, .componentCount=3, .isNormalized=false, .size=Primative_sizeof(t) * 3, .type=VEC3_ATTRIBUTE, .offset=0})
 #define aVEC4(t) ((BufferAttribute){.componentType=t, .componentCount=4, .isNormalized=false, .size=Primative_sizeof(t) * 4, .type=VEC4_ATTRIBUTE, .offset=0})
