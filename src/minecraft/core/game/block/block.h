@@ -13,8 +13,9 @@ typedef struct Block
 typedef enum BlockType
 {
     AIR = 0,
-    GRASS,
-    STONE,
+    GRASS = 1,
+    DIRT = 2,
+    STONE = 3,
 }BlockType;
 
 

@@ -10,17 +10,17 @@ Chunk* Chunk_create()
     chunk->xOffset = 0;
     chunk->zOffset = 0;
     
-    memset(chunk->blocks, GRASS, sizeof(chunk->blocks));
+    memset(chunk->blocks, DIRT, sizeof(chunk->blocks));
     
     //TESTING || REMOVE WHEN DONE
-    // int airLayer = 1;
-    // for(int x = 0; x < CHUNK_X_LIMIT; x++)
-    // {
-    //     for(int z = 0; z < CHUNK_Z_LIMIT; z++)
-    //     {
-    //         chunk->blocks[x][airLayer][z] = AIR;
-    //     }
-    // }
+    int airLayer = 1;
+    for(int x = 0; x < CHUNK_X_LIMIT; x++)
+    {
+        for(int z = 0; z < CHUNK_Z_LIMIT; z++)
+        {
+            chunk->blocks[x][airLayer][z] = AIR;
+        }
+    }
 
     return chunk;
 }

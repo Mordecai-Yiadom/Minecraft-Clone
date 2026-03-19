@@ -10,5 +10,6 @@
 #include "shader.h"
 #include "primatives.h"
 #include "mesh.h"
+#include "texture2D.h"
 
 #endif
