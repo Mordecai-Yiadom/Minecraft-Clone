@@ -2,7 +2,7 @@
 #define MINECRAFT_CLIENT_RENDER_SYSTEM_SHADER_H
 
 #include "../../../core/core.h"
-#include "buffer.h"
+#include "context.h"
 
 #define SHADER_NULL ((Shader){.id=0})
 
@@ -14,7 +14,7 @@ typedef enum UniformBlockBindingPoint
 {
     CAMERA_MATRIX,
     POINT_LIGHTS, //Remove Possibly
-    AUX_SLOT_1,
+    BLOCK_TEXTURES,
     AUX_SLOT_2,
     AUX_SLOT_3,
     AUX_SLOT_4,
@@ -44,15 +44,20 @@ void Shader_setVec2i(Shader shader, const char* uniformName, ivec2 data);
 void Shader_setVec3i(Shader shader, const char* uniformName, ivec3 data);
 void Shader_setVec4i(Shader shader, const char* uniformName, ivec4 data);
 
+void Shader_setVeci(Shader shader, const char* uniformName, int vectorLength, int* data);
+
 void Shader_setVec2f(Shader shader, const char* uniformName, vec2 data);
 void Shader_setVec3f(Shader shader, const char* uniformName, vec3 data);
 void Shader_setVec4f(Shader shader, const char* uniformName, vec4 data);
+
+void Shader_setVecf(Shader shader, const char* uniformName, int vectorLength, float* data);
 
 void Shader_setMat2x2f(Shader shader, const char* uniformName, mat2 data);
 void Shader_setMat3x3f(Shader shader, const char* uniformName, mat3 data);
 void Shader_setMat4x4f(Shader shader, const char* uniformName, mat4 data);
 
-void Shader_linkUniformBuffer(Shader shader, UniformBuffer uniformBuffer, UniformBlockBindingPoint bindingPoint, const char* uniformName);
+void Shader_setUniformBlockBindingPoint(Shader shader, const char* uniformBlockName, UniformBlockBindingPoint bindingPoint);
+
 
 
 #endif

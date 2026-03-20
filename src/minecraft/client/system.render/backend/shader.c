@@ -133,6 +133,12 @@ void Shader_setVec4i(Shader shader, const char* uniformName, ivec4 data)
     glUniform4iv(glGetUniformLocation((GLuint) shader.id, (const GLchar*) uniformName), 1, (const GLint*) data);
 }
 
+void Shader_setVeci(Shader shader, const char* uniformName, int vectorLength, int* data)
+{
+    if(!uniformName || !shader.id || !data || vectorLength < 1) return;
+    glUniform1iv(glGetUniformLocation((GLuint) shader.id, (const GLchar*) uniformName), vectorLength, (const GLint*) data);
+}
+
 void Shader_setVec2f(Shader shader, const char* uniformName, vec2 data)
 {
     if(!uniformName || !shader.id) return;
@@ -149,6 +155,12 @@ void Shader_setVec4f(Shader shader, const char* uniformName, vec4 data)
 {
     if(!uniformName || !shader.id) return;
     glUniform4fv(glGetUniformLocation((GLuint) shader.id, (const GLchar*) uniformName), 1, (const GLfloat*) data);
+}
+
+void Shader_setVecf(Shader shader, const char* uniformName, int vectorLength, float* data)
+{
+    if(!uniformName || !shader.id || !data || vectorLength < 1) return;
+    glUniform1fv(glGetUniformLocation((GLuint) shader.id, (const GLchar*) uniformName), vectorLength, (const GLfloat*) data);  
 }
 
 void Shader_setMat2x2f(Shader shader, const char* uniformName, mat2 data)
@@ -169,9 +181,8 @@ void Shader_setMat4x4f(Shader shader, const char* uniformName, mat4 data)
     glUniformMatrix4fv(glGetUniformLocation((GLuint) shader.id, (const GLchar*) uniformName), 1, GL_FALSE, (const GLfloat*) data);
 }
 
-void Shader_linkUniformBuffer(Shader shader, UniformBuffer uniformBuffer, UniformBlockBindingPoint bindingPoint, const char* uniformName)
+void Shader_setUniformBlockBindingPoint(Shader shader, const char* uniformBlockName, UniformBlockBindingPoint bindingPoint)
 {
-    if(!uniformName || !shader.id) return;
-    glUniformBlockBinding((GLuint) shader.id, (GLuint) glGetUniformBlockIndex((GLuint) shader.id, (const GLchar*) uniformName), (GLuint) bindingPoint);
-    glBindBufferBase(GL_UNIFORM_BUFFER, (GLuint) bindingPoint, (GLuint) uniformBuffer.id);
+    if(!uniformBlockName || !shader.id) return;
+    glUniformBlockBinding((GLuint) shader.id, (GLuint) glGetUniformBlockIndex((GLuint) shader.id, (const GLchar*) uniformBlockName), (GLuint) bindingPoint);
 }

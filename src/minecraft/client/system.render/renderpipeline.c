@@ -17,7 +17,8 @@ void RenderPipeline_destroy(RenderPipeline* pipeline, RenderTarget *renderTarget
 }
 
 void RenderPipeline_load(RenderPipeline *pipeline, RenderTarget *renderTarget)
-{
+{   
+
     if(!RenderPipeline_isValid(pipeline)) return;
     if(pipeline->loadProc) 
     {   

@@ -185,6 +185,14 @@ BufferData UniformBuffer_read(UniformBuffer *buffer)
     return Buffer_read(GL_UNIFORM_BUFFER, buffer->id);
 }
 
+void UniformBuffer_setBindingPoint(UniformBuffer *buffer, UniformBlockBindingPoint bindingPoint)
+{
+    if(!UniformBuffer_isValid(buffer)) return;
+
+    UniformBuffer_bind(buffer);
+    glBindBufferBase(GL_UNIFORM_BUFFER, (GLuint) bindingPoint, buffer->id);
+}
+
 void UniformBuffer_bind(UniformBuffer *buffer)
 {
     Buffer_bind(GL_UNIFORM_BUFFER, buffer->id);

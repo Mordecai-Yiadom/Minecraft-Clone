@@ -4,7 +4,7 @@
 #include "bufferlayout.h"
 #include "context.h"
 #include "backend_types.h"
-
+#include "shader.h"
 #define BUFFER_DATA_NULL ((BufferData){.size=0, .buffer= NULL})
 
 #define INDEXBUFFER_NULL ((IndexBuffer){.id=0})
@@ -113,6 +113,8 @@ UniformBuffer UniformBuffer_create(BufferData data, enum BufferUsage usage, Buff
 void UniformBuffer_destroy(UniformBuffer *buffer);
 
 void UniformBuffer_write(UniformBuffer *buffer, BufferData data, size_t offset);
+
+void UniformBuffer_setBindingPoint(UniformBuffer *buffer, UniformBlockBindingPoint bindingPoint);
 
 BufferData UniformBuffer_read(UniformBuffer *buffer);
 

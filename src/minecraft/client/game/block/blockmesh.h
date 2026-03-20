@@ -10,7 +10,7 @@ typedef struct BlockVertex
     vec3 position;
     vec3 normal;
     vec2 uvCoord;
-    u32 textureID;
+    u32 textureIndex;
 }BlockVertex;
 
 typedef struct BlockFace
@@ -48,7 +48,6 @@ typedef enum BlockSide
 
 
 
-
 void BlockMesh_init();
 
 
@@ -62,7 +61,6 @@ void BlockMesh_translate(BlockMesh *mesh, vec3 translation);
 void BlockFace_setPosition(BlockFace *face, vec3 position);
 
 void BlockFace_translate(BlockFace *face, vec3 translation);
-
 
 
 

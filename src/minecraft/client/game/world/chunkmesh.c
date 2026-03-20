@@ -1,4 +1,4 @@
-#include "clientchunk.h"
+#include "chunkmesh.h"
 #include <string.h>
 
 #define DEFAULT_CHUNK_VERTEXBUFFER_SIZE (sizeof(BlockMesh) * CHUNK_X_LIMIT * CHUNK_Y_LIMIT * CHUNK_Z_LIMIT)

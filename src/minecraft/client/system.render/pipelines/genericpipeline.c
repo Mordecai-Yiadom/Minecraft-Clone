@@ -3,8 +3,7 @@
 #include "genericpipeline.h"
 #include "../../../core/core.h"
 
-static Texture2D dirtTexture;
-
+#include "../../game/block/blocktexture.h"
 RenderPipeline GenericPipeline_create()
 {   
 
@@ -12,9 +11,6 @@ RenderPipeline GenericPipeline_create()
     
     if(!Shader_isValid(shader)) Logger_logError(RENDER_SYSTEM, "Shader Program handle is invalid.");
     RenderPipeline pipeline = RenderPipeline_create(shader, GenericPipeline_load, GenericPipeline_unload);
-
-    dirtTexture = Texture2D_create("assets/minecraft/textures/blocks/dirt.png");
-    printf("Dirt Texture: %d\n", dirtTexture.samplerID);
 
     return pipeline;
 }
@@ -31,11 +27,6 @@ static inline void GenericPipeline_load(RenderPipeline *pipeline, RenderTarget *
 
     Renderer_clearBuffer(DEPTH_BUFFER);
     Renderer_enableTest(DEPTH_TEST);
-    
-    Color quadColor = COLOR_RGB(222, 69, 201);
-    Shader_setFloat(pipeline->shader, "r", quadColor.red);
-    Shader_setFloat(pipeline->shader, "g", quadColor.green);
-    Shader_setFloat(pipeline->shader, "b", quadColor.blue);
 
     Transform3D chunkTransform;
     vec3f(chunkTransform.position, 0, 0, 0);
@@ -48,11 +39,7 @@ static inline void GenericPipeline_load(RenderPipeline *pipeline, RenderTarget *
     Shader_setMat4x4f(pipeline->shader, "view", renderTarget->camera.matrix.view);
     Shader_setMat4x4f(pipeline->shader, "model", chunkTransform.matrix);
 
-    // glActiveTexture(GL_TEXTURE0);
-    // glBindTexture(GL_TEXTURE_2D, dirtTexture.id);
-
-    // ivec4 textureIDs = {0, 1, 2, 3};
-    Shader_setInt(pipeline->shader, "textureID", 0);
+    BlockTextureManager_writeTexturesToShader(pipeline->shader);
     
 }
 

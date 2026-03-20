@@ -4,7 +4,7 @@
 #include "../renderer.h"
 #include "../renderpass.h"
 
-#include "../../game/world/clientchunk.h"
+#include "../../game/world/chunkmesh.h"
 
 typedef struct ChunkRenderer
 {

@@ -18,7 +18,7 @@ Chunk* Chunk_create()
     {
         for(int z = 0; z < CHUNK_Z_LIMIT; z++)
         {
-            chunk->blocks[x][airLayer][z] = AIR;
+            chunk->blocks[x][airLayer][z] = STONE;
         }
     }
 

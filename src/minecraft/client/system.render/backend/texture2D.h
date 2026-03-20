@@ -8,7 +8,7 @@ typedef struct Texture2D
 {   
     Image image;
     unsigned int id;
-    int samplerID;
+    unsigned int samplerID;
 }Texture2D;
 
 Texture2D Texture2D_create(char *imagePath);

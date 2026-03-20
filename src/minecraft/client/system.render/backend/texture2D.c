@@ -50,22 +50,15 @@ Texture2D Texture2D_create(char *imagePath)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
     //Set Active Texture
     glActiveTexture(TEXTURE2D_NEXT_TEXTURE_UNIT);
     glBindTexture(GL_TEXTURE_2D, texture.id);
-
+    
     texture.samplerID = (TEXTURE2D_NEXT_TEXTURE_UNIT - GL_TEXTURE0);
     TEXTURE2D_NEXT_TEXTURE_UNIT++;
-
-    // //TEMP TESTING
-    // glActiveTexture(GL_TEXTURE2);
-    // glBindTexture(GL_TEXTURE_2D, texture.id);
-
-    // texture.samplerID = 2;
-    // TEXTURE2D_NEXT_TEXTURE_UNIT++;
     
     return texture;
 }

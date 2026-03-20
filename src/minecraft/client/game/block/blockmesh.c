@@ -1,9 +1,11 @@
 #define MINECRAFT_CLIENT_GAME_CLIENTBLOCK_C
-#include "clientblock.h"
+#include "blockmesh.h"
 
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+
+#include "blocktexture.h"
 
 void BlockMesh_init()
 {   
@@ -125,6 +127,9 @@ void BlockMesh_init()
     DEFAULT_BLOCKMESH.west = west;
     DEFAULT_BLOCKMESH.top = top;
     DEFAULT_BLOCKMESH.bottom = bottom;
+
+    //Create all Registered block textures
+    BlockTexture_createAll();
 }
 
 BlockFace BlockMesh_getFace(BlockType type, BlockSide side)
@@ -158,10 +163,10 @@ BlockFace BlockMesh_getFace(BlockType type, BlockSide side)
             break;
     }
 
-    face.topRight.textureID = type;
-    face.topLeft.textureID = type;
-    face.bottomLeft.textureID = type;
-    face.bottomRight.textureID = type;
+    face.topRight.textureIndex =  type;
+    face.topLeft.textureIndex =  type;
+    face.bottomLeft.textureIndex = type;
+    face.bottomRight.textureIndex =  type;
     return face;
 }
 
