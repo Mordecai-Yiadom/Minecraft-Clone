@@ -3,7 +3,7 @@
 #include "texture2D.h"
 #include <string.h>
 
-#define Texture2D_isSamplerValid(id) (id > 0 && id < GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS)
+#define Texture2D_isSamplerValid(id) (id != 0)
 
 Texture2D Texture2D_create(char *imagePath)
 {   
@@ -69,7 +69,7 @@ Texture2D Texture2D_create(char *imagePath)
 
 void Texture2D_activate(Texture2D *texture)
 {
-    if(!texture) return;
+    if(!Texture2D_isValid(texture)) return;
     glActiveTexture(texture->samplerID + GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texture->id);
 }

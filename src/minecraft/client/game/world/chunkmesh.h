@@ -8,10 +8,26 @@
 
 #include "../../system.render/backend/mesh.h"
 
+typedef struct ChunkMeshBuildingData
+{
+    BlockFace *vertexBuffer;
+    int vertexBufferLength;
+    int *indexBuffer;
+
+    int topRightIndex;
+    int topLeftIndex;
+    int bottomLeftIndex;
+    int bottomRightIndex;
+
+
+    int indexBufferLength;
+}ChunkMeshBuildingData;
+
 typedef struct ChunkMesh
 {
     Mesh mesh;
     Chunk *chunk;
+    ChunkMeshBuildingData buildingData;
 }ChunkMesh;
 
 
@@ -19,12 +35,20 @@ typedef struct ChunkMesh
 
 ChunkMesh ChunkMesh_create(Chunk *chunk);
 
-void ChunkMesh_build(ChunkMesh *mesh);
+void ChunkMesh_destroy(ChunkMesh *chunkMesh);
 
-// void ChunkMesh_addBlock(ChunkMesh *chunkMesh, BlockMesh blockMesh, int xOffset, int yOffset, int zOffset);
+//Builds a given ChunkMesh's vertex and index data based on its current chunk's data;
+void ChunkMesh_build(ChunkMesh *chunkMesh);
+
+//Writes a given ChunkMesh's RAM data to GPU memory 
+void ChunkMesh_flush(ChunkMesh *chunkMesh);
+
+void ChunkMesh_addBlock(ChunkMesh *chunkMesh, BlockType blockType, int xOffset, int yOffset, int zOffset);
 
 bool ChunkMesh_isValid(ChunkMesh *chunkMesh);
 
+// Resets a given ChunkMesh's vertex and index building data
+void ChunkMesh_clear(ChunkMesh *chunkMesh);
 
 
 

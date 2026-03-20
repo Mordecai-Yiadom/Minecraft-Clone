@@ -23,156 +23,105 @@ ChunkMesh ChunkMesh_create(Chunk *chunk)
     chunkMesh.mesh = Mesh_create(meshData);
     chunkMesh.chunk = chunk;
 
+    chunkMesh.buildingData.vertexBuffer = calloc((CHUNK_X_LIMIT * CHUNK_Y_LIMIT * CHUNK_Z_LIMIT * 6), sizeof(BlockFace));
+    chunkMesh.buildingData.indexBuffer = calloc((CHUNK_X_LIMIT * CHUNK_Y_LIMIT * CHUNK_Z_LIMIT * 36), sizeof(int));
+
+    chunkMesh.buildingData.topRightIndex = 0;
+    chunkMesh.buildingData.topLeftIndex = 1;
+    chunkMesh.buildingData.bottomLeftIndex = 2;
+    chunkMesh.buildingData.bottomRightIndex = 3;
+
+    chunkMesh.buildingData.indexBufferLength = 0;
+
     return chunkMesh;
 }
 
 
-void ChunkMesh_build(ChunkMesh *mesh)
+void ChunkMesh_build(ChunkMesh *chunkMesh)
 {   
-    BlockFace *chunkMeshBuffer = calloc((CHUNK_X_LIMIT * CHUNK_Y_LIMIT * CHUNK_Z_LIMIT * 6), sizeof(BlockFace));
-    int *indexBuffer = calloc((CHUNK_X_LIMIT * CHUNK_Y_LIMIT * CHUNK_Z_LIMIT * 36), sizeof(int));
+    if(!chunkMesh) return;
 
-    int topRightIndex = 0;
-    int topLeftIndex = 1;
-    int bottomLeftIndex = 2;
-    int bottomRightIndex = 3;
-
-    int indexBufferLength = 0;
-
-    if(!mesh) return;
-    int i = 0;
+    ChunkMesh_clear(chunkMesh);
+    
     for(int x = 0; x < CHUNK_X_LIMIT; x++)
     {
         for(int y = 0; y < CHUNK_Y_LIMIT; y++)
         {
             for(int z = 0; z < CHUNK_Z_LIMIT; z++)
             {   
-                //Skip adding air blocks to render
-                if(mesh->chunk->blocks[x][y][z] == AIR) continue;
-
-                vec3 translation = {((float)x) + mesh->chunk->xOffset, ((float)y), ((float)z) + mesh->chunk->zOffset};
-
-                
-                BlockFace north = BlockMesh_getFace(mesh->chunk->blocks[x][y][z], BLOCKFACE_NORTH);
-                BlockFace_translate(&north, translation);
-                chunkMeshBuffer[i++] = north;
-                indexBuffer[indexBufferLength++] = topRightIndex;
-                indexBuffer[indexBufferLength++] = topLeftIndex;
-                indexBuffer[indexBufferLength++] = bottomRightIndex;
-
-                indexBuffer[indexBufferLength++] = topLeftIndex;
-                indexBuffer[indexBufferLength++] = bottomLeftIndex;
-                indexBuffer[indexBufferLength++] = bottomRightIndex;
-
-                topRightIndex += 4;
-                topLeftIndex += 4;
-                bottomLeftIndex += 4;
-                bottomRightIndex += 4;
-  
-
-                BlockFace south = BlockMesh_getFace(mesh->chunk->blocks[x][y][z], BLOCKFACE_SOUTH);
-                BlockFace_translate(&south, translation);
-                chunkMeshBuffer[i++] = south;
-                indexBuffer[indexBufferLength++] = topRightIndex;
-                indexBuffer[indexBufferLength++] = topLeftIndex;
-                indexBuffer[indexBufferLength++] = bottomRightIndex;
-
-                indexBuffer[indexBufferLength++] = topLeftIndex;
-                indexBuffer[indexBufferLength++] = bottomLeftIndex;
-                indexBuffer[indexBufferLength++] = bottomRightIndex;
-
-                topRightIndex += 4;
-                topLeftIndex += 4;
-                bottomLeftIndex += 4;
-                bottomRightIndex += 4;
-
-
-                BlockFace east = BlockMesh_getFace(mesh->chunk->blocks[x][y][z], BLOCKFACE_EAST);
-                BlockFace_translate(&east, translation);
-                chunkMeshBuffer[i++] = east;
-                indexBuffer[indexBufferLength++] = topRightIndex;
-                indexBuffer[indexBufferLength++] = topLeftIndex;
-                indexBuffer[indexBufferLength++] = bottomRightIndex;
-
-                indexBuffer[indexBufferLength++] = topLeftIndex;
-                indexBuffer[indexBufferLength++] = bottomLeftIndex;
-                indexBuffer[indexBufferLength++] = bottomRightIndex;
-
-                topRightIndex += 4;
-                topLeftIndex += 4;
-                bottomLeftIndex += 4;
-                bottomRightIndex += 4;
-
-
-                BlockFace west = BlockMesh_getFace(mesh->chunk->blocks[x][y][z], BLOCKFACE_WEST);
-                BlockFace_translate(&west, translation);
-                chunkMeshBuffer[i++] = west;
-                indexBuffer[indexBufferLength++] = topRightIndex;
-                indexBuffer[indexBufferLength++] = topLeftIndex;
-                indexBuffer[indexBufferLength++] = bottomRightIndex;
-
-                indexBuffer[indexBufferLength++] = topLeftIndex;
-                indexBuffer[indexBufferLength++] = bottomLeftIndex;
-                indexBuffer[indexBufferLength++] = bottomRightIndex;
-
-                topRightIndex += 4;
-                topLeftIndex += 4;
-                bottomLeftIndex += 4;
-                bottomRightIndex += 4;
-
-
-                BlockFace top = BlockMesh_getFace(mesh->chunk->blocks[x][y][z], BLOCKFACE_TOP);
-                BlockFace_translate(&top, translation);
-                chunkMeshBuffer[i++] = top;
-                indexBuffer[indexBufferLength++] = topRightIndex;
-                indexBuffer[indexBufferLength++] = topLeftIndex;
-                indexBuffer[indexBufferLength++] = bottomRightIndex;
-
-                indexBuffer[indexBufferLength++] = topLeftIndex;
-                indexBuffer[indexBufferLength++] = bottomLeftIndex;
-                indexBuffer[indexBufferLength++] = bottomRightIndex;
-
-                topRightIndex += 4;
-                topLeftIndex += 4;
-                bottomLeftIndex += 4;
-                bottomRightIndex += 4;
-
-
-                BlockFace bottom = BlockMesh_getFace(mesh->chunk->blocks[x][y][z], BLOCKFACE_BOTTOM);
-                BlockFace_translate(&bottom, translation);
-                chunkMeshBuffer[i++] = bottom;
-                indexBuffer[indexBufferLength++] = topRightIndex;
-                indexBuffer[indexBufferLength++] = topLeftIndex;
-                indexBuffer[indexBufferLength++] = bottomRightIndex;
-
-                indexBuffer[indexBufferLength++] = topLeftIndex;
-                indexBuffer[indexBufferLength++] = bottomLeftIndex;
-                indexBuffer[indexBufferLength++] = bottomRightIndex;
-
-                topRightIndex += 4;
-                topLeftIndex += 4;
-                bottomLeftIndex += 4;
-                bottomRightIndex += 4;
+                ChunkMesh_addBlock(chunkMesh, 
+                    chunkMesh->chunk->blocks[x][y][z], 
+                    x, y, z);
             }
         }
     }
+    //PUT HERE JUST FOR TESTING - REMOVE SOON
+    ChunkMesh_flush(chunkMesh);    
+}
 
-    BufferData data = {.buffer=chunkMeshBuffer, .size=VertexBuffer_getSize(&mesh->mesh.vbo)};
-    VertexBuffer_write(&mesh->mesh.vbo, data, 0);
 
-    BufferData indexBufferData = {.buffer=indexBuffer, .size=(indexBufferLength * sizeof(int))};
-    IndexBuffer_write(&mesh->mesh.ebo, indexBufferData, 0);
-    printf("IndexBuffer Length: %d\n", indexBufferLength);
-    free(chunkMeshBuffer);
-    free(indexBuffer);
+void ChunkMesh_addBlock(ChunkMesh *chunkMesh, BlockType blockType, int xOffset, int yOffset, int zOffset)
+{
+    if(!chunkMesh || !BlockType_isVisible(blockType) || !Chunk_isValidBlockOffset(xOffset, yOffset, zOffset)) return;
+
+    vec3 meshTranslation = {((float)xOffset) + chunkMesh->chunk->xOffset, ((float)yOffset), ((float)zOffset) + chunkMesh->chunk->zOffset};
+
+    BlockFace currFace;
+    for(BlockSide side = BLOCKFACE_NORTH; side < BLOCK_SIDE_COUNT; side++)
+    {   
+         
+        BlockPosition blockPos = World_getBlockPosition(chunkMesh->chunk, xOffset, yOffset, zOffset);
+
+        float* faceDirectionVec = World_getDirectionVector((WorldDirection)side);
+        if(!faceDirectionVec) puts("Null Face Direction Vector");
+
+        BlockPosition nextBlockPos = {vec3x(faceDirectionVec) + blockPos.x, 
+            vec3y(faceDirectionVec) + blockPos.y, 
+            vec3z(faceDirectionVec) + blockPos.z}; 
+
+        if(BlockType_isSolid(World_getBlockAt(chunkMesh->chunk->world, nextBlockPos.x, nextBlockPos.y, nextBlockPos.z))) 
+            continue;
+        
+        currFace = BlockMesh_getFace(chunkMesh->chunk->blocks[xOffset][yOffset][zOffset], side);
+        BlockFace_translate(&currFace, meshTranslation);
+        chunkMesh->buildingData.vertexBuffer[chunkMesh->buildingData.vertexBufferLength++] = currFace;
+        chunkMesh->buildingData.indexBuffer[chunkMesh->buildingData.indexBufferLength++] = chunkMesh->buildingData.topRightIndex;
+        chunkMesh->buildingData.indexBuffer[chunkMesh->buildingData.indexBufferLength++] = chunkMesh->buildingData.topLeftIndex;
+        chunkMesh->buildingData.indexBuffer[chunkMesh->buildingData.indexBufferLength++] = chunkMesh->buildingData.bottomRightIndex;
+
+        chunkMesh->buildingData.indexBuffer[chunkMesh->buildingData.indexBufferLength++] = chunkMesh->buildingData.topLeftIndex;
+        chunkMesh->buildingData.indexBuffer[chunkMesh->buildingData.indexBufferLength++] = chunkMesh->buildingData.bottomLeftIndex;
+        chunkMesh->buildingData.indexBuffer[chunkMesh->buildingData.indexBufferLength++] = chunkMesh->buildingData.bottomRightIndex;
+
+        chunkMesh->buildingData.topRightIndex += 4;
+        chunkMesh->buildingData.topLeftIndex += 4;
+        chunkMesh->buildingData.bottomLeftIndex += 4;
+        chunkMesh->buildingData.bottomRightIndex += 4;
+    }
     
 }
 
 
-// void ChunkMesh_addBlock(ChunkMesh *chunkMesh, BlockMesh blockMesh, int xOffset, int yOffset, int zOffset)
-// {
-//     if(!chunkMesh || xOffset < 0 || yOffset < 0 || zOffset < 0) return;
-    
-    
-//     VertexBuffer_write(&chunkMesh->mesh.vbo, );
-// }
+void ChunkMesh_flush(ChunkMesh *chunkMesh)
+{
+    if(!chunkMesh) return;
+    BufferData vertexBufferData = {.buffer=chunkMesh->buildingData.vertexBuffer, .size=sizeof(BlockFace) * chunkMesh->buildingData.vertexBufferLength};
+    VertexBuffer_write(&chunkMesh->mesh.vbo, vertexBufferData, 0);
+
+    BufferData indexBufferData = {.buffer=chunkMesh->buildingData.indexBuffer, .size=(chunkMesh->buildingData.indexBufferLength * sizeof(int))};
+    IndexBuffer_write(&chunkMesh->mesh.ebo, indexBufferData, 0);
+    printf("IndexBuffer Length: %d\n", chunkMesh->buildingData.indexBufferLength);
+}
+
+void ChunkMesh_clear(ChunkMesh *chunkMesh)
+{
+    if(!chunkMesh) return;
+
+    chunkMesh->buildingData.topRightIndex = 0;
+    chunkMesh->buildingData.topLeftIndex = 1;
+    chunkMesh->buildingData.bottomLeftIndex = 2;
+    chunkMesh->buildingData.bottomRightIndex = 3;
+
+    chunkMesh->buildingData.vertexBufferLength = 0;
+    chunkMesh->buildingData.indexBufferLength = 0;
+}

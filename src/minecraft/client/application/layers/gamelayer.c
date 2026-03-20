@@ -7,7 +7,7 @@
 #include "../application.h"
 #include "../../system.render/renderers/chunkrenderer.h"
 static Camera* GAMELAYER_MAIN_CAMERA;
-static Chunk *chunk;
+static World *world;
 static ChunkMesh chunkMesh;
 
 ApplicationLayer GameLayer_create(GameLayerState state)
@@ -58,9 +58,9 @@ void GameLayer_onUpdate(ApplicationLayer *gamelayer)
     {   
         GAMELAYER_MAIN_CAMERA = ChunkRenderer_getRenderTargetCamera();
         
+        world = World_create(0);
         BlockMesh_init();
-        chunk = Chunk_create();
-        chunkMesh = ChunkMesh_create(chunk);
+        chunkMesh = ChunkMesh_create(&world->chunk[0]);
         
         ChunkMesh_build(&chunkMesh);
     } 

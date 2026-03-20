@@ -14,6 +14,5 @@ uniform sampler2D blockTextures[10];
 
 void main()
 {   
-
     FragColor = texture(blockTextures[fs_in.texIndex], fs_in.texCoord);
 }

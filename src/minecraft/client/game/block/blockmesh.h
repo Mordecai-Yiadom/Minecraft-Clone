@@ -3,7 +3,7 @@
 
 #include "../../../core/core.h"
 
-
+#define BLOCK_SIDE_COUNT 6
 
 typedef struct BlockVertex
 {
@@ -38,12 +38,12 @@ static BlockMesh DEFAULT_BLOCKMESH;
 
 typedef enum BlockSide
 {
-    BLOCKFACE_NORTH,
-    BLOCKFACE_SOUTH,
-    BLOCKFACE_EAST,
-    BLOCKFACE_WEST,
-    BLOCKFACE_TOP,
-    BLOCKFACE_BOTTOM
+    BLOCKFACE_NORTH = WORLD_NORTH,
+    BLOCKFACE_SOUTH = WORLD_SOUTH,
+    BLOCKFACE_EAST = WORLD_EAST,
+    BLOCKFACE_WEST = WORLD_WEST,
+    BLOCKFACE_TOP = WORLD_UP,
+    BLOCKFACE_BOTTOM = WORLD_DOWN
 }BlockSide;
 
 

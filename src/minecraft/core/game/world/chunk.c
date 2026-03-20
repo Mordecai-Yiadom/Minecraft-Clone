@@ -4,12 +4,13 @@
 #include "../block/block.h"
 #include <stdlib.h>
 
-Chunk* Chunk_create()
+
+Chunk* Chunk_create(void* world)
 {
     Chunk *chunk = calloc(1, sizeof(Chunk));
     chunk->xOffset = 0;
     chunk->zOffset = 0;
-    
+    chunk->world = world;
     //memset(chunk->blocks, DIRT, sizeof(chunk->blocks));
     
     //TESTING || REMOVE WHEN DONE
@@ -27,4 +28,11 @@ Chunk* Chunk_create()
     }
 
     return chunk;
+}
+
+bool Chunk_isValidBlockOffset(int xOffset, int yOffset, int zOffset)
+{
+    return (xOffset > -1 && xOffset < CHUNK_X_LIMIT) 
+    && (yOffset > -1 && yOffset < CHUNK_Y_LIMIT) 
+    && (zOffset > -1 && zOffset < CHUNK_Z_LIMIT);
 }
