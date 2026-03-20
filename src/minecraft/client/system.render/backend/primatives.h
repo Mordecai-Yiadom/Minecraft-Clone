@@ -18,4 +18,8 @@ typedef enum Primative
 }Primative;
 
 int Primative_sizeof(Primative primative);
+
+#define Primative_isFloat(p) (p == FLOAT || p == DOUBLE)
+#define Primative_isInteger(p) (p != FLOAT && p != DOUBLE)
+
 #endif

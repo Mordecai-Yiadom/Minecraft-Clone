@@ -9,11 +9,11 @@ in VS_OUT
 
 out vec4 FragColor;
 
-uniform sampler2D blockTextures[4];
+uniform sampler2D blockTextures[10];
 
 
 void main()
 {   
-    
-    FragColor = texture(blockTextures[3], fs_in.texCoord);
+
+    FragColor = texture(blockTextures[fs_in.texIndex], fs_in.texCoord);
 }

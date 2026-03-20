@@ -10,7 +10,7 @@ Chunk* Chunk_create()
     chunk->xOffset = 0;
     chunk->zOffset = 0;
     
-    memset(chunk->blocks, DIRT, sizeof(chunk->blocks));
+    //memset(chunk->blocks, DIRT, sizeof(chunk->blocks));
     
     //TESTING || REMOVE WHEN DONE
     int airLayer = 1;
@@ -19,6 +19,10 @@ Chunk* Chunk_create()
         for(int z = 0; z < CHUNK_Z_LIMIT; z++)
         {
             chunk->blocks[x][airLayer][z] = STONE;
+            chunk->blocks[x][4][z] = GRASS;
+            chunk->blocks[x][3][z] = DIRT;
+            chunk->blocks[x][2][z] = DIRT;
+            chunk->blocks[x][0][z] = BEDROCK;
         }
     }
 

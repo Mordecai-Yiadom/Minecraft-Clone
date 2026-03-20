@@ -68,7 +68,6 @@ void ChunkMesh_build(ChunkMesh *mesh)
                 topLeftIndex += 4;
                 bottomLeftIndex += 4;
                 bottomRightIndex += 4;
-
   
 
                 BlockFace south = BlockMesh_getFace(mesh->chunk->blocks[x][y][z], BLOCKFACE_SOUTH);

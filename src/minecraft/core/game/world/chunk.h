@@ -18,7 +18,7 @@ typedef struct ChunkDimensions
 
 typedef struct Chunk
 {   
-    BlockID blocks[CHUNK_X_LIMIT][CHUNK_Y_LIMIT][CHUNK_Z_LIMIT];
+    BlockType blocks[CHUNK_X_LIMIT][CHUNK_Y_LIMIT][CHUNK_Z_LIMIT];
     int xOffset;
     int zOffset;
 }Chunk;

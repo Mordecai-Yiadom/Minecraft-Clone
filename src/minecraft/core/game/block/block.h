@@ -3,19 +3,16 @@
 
 #include "../../util/memtypes.h"
 
-typedef u32 BlockID;
-
-typedef struct Block
-{
-    BlockID id;
-}Block;
 
 typedef enum BlockType
 {
-    AIR = 0,
-    GRASS = 1,
-    DIRT = 2,
-    STONE = 3,
+    AIR,
+    VOID_AIR,
+    GRASS,
+    DIRT,
+    STONE,
+    BEDROCK,
+    UNKNOWN,
 }BlockType;
 
 

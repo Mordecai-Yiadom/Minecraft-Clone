@@ -63,12 +63,26 @@ void VertexArray_addVertexBuffer(VertexArray *vertexArray, VertexBuffer vertexBu
     for(int i = 0; i < vertexBuffer.layout.attributeCount; i++)
     {   
         if(vertexArray->attributeCount == BUFFERLAYOUT_MAX_ATTRIBUTES) break;
-        glVertexAttribPointer(vertexArray->attributeCount, 
+
+        if(vertexBuffer.layout.attributes[i].componentCount == 1 
+            && Primative_isInteger(vertexBuffer.layout.attributes[i].componentType))
+        {
+            glVertexAttribIPointer(vertexArray->attributeCount, 
             vertexBuffer.layout.attributes[i].componentCount, 
-            vertexBuffer.layout.attributes[i].componentType, 
-            vertexBuffer.layout.attributes[i].isNormalized, 
-            (GLsizei) vertexBuffer.layout.stride, 
+            vertexBuffer.layout.attributes[i].componentType,
+            (GLsizei) vertexBuffer.layout.stride,
             (const void*) vertexBuffer.layout.attributes[i].offset);
+        }
+        else
+        {
+            glVertexAttribPointer(vertexArray->attributeCount, 
+                vertexBuffer.layout.attributes[i].componentCount, 
+                vertexBuffer.layout.attributes[i].componentType, 
+                vertexBuffer.layout.attributes[i].isNormalized, 
+                (GLsizei) vertexBuffer.layout.stride, 
+                (const void*) vertexBuffer.layout.attributes[i].offset);
+        }
+
             
         glVertexAttribDivisor((GLuint)vertexArray->attributeCount, (GLuint) vertexBuffer.layout.attributes[i].attributeDivisor);
         glEnableVertexAttribArray((GLuint) vertexArray->attributeCount);

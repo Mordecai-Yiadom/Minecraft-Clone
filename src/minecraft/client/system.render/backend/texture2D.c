@@ -3,6 +3,8 @@
 #include "texture2D.h"
 #include <string.h>
 
+#define Texture2D_isSamplerValid(id) (id > 0 && id < GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS)
+
 Texture2D Texture2D_create(char *imagePath)
 {   
     Texture2D texture;
@@ -19,7 +21,7 @@ Texture2D Texture2D_create(char *imagePath)
 
     GLint internalFormat;
     GLenum format;
-    printf("Image Channel Count: %d\n", texture.image.channelCount);
+    
     switch(texture.image.channelCount)
     {   
         case 1:
@@ -48,17 +50,32 @@ Texture2D Texture2D_create(char *imagePath)
     glGenerateMipmap(GL_TEXTURE_2D);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
     //Set Active Texture
-    glActiveTexture(TEXTURE2D_NEXT_TEXTURE_UNIT);
-    glBindTexture(GL_TEXTURE_2D, texture.id);
-    
-    texture.samplerID = (TEXTURE2D_NEXT_TEXTURE_UNIT - GL_TEXTURE0);
-    TEXTURE2D_NEXT_TEXTURE_UNIT++;
-    
+    if(Texture2D_isSamplerValid(TEXTURE2D_NEXT_TEXTURE_UNIT))
+    {
+        glActiveTexture(TEXTURE2D_NEXT_TEXTURE_UNIT);
+        glBindTexture(GL_TEXTURE_2D, texture.id);
+        texture.samplerID = (TEXTURE2D_NEXT_TEXTURE_UNIT - GL_TEXTURE0);
+        TEXTURE2D_NEXT_TEXTURE_UNIT++;
+    }
+
     return texture;
 }
+
+void Texture2D_activate(Texture2D *texture)
+{
+    if(!texture) return;
+    glActiveTexture(texture->samplerID + GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, texture->id);
+}
+
+bool Texture2D_isValid(Texture2D *texture)
+{
+    if(!texture) return false;
+    return (glIsTexture(texture->id) && Texture2D_isSamplerValid(texture->samplerID));
+} 

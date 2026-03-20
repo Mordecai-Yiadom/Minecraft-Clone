@@ -15,7 +15,7 @@ Mesh Mesh_create(MeshData meshData)
             break;
 
         case POS3f_NORM3f_UV2f_TEXID1i:
-            vboLayout = BufferLayout_create(INTERLEAVED, 4, aVEC3(FLOAT), aVEC3(FLOAT), aVEC2(FLOAT), aINT());
+            vboLayout = BufferLayout_create(INTERLEAVED, 4, aVEC3(FLOAT), aVEC3(FLOAT), aVEC2(FLOAT), aVEC1(INT));
             break;
     }
 

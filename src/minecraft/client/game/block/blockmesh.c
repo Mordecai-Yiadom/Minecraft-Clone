@@ -163,10 +163,11 @@ BlockFace BlockMesh_getFace(BlockType type, BlockSide side)
             break;
     }
 
-    face.topRight.textureIndex =  type;
-    face.topLeft.textureIndex =  type;
+    face.topRight.textureIndex = type;
+    face.topLeft.textureIndex = type;
     face.bottomLeft.textureIndex = type;
-    face.bottomRight.textureIndex =  type;
+    face.bottomRight.textureIndex = type;
+
     return face;
 }
 
