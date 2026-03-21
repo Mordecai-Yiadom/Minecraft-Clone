@@ -5,13 +5,13 @@
 #include <stdlib.h>
 
 
-Chunk* Chunk_create(void* world)
+Chunk* Chunk_create(void* world, ChunkIndex index)
 {
     Chunk *chunk = calloc(1, sizeof(Chunk));
-    chunk->xOffset = 0;
-    chunk->zOffset = 0;
+
     chunk->world = world;
-    //memset(chunk->blocks, DIRT, sizeof(chunk->blocks));
+    chunk->index = index;
+    chunk->index = index;
     
     //TESTING || REMOVE WHEN DONE
     int airLayer = 1;
@@ -28,6 +28,20 @@ Chunk* Chunk_create(void* world)
     }
 
     return chunk;
+}
+
+bool ChunkPosition_isValid(ChunkPosition position)
+{
+    return (position.x > -1 && position.x < CHUNK_X_LIMIT) 
+    && (position.y > -1 && position.y < CHUNK_Y_LIMIT) 
+    && (position.z > -1 && position.z < CHUNK_Z_LIMIT);
+}
+
+bool ChunkBlockPosition_isValid(ChunkBlockPosition position)
+{
+    return (position.x > -1 && position.x < CHUNK_X_LIMIT) 
+    && (position.y > -1 && position.y < CHUNK_Y_LIMIT) 
+    && (position.z > -1 && position.z < CHUNK_Z_LIMIT);
 }
 
 bool Chunk_isValidBlockOffset(int xOffset, int yOffset, int zOffset)

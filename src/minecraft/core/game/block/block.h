@@ -15,6 +15,21 @@ typedef enum BlockType
     UNKNOWN,
 }BlockType;
 
+typedef struct BlockState
+{
+    float percentageBroken;
+    u32 lightLevel;
+}BlockState;
+
+typedef struct Block
+{
+    BlockType id;
+    BlockState state;
+}Block;
+
+
+
+
 
 bool BlockType_isVisible(BlockType blockType);
 bool BlockType_isSolid(BlockType blockType);
