@@ -9,6 +9,7 @@
 static Camera* GAMELAYER_MAIN_CAMERA;
 static World *world;
 static ChunkMesh chunkMesh;
+static ChunkMesh chunkMesh2;
 
 ApplicationLayer GameLayer_create(GameLayerState state)
 {
@@ -42,6 +43,7 @@ void GameLayer_onRender(ApplicationLayer *gamelayer)
     if(!gamelayer) return;
     
     ChunkRenderer_drawChunkMesh(&chunkMesh);
+    ChunkRenderer_drawChunkMesh(&chunkMesh2);
     
 }
 
@@ -59,10 +61,15 @@ void GameLayer_onUpdate(ApplicationLayer *gamelayer)
         GAMELAYER_MAIN_CAMERA = ChunkRenderer_getRenderTargetCamera();
         
         world = World_create(0);
+        World_loadChunk(world, CHUNKINDEX(0,0));
+        World_loadChunk(world, CHUNKINDEX(16,16));
+
         BlockMesh_init();
-        chunkMesh = ChunkMesh_create(&world->chunk[0]);
-        
+        chunkMesh = ChunkMesh_create(World_getChunk(world, CHUNKINDEX(0,0)));
+        chunkMesh2 = ChunkMesh_create(World_getChunk(world, CHUNKINDEX(16,16)));
+
         ChunkMesh_build(&chunkMesh);
+        ChunkMesh_build(&chunkMesh2);
     } 
 
     //Update FPS on Window bar

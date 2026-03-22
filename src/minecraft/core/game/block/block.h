@@ -13,6 +13,7 @@ typedef enum BlockType
     STONE,
     BEDROCK,
     UNKNOWN,
+    BLOCKID_INVALID = INT32_MAX
 }BlockType;
 
 typedef struct BlockState
@@ -24,15 +25,20 @@ typedef struct BlockState
 typedef struct Block
 {
     BlockType id;
-    BlockState state;
 }Block;
 
+#define BLOCK_NULL ((Block){.id=(BLOCKID_INVALID)})
+
+#define BLOCK(t) ((Block){.id=(t)})
 
 
+bool Block_isTransparent(Block block);
 
+bool Block_isAir(Block block);
 
-bool BlockType_isVisible(BlockType blockType);
-bool BlockType_isSolid(BlockType blockType);
+//NOTE: A block is valid if block.id != BLOCKINVALID_ID 
+bool Block_isValid(Block block);
+
 
 
 #endif

@@ -47,15 +47,18 @@ typedef struct WorldBlockPosition
 typedef struct World
 {   
     ArrayList loadedChunks;
-    Chunk *chunk;
     i64 seed;
 }World;
 
-
+//Convienience macro for quickly making a WorldPosition struct
 #define WORLDPOS(xp, yp, zp) ((WorldPosition){.x=(xp), .y=(yp), .z=(zp)})
+
+//Convienience macro for quickly making a WorldBlockPosition struct
 #define WORLDBLOCKPOS(xp, yp, zp) ((WorldBlockPosition){.x=(xp), .y=(yp), .z=(zp)})
 
 World* World_create(i64 seed);
+
+void World_destroy(World *world);
 
 void World_loadChunk(World *world, ChunkIndex chunkIndex);
 
@@ -65,24 +68,39 @@ void World_unloadChunk(World *world, ChunkIndex chunkIndex);
 
 void World_unloadChunkAt(World *world, WorldPosition position);
 
-bool World_isChunkLoaded(World *world);
+bool World_isChunkLoaded(World *world, ChunkIndex chunkIndex);
+
 
 //Returns a loaded chunk on a given world. Returns NULL if chunk is not loaded
+Chunk* World_getChunk(World *world, ChunkIndex chunkIndex);
+
 Chunk* World_getChunkAt(World *world, WorldPosition position);
 
-ChunkIndex World_getChunkIndexAt(World *world, WorldPosition position);
 
 Chunk* World_getChunkAtBlock(World *world, WorldBlockPosition position);
+
+
+ChunkIndex World_getChunkIndexAt(World *world, WorldPosition position);
 
 ChunkIndex World_getChunkIndexAtBlock(World *world, WorldBlockPosition position);
 
 
-BlockType World_getBlockAt(World *world, WorldPosition position);
-
 WorldPosition ChunkPosition_toWorldPosition(ChunkPosition position);
+
+WorldBlockPosition ChunkBlockPosition_toWorldBlockPosition(ChunkBlockPosition position);
 
 ChunkPosition WorldPosition_toChunkPosition(WorldPosition position);
 
+WorldBlockPosition WorldPosition_toBlockPosition(WorldPosition position);
+
+WorldPosition WorldPosition_floor(WorldPosition position);
+
+WorldPosition WorldPosition_ceiling(WorldPosition position);
+
+
+void World_setBlockAt(World *world, WorldPosition position, Block block);
+
+Block World_getBlockAt(World *world, WorldPosition position);
 
 float* World_getDirectionVector(WorldDirection direction);
 

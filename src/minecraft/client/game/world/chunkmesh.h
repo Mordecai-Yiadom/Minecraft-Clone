@@ -43,7 +43,7 @@ void ChunkMesh_build(ChunkMesh *chunkMesh);
 //Writes a given ChunkMesh's RAM data to GPU memory 
 void ChunkMesh_flush(ChunkMesh *chunkMesh);
 
-void ChunkMesh_addBlock(ChunkMesh *chunkMesh, BlockType blockType, int xOffset, int yOffset, int zOffset);
+void ChunkMesh_addBlock(ChunkMesh *chunkMesh, Block block, ChunkBlockPosition chunkBlockPosition);
 
 bool ChunkMesh_isValid(ChunkMesh *chunkMesh);
 

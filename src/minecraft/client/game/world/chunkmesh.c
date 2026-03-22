@@ -50,8 +50,8 @@ void ChunkMesh_build(ChunkMesh *chunkMesh)
             for(int z = 0; z < CHUNK_Z_LIMIT; z++)
             {   
                 ChunkMesh_addBlock(chunkMesh, 
-                    chunkMesh->chunk->blocks[x][y][z], 
-                    x, y, z);
+                    BLOCK(chunkMesh->chunk->blocks[x][y][z]), 
+                    CHUNKBLOCKPOS(chunkMesh->chunk->index, x, y, z));
             }
         }
     }
@@ -60,43 +60,56 @@ void ChunkMesh_build(ChunkMesh *chunkMesh)
 }
 
 
-void ChunkMesh_addBlock(ChunkMesh *chunkMesh, BlockType blockType, int xOffset, int yOffset, int zOffset)
+void ChunkMesh_addBlock(ChunkMesh *chunkMesh, Block block, ChunkBlockPosition chunkBlockPosition)
 {
-    if(!chunkMesh || !BlockType_isVisible(blockType) || !Chunk_isValidBlockOffset(xOffset, yOffset, zOffset)) return;
+    if(!chunkMesh || Block_isAir(block) || !ChunkBlockPosition_isValid(chunkBlockPosition)) return;
 
-    vec3 meshTranslation = {((float)xOffset) + chunkMesh->chunk->xOffset, ((float)yOffset), ((float)zOffset) + chunkMesh->chunk->zOffset};
+    vec3 meshTranslation = {((float)chunkBlockPosition.x) + chunkMesh->chunk->index.xOffset, 
+        ((float)chunkBlockPosition.y), 
+        ((float)chunkBlockPosition.z) + chunkMesh->chunk->index.zOffset};
 
     BlockFace currFace;
     for(BlockSide side = BLOCKFACE_NORTH; side < BLOCK_SIDE_COUNT; side++)
     {   
          
-        BlockPosition blockPos = World_getBlockPosition(chunkMesh->chunk, xOffset, yOffset, zOffset);
-
         float* faceDirectionVec = World_getDirectionVector((WorldDirection)side);
         if(!faceDirectionVec) puts("Null Face Direction Vector");
 
-        BlockPosition nextBlockPos = {vec3x(faceDirectionVec) + blockPos.x, 
+        WorldBlockPosition blockPos = ChunkBlockPosition_toWorldBlockPosition(chunkBlockPosition);
+
+        WorldPosition neighborBlockPos = {vec3x(faceDirectionVec) + blockPos.x, 
             vec3y(faceDirectionVec) + blockPos.y, 
-            vec3z(faceDirectionVec) + blockPos.z}; 
-
-        if(BlockType_isSolid(World_getBlockAt(chunkMesh->chunk->world, nextBlockPos.x, nextBlockPos.y, nextBlockPos.z))) 
-            continue;
+            vec3z(faceDirectionVec) + blockPos.z};
         
-        currFace = BlockMesh_getFace(chunkMesh->chunk->blocks[xOffset][yOffset][zOffset], side);
-        BlockFace_translate(&currFace, meshTranslation);
-        chunkMesh->buildingData.vertexBuffer[chunkMesh->buildingData.vertexBufferLength++] = currFace;
-        chunkMesh->buildingData.indexBuffer[chunkMesh->buildingData.indexBufferLength++] = chunkMesh->buildingData.topRightIndex;
-        chunkMesh->buildingData.indexBuffer[chunkMesh->buildingData.indexBufferLength++] = chunkMesh->buildingData.topLeftIndex;
-        chunkMesh->buildingData.indexBuffer[chunkMesh->buildingData.indexBufferLength++] = chunkMesh->buildingData.bottomRightIndex;
+        
+        // printf("NeighborBlock of (%d, %d, %d): (%.2f, %.2f, %.2f))\n",
+        //     blockPos.x, blockPos.y, blockPos.z,
+        //     neighborBlockPos.x, neighborBlockPos.y, neighborBlockPos.z);
 
-        chunkMesh->buildingData.indexBuffer[chunkMesh->buildingData.indexBufferLength++] = chunkMesh->buildingData.topLeftIndex;
-        chunkMesh->buildingData.indexBuffer[chunkMesh->buildingData.indexBufferLength++] = chunkMesh->buildingData.bottomLeftIndex;
-        chunkMesh->buildingData.indexBuffer[chunkMesh->buildingData.indexBufferLength++] = chunkMesh->buildingData.bottomRightIndex;
+        
+        if(Block_isTransparent(World_getBlockAt(chunkMesh->chunk->world, neighborBlockPos)))
+        {
+            currFace = BlockMesh_getFace(Chunk_getBlockAt(chunkMesh->chunk, 
+            ChunkBlockPosition_toChunkPosition(chunkBlockPosition)), side);
 
-        chunkMesh->buildingData.topRightIndex += 4;
-        chunkMesh->buildingData.topLeftIndex += 4;
-        chunkMesh->buildingData.bottomLeftIndex += 4;
-        chunkMesh->buildingData.bottomRightIndex += 4;
+            BlockFace_translate(&currFace, meshTranslation);
+
+            chunkMesh->buildingData.vertexBuffer[chunkMesh->buildingData.vertexBufferLength++] = currFace;
+            chunkMesh->buildingData.indexBuffer[chunkMesh->buildingData.indexBufferLength++] = chunkMesh->buildingData.topRightIndex;
+            chunkMesh->buildingData.indexBuffer[chunkMesh->buildingData.indexBufferLength++] = chunkMesh->buildingData.topLeftIndex;
+            chunkMesh->buildingData.indexBuffer[chunkMesh->buildingData.indexBufferLength++] = chunkMesh->buildingData.bottomRightIndex;
+
+            chunkMesh->buildingData.indexBuffer[chunkMesh->buildingData.indexBufferLength++] = chunkMesh->buildingData.topLeftIndex;
+            chunkMesh->buildingData.indexBuffer[chunkMesh->buildingData.indexBufferLength++] = chunkMesh->buildingData.bottomLeftIndex;
+            chunkMesh->buildingData.indexBuffer[chunkMesh->buildingData.indexBufferLength++] = chunkMesh->buildingData.bottomRightIndex;
+
+            chunkMesh->buildingData.topRightIndex += 4;
+            chunkMesh->buildingData.topLeftIndex += 4;
+            chunkMesh->buildingData.bottomLeftIndex += 4;
+            chunkMesh->buildingData.bottomRightIndex += 4;
+        }    
+        
+
     }
     
 }

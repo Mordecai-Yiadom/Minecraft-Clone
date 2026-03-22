@@ -3,15 +3,14 @@
 
 #include <stdlib.h>
 #include <string.h>
-
-
+#include "../../util/arraylist.h"
 
 World* World_create(i64 seed)
 {
     World *world = calloc(1, sizeof(World));
     world->seed = seed;
 
-    world->chunk = Chunk_create(world, CHUNKINDEX(0,0)); 
+    world->loadedChunks = ArrayList_create(5, sizeof(Chunk*), DYNAMIC_MEMORY);
     return world;
 }
 
@@ -22,7 +21,7 @@ void World_loadChunk(World *world, ChunkIndex chunkIndex)
         return;
 
     Chunk *chunk = Chunk_create(&world, chunkIndex);
-    if(chunk) ArrayList_add(&world->loadedChunks, &chunk);
+    if(chunk) ArrayList_add(&world->loadedChunks, (byte*)&chunk);
 }
 
 void World_loadChunkAt(World *world, WorldPosition position)
@@ -30,35 +29,120 @@ void World_loadChunkAt(World *world, WorldPosition position)
     World_loadChunk(world, World_getChunkIndexAt(world, position));
 }
 
-void World_unloadChunk(World *world, ChunkIndex chunkIndex);
 
-void World_unloadChunkAt(World *world, WorldPosition position);
+bool World_isChunkLoaded(World *world, ChunkIndex chunkIndex)
+{
+    if(!world) false;
 
-bool World_isChunkLoaded(World *world, ChunkIndex chunkIndex);
+    int loadedChunkCount = ArrayList_length(&world->loadedChunks);
+    Chunk *currChunk;
+    for(int i = 0; i < loadedChunkCount; i++)
+    {   
+        currChunk = NULL;
+        ArrayList_get(&world->loadedChunks, i ,(byte*)&currChunk);
 
-Chunk* World_getChunkAt(World *world, WorldPosition position);
+        if(!currChunk) continue;
 
-Chunk* World_getChunkAtBlock(World *world, WorldBlockPosition position);
+        if(currChunk->index.xOffset == chunkIndex.xOffset 
+            && currChunk->index.zOffset == chunkIndex.zOffset)
+            return true;
+    }
 
-ChunkIndex World_getChunkIndexAt(World *world, WorldPosition position);
+    return false;
+}
 
-BlockType World_getBlockAt(World *world, WorldPosition position);
+
+Chunk* World_getChunk(World *world, ChunkIndex chunkIndex)
+{
+    if(!world) return NULL;
+    
+    int loadedChunkCount = ArrayList_length(&world->loadedChunks);
+    Chunk *currChunk;
+    for(int i = 0; i < loadedChunkCount; i++)
+    {   
+        currChunk = NULL;
+        ArrayList_get(&world->loadedChunks, i ,(byte*)&currChunk);
+
+        if(!currChunk) continue;
+
+        if(currChunk->index.xOffset == chunkIndex.xOffset 
+            && currChunk->index.zOffset == chunkIndex.zOffset)
+            return currChunk;
+    }
+    return NULL;
+}
+
+Chunk* World_getChunkAt(World *world, WorldPosition position)
+{
+    return World_getChunk(world, 
+        WorldPosition_toChunkPosition(position).chunkIndex);
+}
+
+
+Chunk* World_getChunkAtBlock(World *world, WorldBlockPosition position)
+{
+    return World_getChunk(world, 
+        WorldPosition_toChunkPosition(WORLDPOS(position.x, position.y, position.z)).chunkIndex);
+}
+
+ChunkIndex World_getChunkIndexAt(World *world, WorldPosition position)
+{
+    if(!world) return CHUNKINDEX_NULL;
+    return WorldPosition_toChunkPosition(position).chunkIndex;
+}
 
 WorldPosition ChunkPosition_toWorldPosition(ChunkPosition position)
 {
-    return WORLDPOS(position.x + position.chunkIndex.xOffset, 
+    return WORLDPOS(position.x + (position.chunkIndex.xOffset * CHUNK_X_LIMIT), 
         position.y, 
-        position.z + position.chunkIndex.zOffset);
+        position.z + (position.chunkIndex.zOffset * CHUNK_Z_LIMIT));
 }
+
+WorldBlockPosition ChunkBlockPosition_toWorldBlockPosition(ChunkBlockPosition position)
+{
+    return WORLDBLOCKPOS(position.x + (position.chunkIndex.xOffset * CHUNK_X_LIMIT), 
+        position.y, 
+        position.z + (position.chunkIndex.zOffset * CHUNK_Z_LIMIT));
+}
+
 
 ChunkPosition WorldPosition_toChunkPosition(WorldPosition position)
 {   
-
-    return CHUNKPOS(CHUNKINDEX(floorf(position.x / CHUNK_X_LIMIT), floorf(position.z / CHUNK_Z_LIMIT)), 
-            fmodf(position.x, CHUNK_X_LIMIT), 
-            position.y,
-            fmodf(position.z, CHUNK_Z_LIMIT));
+    return CHUNKPOS(CHUNKINDEX((int)floorf(position.x / CHUNK_X_LIMIT), (int)floorf(position.z / CHUNK_Z_LIMIT)), 
+        fmodf(position.x, CHUNK_X_LIMIT), 
+        position.y,
+        fmodf(position.z, CHUNK_Z_LIMIT));
 }
+
+WorldBlockPosition WorldPosition_toBlockPosition(WorldPosition position)
+{
+    return WORLDBLOCKPOS((int)position.x, (int)position.y, (int)position.z);
+}
+
+WorldPosition WorldPosition_floor(WorldPosition position)
+{
+    return WORLDPOS(floorf(position.x), floorf(position.y), floorf(position.z));
+}
+
+WorldPosition WorldPosition_ceiling(WorldPosition position)
+{
+    return WORLDPOS(ceilf(position.x), ceilf(position.y), ceilf(position.z));
+}
+
+
+void World_setBlockAt(World *world, WorldPosition position, Block block)
+{
+    if(!world) return;
+    Chunk_setBlockAt(World_getChunkAt(world, position), WorldPosition_toChunkPosition(position), block);
+}
+
+Block World_getBlockAt(World *world, WorldPosition position)
+{   
+    if(!world) return BLOCK_NULL;
+
+    return Chunk_getBlockAt(World_getChunkAt(world, position), WorldPosition_toChunkPosition(position));
+}
+
 
 float* World_getDirectionVector(WorldDirection direction)
 {
@@ -80,10 +164,3 @@ float* World_getDirectionVector(WorldDirection direction)
     return NULL;
 }
 
-
-//NEED TO FIX NOW
-BlockType World_getBlockAt(World *world, int x, int y, int z)
-{
-    if(!world || !Chunk_isValidBlockOffset(x, y, z)) return AIR;
-    return world->chunk[0].blocks[x][y][z];
-}

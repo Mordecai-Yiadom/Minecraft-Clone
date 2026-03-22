@@ -132,7 +132,7 @@ void BlockMesh_init()
     BlockTexture_createAll();
 }
 
-BlockFace BlockMesh_getFace(BlockType type, BlockSide side)
+BlockFace BlockMesh_getFace(Block block, BlockSide side)
 {   
     BlockFace face;
 
@@ -163,10 +163,10 @@ BlockFace BlockMesh_getFace(BlockType type, BlockSide side)
             break;
     }
 
-    face.topRight.textureIndex = type;
-    face.topLeft.textureIndex = type;
-    face.bottomLeft.textureIndex = type;
-    face.bottomRight.textureIndex = type;
+    face.topRight.textureIndex = block.id;
+    face.topLeft.textureIndex = block.id;
+    face.bottomLeft.textureIndex = block.id;
+    face.bottomRight.textureIndex = block.id;
 
     return face;
 }

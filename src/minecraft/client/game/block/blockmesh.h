@@ -51,7 +51,7 @@ typedef enum BlockSide
 void BlockMesh_init();
 
 
-BlockFace BlockMesh_getFace(BlockType type, BlockSide side);
+BlockFace BlockMesh_getFace(Block block, BlockSide side);
 
 void BlockMesh_setPosition(BlockMesh *mesh, vec3 position);
 

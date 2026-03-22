@@ -1,31 +1,37 @@
 #include "block.h"
 
-bool BlockType_isVisible(BlockType blockType)
+
+
+bool Block_isTransparent(Block block)
 {
-    switch(blockType)
+    switch(block.id)
     {
         case AIR:
         case VOID_AIR:
-            return false;
-        default:
+        case BLOCKID_INVALID:
             return true;
+        default:
+            return false;
     }
 
-    return true;
+    return false;
 }
 
-bool BlockType_isSolid(BlockType blockType)
+
+bool Block_isAir(Block block)
 {
-    switch(blockType)
+    switch(block.id)
     {
-        case DIRT:
-        case STONE:
-        case GRASS:
-        case BEDROCK:
+        case AIR:
+        case VOID_AIR:
             return true;
         default:
             return false;
     }
+    return false;
+}
 
-    return true;
+bool Block_isValid(Block block)
+{
+    return block.id != BLOCKID_INVALID;
 }
