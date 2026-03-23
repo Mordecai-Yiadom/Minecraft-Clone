@@ -1,6 +1,6 @@
 #include "renderpass.h"
 
-#define COMMAND_QUEUE_SIZE 4
+#define COMMAND_QUEUE_SIZE 1000
 static int commandsSumbitted = 0;
 RenderPass RenderPass_create(char* tag, RenderPipeline pipeline, RenderTarget renderTarget)
 {

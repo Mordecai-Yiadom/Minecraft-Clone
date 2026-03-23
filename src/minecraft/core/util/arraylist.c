@@ -63,7 +63,7 @@ void ArrayList_add(ArrayList *arrayList, byte *element)
                 break;
 
             case STATIC_MEMORY:
-                break;
+                return;
         }
     }
     
