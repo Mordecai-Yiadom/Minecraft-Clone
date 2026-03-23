@@ -12,6 +12,7 @@ typedef enum BlockType
     DIRT,
     STONE,
     BEDROCK,
+    DIAMOND_ORE,
     UNKNOWN,
     BLOCKID_INVALID = INT32_MAX
 }BlockType;

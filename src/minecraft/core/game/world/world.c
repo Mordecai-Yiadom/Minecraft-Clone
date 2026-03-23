@@ -10,7 +10,7 @@ World* World_create(i64 seed)
     World *world = calloc(1, sizeof(World));
     world->seed = seed;
 
-    world->loadedChunks = ArrayList_create(5, sizeof(Chunk*), DYNAMIC_MEMORY);
+    world->loadedChunks = ArrayList_create(25, sizeof(Chunk*), DYNAMIC_MEMORY);
     return world;
 }
 
@@ -20,8 +20,9 @@ void World_loadChunk(World *world, ChunkIndex chunkIndex)
     if(!world || World_isChunkLoaded(world, chunkIndex)) 
         return;
 
-    Chunk *chunk = Chunk_create(&world, chunkIndex);
+    Chunk *chunk = Chunk_create(world, chunkIndex);
     if(chunk) ArrayList_add(&world->loadedChunks, (byte*)&chunk);
+    
 }
 
 void World_loadChunkAt(World *world, WorldPosition position)
@@ -32,7 +33,7 @@ void World_loadChunkAt(World *world, WorldPosition position)
 
 bool World_isChunkLoaded(World *world, ChunkIndex chunkIndex)
 {
-    if(!world) false;
+    if(!world) return false;
 
     int loadedChunkCount = ArrayList_length(&world->loadedChunks);
     Chunk *currChunk;
@@ -55,27 +56,25 @@ bool World_isChunkLoaded(World *world, ChunkIndex chunkIndex)
 Chunk* World_getChunk(World *world, ChunkIndex chunkIndex)
 {
     if(!world) return NULL;
-    
     int loadedChunkCount = ArrayList_length(&world->loadedChunks);
+
     Chunk *currChunk;
     for(int i = 0; i < loadedChunkCount; i++)
     {   
         currChunk = NULL;
         ArrayList_get(&world->loadedChunks, i ,(byte*)&currChunk);
-
         if(!currChunk) continue;
 
         if(currChunk->index.xOffset == chunkIndex.xOffset 
             && currChunk->index.zOffset == chunkIndex.zOffset)
             return currChunk;
-    }
+    }    
     return NULL;
 }
 
 Chunk* World_getChunkAt(World *world, WorldPosition position)
-{
-    return World_getChunk(world, 
-        WorldPosition_toChunkPosition(position).chunkIndex);
+{   
+    return World_getChunk(world, WorldPosition_toChunkPosition(position).chunkIndex);
 }
 
 
@@ -140,7 +139,9 @@ Block World_getBlockAt(World *world, WorldPosition position)
 {   
     if(!world) return BLOCK_NULL;
 
-    return Chunk_getBlockAt(World_getChunkAt(world, position), WorldPosition_toChunkPosition(position));
+    ChunkPosition chunkPos = WorldPosition_toChunkPosition(position);
+    Chunk* chunk = World_getChunkAt(world, position);
+    return Chunk_getBlockAt(chunk, chunkPos);
 }
 
 

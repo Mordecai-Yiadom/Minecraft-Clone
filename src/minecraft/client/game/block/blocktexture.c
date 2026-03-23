@@ -9,6 +9,7 @@ void BlockTexture_createAll()
     BlockTexture_create(STONE, "assets/minecraft/textures/blocks/stone.png");
     BlockTexture_create(DIRT, "assets/minecraft/textures/blocks/dirt.png");
     BlockTexture_create(BEDROCK, "assets/minecraft/textures/blocks/bedrock.png");
+    BlockTexture_create(DIAMOND_ORE, "assets/minecraft/textures/blocks/diamond_ore.png");
     BlockTexture_create(UNKNOWN, "assets/minecraft/textures/blocks/null.png");
 }
 

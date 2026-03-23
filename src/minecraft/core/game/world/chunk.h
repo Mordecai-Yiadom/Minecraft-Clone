@@ -1,9 +1,9 @@
 #ifndef MINECRAFT_CORE_GAME_CHUNK_H
 #define MINECRAFT_CORE_GAME_CHUNK_H
 
-#define CHUNK_X_LIMIT 1
-#define CHUNK_Y_LIMIT 5
-#define CHUNK_Z_LIMIT 1
+#define CHUNK_X_LIMIT 16
+#define CHUNK_Y_LIMIT 384
+#define CHUNK_Z_LIMIT 16
 
 #include "../../util/memtypes.h"
 

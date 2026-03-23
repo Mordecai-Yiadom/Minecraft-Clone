@@ -8,8 +8,11 @@
 #include "../../system.render/renderers/chunkrenderer.h"
 static Camera* GAMELAYER_MAIN_CAMERA;
 static World *world;
-static ChunkMesh chunkMesh;
-static ChunkMesh chunkMesh2;
+
+#define X_CHUNK_RENDER_DISTANCE 2
+#define Z_CHUNK_RENDER_DISTANCE 2
+
+static ChunkMesh renderedChunks[X_CHUNK_RENDER_DISTANCE][Z_CHUNK_RENDER_DISTANCE];
 
 ApplicationLayer GameLayer_create(GameLayerState state)
 {
@@ -42,34 +45,50 @@ void GameLayer_onRender(ApplicationLayer *gamelayer)
 {   
     if(!gamelayer) return;
     
-    ChunkRenderer_drawChunkMesh(&chunkMesh);
-    ChunkRenderer_drawChunkMesh(&chunkMesh2);
-    
+
+    for(int x = 0; x < X_CHUNK_RENDER_DISTANCE; x++)
+    {
+        for(int z = 0; z < Z_CHUNK_RENDER_DISTANCE; z++)
+        {   
+            ChunkRenderer_drawChunkMesh(&renderedChunks[x][z]);
+        }
+    }    
 }
 
 void GameLayer_onUpdate(ApplicationLayer *gamelayer)
 {   
     if(!gamelayer) return;
-    //Transform3D transform;
-    //Quad_create(transform);
-    
+
     ChunkRenderer_init();
     
     
     if(!GAMELAYER_MAIN_CAMERA)
     {   
         GAMELAYER_MAIN_CAMERA = ChunkRenderer_getRenderTargetCamera();
-        
+        vec3 cameraSpeed;
+        vec3f(cameraSpeed, 15, 15, 15);
+        Camera_setSpeed(GAMELAYER_MAIN_CAMERA, cameraSpeed);
+
         world = World_create(0);
-        World_loadChunk(world, CHUNKINDEX(0,0));
-        World_loadChunk(world, CHUNKINDEX(16,16));
 
         BlockMesh_init();
-        chunkMesh = ChunkMesh_create(World_getChunk(world, CHUNKINDEX(0,0)));
-        chunkMesh2 = ChunkMesh_create(World_getChunk(world, CHUNKINDEX(16,16)));
+        for(int x = 0; x < X_CHUNK_RENDER_DISTANCE; x++)
+        {
+            for(int z = 0; z < Z_CHUNK_RENDER_DISTANCE; z++)
+            {   
+                World_loadChunk(world, CHUNKINDEX(x, z)); 
+            }
+        }
 
-        ChunkMesh_build(&chunkMesh);
-        ChunkMesh_build(&chunkMesh2);
+        //Build create and build all chunks
+        for(int x = 0; x < X_CHUNK_RENDER_DISTANCE; x++)
+        {
+            for(int z = 0; z < Z_CHUNK_RENDER_DISTANCE; z++)
+            {   
+                renderedChunks[x][z] = ChunkMesh_create(World_getChunk(world, CHUNKINDEX(x, z)));
+                ChunkMesh_build(&renderedChunks[x][z]); 
+            }
+        }
     } 
 
     //Update FPS on Window bar
@@ -77,7 +96,7 @@ void GameLayer_onUpdate(ApplicationLayer *gamelayer)
     sprintf(fpsBuffer, "FPS: %d", RenderSystem_fps());
     Window_setTitle(ClientApplication_getGameWindow(), fpsBuffer);
     memset(fpsBuffer, 0, sizeof(fpsBuffer));
-    
+
 }
 
 void GameLayer_transitionTo(ApplicationLayer *gamelayer, ApplicationLayerType newLayerType)

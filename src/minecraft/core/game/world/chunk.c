@@ -28,6 +28,9 @@ Chunk* Chunk_create(void* world, ChunkIndex index)
             // chunk->blocks[x][0][z] = STONE;
         }
     }
+    chunk->blocks[9][7][6] = DIAMOND_ORE;
+    chunk->blocks[4][4][5] = DIAMOND_ORE;
+    chunk->blocks[4][5][5] = DIAMOND_ORE;
     
     return chunk;
 }
@@ -86,7 +89,7 @@ void Chunk_setBlockAt(Chunk* chunk, ChunkPosition position, Block block)
 Block Chunk_getBlockAt(Chunk* chunk, ChunkPosition position)
 {
     if(!chunk || !ChunkPosition_isValid(position)) return BLOCK_NULL;
-
+    
     ChunkBlockPosition blockPos = ChunkPosition_toBlockPosition(position);
     Block block = {.id=chunk->blocks[blockPos.x][blockPos.y][blockPos.z]};
     return block;

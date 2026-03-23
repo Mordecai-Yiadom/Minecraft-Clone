@@ -64,34 +64,26 @@ void ChunkMesh_addBlock(ChunkMesh *chunkMesh, Block block, ChunkBlockPosition ch
 {
     if(!chunkMesh || Block_isAir(block) || !ChunkBlockPosition_isValid(chunkBlockPosition)) return;
 
-    vec3 meshTranslation = {((float)chunkBlockPosition.x) + chunkMesh->chunk->index.xOffset, 
-        ((float)chunkBlockPosition.y), 
-        ((float)chunkBlockPosition.z) + chunkMesh->chunk->index.zOffset};
-
+    WorldPosition worldBlockPos = ChunkPosition_toWorldPosition(ChunkBlockPosition_toChunkPosition(chunkBlockPosition));
+    vec3 meshTranslation = {worldBlockPos.x, worldBlockPos.y, worldBlockPos.z};
+    
     BlockFace currFace;
     for(BlockSide side = BLOCKFACE_NORTH; side < BLOCK_SIDE_COUNT; side++)
     {   
-         
         float* faceDirectionVec = World_getDirectionVector((WorldDirection)side);
         if(!faceDirectionVec) puts("Null Face Direction Vector");
 
-        WorldBlockPosition blockPos = ChunkBlockPosition_toWorldBlockPosition(chunkBlockPosition);
+        WorldPosition neighborBlockPos = worldBlockPos;
+        neighborBlockPos.x += vec3x(faceDirectionVec);
+        neighborBlockPos.y += vec3y(faceDirectionVec);
+        neighborBlockPos.z += vec3z(faceDirectionVec);
 
-        WorldPosition neighborBlockPos = {vec3x(faceDirectionVec) + blockPos.x, 
-            vec3y(faceDirectionVec) + blockPos.y, 
-            vec3z(faceDirectionVec) + blockPos.z};
-        
-        
-        // printf("NeighborBlock of (%d, %d, %d): (%.2f, %.2f, %.2f))\n",
-        //     blockPos.x, blockPos.y, blockPos.z,
-        //     neighborBlockPos.x, neighborBlockPos.y, neighborBlockPos.z);
+        Block neighborBlock = World_getBlockAt(chunkMesh->chunk->world, neighborBlockPos);
 
-        
-        if(Block_isTransparent(World_getBlockAt(chunkMesh->chunk->world, neighborBlockPos)))
-        {
-            currFace = BlockMesh_getFace(Chunk_getBlockAt(chunkMesh->chunk, 
-            ChunkBlockPosition_toChunkPosition(chunkBlockPosition)), side);
 
+        if(Block_isTransparent(neighborBlock))
+        {   
+            currFace = BlockMesh_getFace(block, side);
             BlockFace_translate(&currFace, meshTranslation);
 
             chunkMesh->buildingData.vertexBuffer[chunkMesh->buildingData.vertexBufferLength++] = currFace;
@@ -107,9 +99,7 @@ void ChunkMesh_addBlock(ChunkMesh *chunkMesh, Block block, ChunkBlockPosition ch
             chunkMesh->buildingData.topLeftIndex += 4;
             chunkMesh->buildingData.bottomLeftIndex += 4;
             chunkMesh->buildingData.bottomRightIndex += 4;
-        }    
-        
-
+        }            
     }
     
 }
@@ -123,7 +113,7 @@ void ChunkMesh_flush(ChunkMesh *chunkMesh)
 
     BufferData indexBufferData = {.buffer=chunkMesh->buildingData.indexBuffer, .size=(chunkMesh->buildingData.indexBufferLength * sizeof(int))};
     IndexBuffer_write(&chunkMesh->mesh.ebo, indexBufferData, 0);
-    printf("IndexBuffer Length: %d\n", chunkMesh->buildingData.indexBufferLength);
+    //printf("IndexBuffer Length: %d\n", chunkMesh->buildingData.indexBufferLength);
 }
 
 void ChunkMesh_clear(ChunkMesh *chunkMesh)
