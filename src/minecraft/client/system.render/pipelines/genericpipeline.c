@@ -28,6 +28,8 @@ static inline void GenericPipeline_load(RenderPipeline *pipeline, RenderTarget *
     Renderer_clearBuffer(DEPTH_BUFFER);
     Renderer_enableTest(DEPTH_TEST);
     
+    Renderer_enableMSAA();
+
     Transform3D chunkTransform;
     vec3f(chunkTransform.position, 0, 0, 0);
     glm_mat4_identity(chunkTransform.matrix);
@@ -48,4 +50,5 @@ static inline void GenericPipeline_unload(RenderPipeline *pipeline, RenderTarget
     if(!pipeline || !renderTarget) return;
 
     Renderer_disableTest(DEPTH_TEST);
+    Renderer_disableMSAA();
 }

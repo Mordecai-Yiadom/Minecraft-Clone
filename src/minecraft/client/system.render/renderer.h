@@ -79,6 +79,10 @@ void Renderer_disableCulling();
 
 void Renderer_setViewport(RendererViewport viewport);
 
+void Renderer_enableMSAA();
+
+void Renderer_disableMSAA();
+
 
 
 

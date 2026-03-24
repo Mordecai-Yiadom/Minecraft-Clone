@@ -9,6 +9,7 @@ Window Window_create(WindowProps props)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, MINECRAFT_CLIENT_RENDER_SYSTEM_GL_CONTEXT_STD_VERSION_MAJOR);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, MINECRAFT_CLIENT_RENDER_SYSTEM_GL_CONTEXT_STD_VERSION_MINOR);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_SAMPLES, 4);
     
     Window window;
     memset(&window, 0, sizeof(Window));

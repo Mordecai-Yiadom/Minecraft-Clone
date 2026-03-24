@@ -59,3 +59,15 @@ void Renderer_setViewport(RendererViewport viewport)
 {
     glViewport(viewport.xOrigin, viewport.yOrigin, viewport.width, viewport.height);
 }
+
+
+void Renderer_enableMSAA()
+{
+    glEnable(GL_MULTISAMPLE);
+}
+
+void Renderer_disableMSAA()
+{
+    glDisable(GL_MULTISAMPLE);
+}
+
