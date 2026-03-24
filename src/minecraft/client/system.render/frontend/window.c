@@ -1,7 +1,10 @@
+#define MINECRAFT_CLIENT_SYSTEM_WINDOW_C
 #include "window.h"
 
 #define MINECRAFT_CLIENT_RENDER_SYSTEM_GL_CONTEXT_STD_VERSION_MAJOR 3
 #define MINECRAFT_CLIENT_RENDER_SYSTEM_GL_CONTEXT_STD_VERSION_MINOR 3
+
+#include "../renderer.h"
 
 Window Window_create(WindowProps props)
 {   
@@ -37,7 +40,9 @@ Window Window_create(WindowProps props)
     
     Window_setVsync(&window, props.isVsync);
     Window_setVisible(&window, props.isVisible);
-
+    
+    //here only temporarily 
+    glfwSetFramebufferSizeCallback(window.glfwWindow, Window_onFramebufferResize);
     return window;
 }
 
@@ -108,17 +113,26 @@ void Window_setFullscreen(Window* window, bool isFullscreen)
     
     int xPos, yPos;
     glfwGetMonitorPos(primaryMonitor, &xPos, &yPos);
-
-    if(isFullscreen && !glfwGetWindowMonitor(window->glfwWindow))
-        glfwSetWindowMonitor(window->glfwWindow, primaryMonitor, xPos, yPos, mode->width, mode->height, 0);
+   
+    //&& glfwGetWindowMonitor(window->glfwWindow)
+    if(isFullscreen && !Window_isFullscreen(window))
+        glfwSetWindowMonitor(window->glfwWindow, primaryMonitor, xPos, yPos, mode->width, mode->height, mode->refreshRate);
     else 
-        glfwSetWindowMonitor(window->glfwWindow, (GLFWmonitor*) NULL, xPos, yPos, mode->width, mode->height, mode->refreshRate);
+        glfwSetWindowMonitor(window->glfwWindow, (GLFWmonitor*) NULL, (300), 300, 1280, 720, mode->refreshRate);
 }
 
 bool Window_isFullscreen(Window *window)
 {
     if(!window) return false;
-    return (bool) glfwGetWindowMonitor(window->glfwWindow);
+    return (glfwGetWindowMonitor(window->glfwWindow) != NULL);
+}
+
+void Window_toggleFullscreen(Window *window)
+{
+    if(!Window_isValid(window)) return;
+    if(Window_isFullscreen(window)) Window_setFullscreen(window, false);
+    else Window_setFullscreen(window, true);
+    //Window_setFullscreen(window, !Window_isFullscreen(window));
 }
 
 bool Window_shouldClose(Window *window)
@@ -149,4 +163,11 @@ void Window_setIcon(Window *window, Image *image)
     glfwImage.width = image->width;
 
     glfwSetWindowIcon(window->glfwWindow, 1, &glfwImage);
+}
+
+static void Window_onFramebufferResize(GLFWwindow* window, int width, int height)
+{   
+    if(!window) return;
+    RendererViewport viewPort = {.xOrigin=0, .yOrigin=0, .width=width, .height=height};
+    Renderer_setViewport(viewPort);
 }

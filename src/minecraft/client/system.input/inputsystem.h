@@ -12,6 +12,7 @@ typedef enum Key
     KEY_ESC = GLFW_KEY_ESCAPE,
     KEY_SPACE = GLFW_KEY_SPACE,
     KEY_LEFT_SHIFT = GLFW_KEY_LEFT_SHIFT,
+    KEY_F11 = GLFW_KEY_F11,
 }Key;
 
 typedef enum KeyAction

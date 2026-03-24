@@ -50,6 +50,8 @@ void Window_setFullscreen(Window* window, bool isFullscreen);
 
 bool Window_isFullscreen(Window *window);
 
+void Window_toggleFullscreen(Window *window);
+
 void Window_setViewport(Window *window, int xOrigin, int yOrigin, int width, int height);
 
 bool Window_shouldClose(Window *window);
@@ -59,5 +61,10 @@ void Window_swapBuffers(Window *window);
 bool Window_isValid(Window *window);
 
 void Window_setIcon(Window *window, Image *image);
+
+#ifdef MINECRAFT_CLIENT_SYSTEM_WINDOW_C
+    static void Window_onFramebufferResize(GLFWwindow* window, int width, int height);
+#endif
+
 
 #endif

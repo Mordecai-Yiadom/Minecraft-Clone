@@ -163,6 +163,12 @@ bool GameLayer_onKeyInput(ApplicationLayer *gamelayer, KeyInputEvent event)
             else
                 InputContext_setMouseInputMode(event.context, MOUSE_NORMAL);
             break;
+        
+        case KEY_F11:
+            if((event.action != KEY_PRESS)) break;
+            Window_toggleFullscreen(ClientApplication_getGameWindow());
+            break;
+
         default:
             return false;
     }
