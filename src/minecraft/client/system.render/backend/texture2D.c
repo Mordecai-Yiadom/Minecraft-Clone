@@ -2,22 +2,23 @@
 #define MINECRAFT_CLIENT_RENDER_SYSTEM_TEXTURE2D_C
 #include "texture2D.h"
 #include <string.h>
+#include <stdio.h>
 
-#define Texture2D_isSamplerValid(id) (id != 0)
+#define Texture2D_isSamplerValid(id) ((id) != 0)
 
 Texture2D Texture2D_create(char *imagePath)
 {   
+    
     Texture2D texture;
     memset(&texture, 0, sizeof(Texture2D));
 
     if(!imagePath) return texture;
-
+    
     texture.image = Image_create(imagePath, true);
     if(!Image_isValid(&texture.image)) return texture;
-
+    
     glGenTextures(1, &texture.id);
     glBindTexture(GL_TEXTURE_2D, texture.id);
-    if(!glIsTexture(texture.id)) return texture;
 
     GLint internalFormat;
     GLenum format;
@@ -56,14 +57,14 @@ Texture2D Texture2D_create(char *imagePath)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
     //Set Active Texture
-    if(Texture2D_isSamplerValid(TEXTURE2D_NEXT_TEXTURE_UNIT))
+    if(Texture2D_isSamplerValid(TEXTURE2D_NEXT_TEXTURE_UNIT - GL_TEXTURE0))
     {
         glActiveTexture(TEXTURE2D_NEXT_TEXTURE_UNIT);
         glBindTexture(GL_TEXTURE_2D, texture.id);
         texture.samplerID = (TEXTURE2D_NEXT_TEXTURE_UNIT - GL_TEXTURE0);
         TEXTURE2D_NEXT_TEXTURE_UNIT++;
     }
-
+    
     return texture;
 }
 

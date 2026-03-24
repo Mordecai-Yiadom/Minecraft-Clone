@@ -20,8 +20,11 @@ void BlockTexture_create(BlockType blockType, char *path)
     if(!path) return;
 
     Texture2D texture = Texture2D_create(path);
-    Array_insert(&BLOCKTEXTURE_MANAGER.textures, blockType, (byte*)&texture);
-    BLOCKTEXTURE_MANAGER.textureCount++;
+    if(Texture2D_isValid(&texture))
+    {
+        Array_insert(&BLOCKTEXTURE_MANAGER.textures, blockType, (byte*)&texture);
+        BLOCKTEXTURE_MANAGER.textureCount++;
+    } 
 }
 
 

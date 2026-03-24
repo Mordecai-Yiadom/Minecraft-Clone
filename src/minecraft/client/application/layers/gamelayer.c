@@ -9,8 +9,8 @@
 static Camera* GAMELAYER_MAIN_CAMERA;
 static World *world;
 
-#define X_CHUNK_RENDER_DISTANCE 5
-#define Z_CHUNK_RENDER_DISTANCE 5
+#define X_CHUNK_RENDER_DISTANCE 1
+#define Z_CHUNK_RENDER_DISTANCE 1
 
 static ChunkMesh renderedChunks[X_CHUNK_RENDER_DISTANCE][Z_CHUNK_RENDER_DISTANCE];
 
