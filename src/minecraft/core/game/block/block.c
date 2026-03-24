@@ -8,6 +8,7 @@ bool Block_isTransparent(Block block)
     {
         case AIR:
         case VOID_AIR:
+        case LEAVES:
         case BLOCKID_INVALID:
             return true;
         default:

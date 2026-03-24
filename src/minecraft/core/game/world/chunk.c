@@ -30,7 +30,7 @@ Chunk* Chunk_create(void* world, ChunkIndex index)
     }
     chunk->blocks[9][7][6] = DIAMOND_ORE;
     chunk->blocks[4][4][5] = DIAMOND_ORE;
-    chunk->blocks[4][5][5] = DIAMOND_ORE;
+    chunk->blocks[4][5][5] = LEAVES;
     
     return chunk;
 }

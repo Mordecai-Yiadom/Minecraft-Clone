@@ -7,7 +7,7 @@
 RenderPipeline GenericPipeline_create()
 {   
 
-    Shader shader = Shader_create("assets/minecraft/shaders/default.vs", NULL, "assets/minecraft/shaders/default.fs");
+    Shader shader = Shader_create("assets/minecraft/shaders/chunk/terrain.vs", NULL, "assets/minecraft/shaders/chunk/terrain.fs");
     
     if(!Shader_isValid(shader)) Logger_logError(RENDER_SYSTEM, "Shader Program handle is invalid.");
     RenderPipeline pipeline = RenderPipeline_create(shader, GenericPipeline_load, GenericPipeline_unload);
@@ -27,7 +27,7 @@ static inline void GenericPipeline_load(RenderPipeline *pipeline, RenderTarget *
 
     Renderer_clearBuffer(DEPTH_BUFFER);
     Renderer_enableTest(DEPTH_TEST);
-
+    
     Transform3D chunkTransform;
     vec3f(chunkTransform.position, 0, 0, 0);
     glm_mat4_identity(chunkTransform.matrix);
