@@ -35,6 +35,9 @@ void ClientApplication_run()
     
     ClientApplication_createGameWindow();
     
+    //Test Start a thread
+    ClientApplication_startLoggerThread();
+
 
     //App Loop
     while(ClientApplication_isRunning())
@@ -226,6 +229,25 @@ static inline void ClientApplication_createGameWindow()
     
     KeyInputEvent_setDispatcher(APP_STATE.inputContext, ClientApplication_dispatchOnKeyInputEventAsync);
 }
+
+
+//TESTING ONLY - REMOVE
+static inline void ClientApplication_startLoggerThread()
+{
+    if(!ClientApplication_isInitialized()) return;
+    
+    APP_STATE.threadPool = ThreadPool_create(3);
+
+    ThreadPool_sumbitTask(APP_STATE.threadPool, THREADPOOLTASK(logInfo, NULL));
+}
+
+//TESTING ONLY - REMOVE 
+void* logInfo()
+{   
+    puts("Hello World");
+    return NULL;
+}
+
 
 void ClientApplication_dispatchOnMouseMoveEventAsync(GLFWwindow *window, double xPos, double yPos)
 {   

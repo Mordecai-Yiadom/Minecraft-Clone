@@ -4,8 +4,8 @@
 #include <pthread.h>
 #include <unistd.h>
 #include <stdbool.h>
-
-typedef void* (*ThreadRoutine)();
+#include "coremutex.h"
+typedef void* (*ThreadRoutine)(void* args);
 
 typedef struct Thread
 {
@@ -17,7 +17,7 @@ Thread* Thread_create(ThreadRoutine routine, void* routineArgs);
 
 void Thread_destroy(Thread* thread);
 
-void** Thread_join(Thread* threadToJoin);
+void* Thread_join(Thread* threadToJoin);
 
 void Thread_sleep(unsigned int microseconds);
 

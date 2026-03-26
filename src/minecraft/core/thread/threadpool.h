@@ -4,25 +4,39 @@
 #include "corethread.h"
 #include "../util/queue.h"
 
-#define THREADPOOL_MAX 5
+#define THREADPOOL_MIN_SIZE 1
+#define THREADPOOL_MAX_SIZE 5
+#define THREADPOOL_TASKQUEUE_MAX_SIZE 1000
 
 typedef struct ThreadPool
 {
-    Thread threads[THREADPOOL_MAX];
-    Queue jobQueue;
+    Thread* threads[THREADPOOL_MAX_SIZE];
+    Queue taskQueue;
+    Mutex* taskQueueMutex;
+    int threadCount;
 }ThreadPool;
 
 typedef struct ThreadPoolTask
 {
-    void* task;
+    ThreadRoutine routine;
     void* args;
 }ThreadPoolTask;
 
-#define THREADPOOLTASK(t, a) ((ThreadPoolTask){.task=t, .args=a})
+#define THREADPOOLTASK(r, a) ((ThreadPoolTask){.routine=r, .args=a})
 
 ThreadPool* ThreadPool_create(int threadCount);
 
-void ThreadPool_enqueueTask(ThreadPoolTask task);
+void ThreadPool_destroy(ThreadPool* threadPool);
 
+void ThreadPool_sumbitTask(ThreadPool* threadPool, ThreadPoolTask task);
+
+bool ThreadPoolTask_isValid(ThreadPoolTask task);
+
+
+#ifdef CORE_THREADPOOL_C
+    static void* ThreadPool_pollTasks(void* threadPool);
+    static inline ThreadPoolTask ThreadPoolThread_getNextTask(ThreadPool* threadPool);
+    static inline void ThreadPoolThread_executeTask(ThreadPoolTask task);
+#endif
 
 #endif

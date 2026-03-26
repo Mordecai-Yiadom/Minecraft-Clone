@@ -8,6 +8,7 @@ Thread* Thread_create(ThreadRoutine routine, void* routineArgs)
 
     Thread *thread = calloc(1, sizeof(Thread));
     pthread_create(&thread->handle, NULL, routine, routineArgs);
+    return thread;
 }
 
 void Thread_destroy(Thread* thread)
@@ -16,11 +17,11 @@ void Thread_destroy(Thread* thread)
     free(thread);
 }
 
-void** Thread_join(Thread* threadToJoin)
+void* Thread_join(Thread* threadToJoin)
 {
     if(!Thread_isValid(threadToJoin)) return NULL;
 
-    void** result = NULL;
+    void* result = NULL;
     pthread_join(threadToJoin->handle, &result);
     return result;
 }
