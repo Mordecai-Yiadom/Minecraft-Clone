@@ -11,6 +11,7 @@ ThreadPool* ThreadPool_create(int threadCount)
     threadPool->taskQueue = Queue_create(THREADPOOL_TASKQUEUE_MAX_SIZE, sizeof(ThreadPoolTask), STATIC_MEMORY);
 
     threadPool->taskQueueMutex = Mutex_create();
+    threadPool->taskQueueNotEmptyCondition = ThreadCondition_create();
 
     for(int i = 0; i < threadCount; i++)
     {
@@ -19,6 +20,8 @@ ThreadPool* ThreadPool_create(int threadCount)
 
     return threadPool;
 }
+
+
 
 void ThreadPool_destroy(ThreadPool* threadPool)
 {
@@ -29,6 +32,9 @@ void ThreadPool_destroy(ThreadPool* threadPool)
         Thread_cancel(threadPool->threads[i]);
         Thread_destroy(threadPool->threads[i]);
     }
+
+    Mutex_destroy(threadPool->taskQueueMutex);
+    ThreadCondition_destroy(threadPool->taskQueueNotEmptyCondition);
 }
 
 void ThreadPool_sumbitTask(ThreadPool* threadPool, ThreadPoolTask task)
@@ -38,6 +44,30 @@ void ThreadPool_sumbitTask(ThreadPool* threadPool, ThreadPoolTask task)
     Mutex_lock(threadPool->taskQueueMutex);
     Queue_enqueue(&threadPool->taskQueue, (byte*)&task);
     Mutex_unlock(threadPool->taskQueueMutex);
+
+    if(Queue_length(&threadPool->taskQueue) > 1) 
+        ThreadCondition_broadcast(threadPool->taskQueueNotEmptyCondition);
+    else 
+        ThreadCondition_signal(threadPool->taskQueueNotEmptyCondition);
+}
+
+void ThreadPool_detatch(ThreadPool* threadPool)
+{
+    if(!threadPool) return;
+    for(int i = 0; i < threadPool->threadCount; i++)
+    {
+        Thread_detach(threadPool->threads[i]);
+    }
+}
+
+void ThreadPool_join(ThreadPool* threadPool)
+{
+    if(!threadPool) return;
+
+    for(int i = 0; i < threadPool->threadCount; i++)
+    {
+        Thread_join(threadPool->threads[i]);
+    }
 }
 
 bool ThreadPoolTask_isValid(ThreadPoolTask task)
@@ -45,17 +75,25 @@ bool ThreadPoolTask_isValid(ThreadPoolTask task)
     return (task.routine != NULL);
 }
 
-static inline void* ThreadPool_pollTasks(void* threadPool)
+static inline void* ThreadPool_pollTasks(void* args)
 {
-    if(!threadPool) return NULL;
+    if(!args) return NULL;
     
+    ThreadPool *threadPool = args;
+    ThreadPoolTask currentTask;
     while(true)
-    {
-        if(Queue_length(&((ThreadPool*)threadPool)->taskQueue) > 0)
-        {
-            ThreadPoolThread_executeTask(ThreadPoolThread_getNextTask(threadPool));
-        }
-        else Thread_sleep(10000);
+    {   
+        currentTask = THREADPOOLTASK(NULL, NULL);
+        Mutex_lock(threadPool->taskQueueMutex);
+
+        while(Queue_length(&threadPool->taskQueue) < 1) 
+            ThreadCondition_wait(threadPool->taskQueueNotEmptyCondition, threadPool->taskQueueMutex);
+        
+        
+        currentTask = ThreadPoolThread_getNextTask(threadPool);
+        Mutex_unlock(threadPool->taskQueueMutex);
+
+        ThreadPoolThread_executeTask(currentTask);
     }
     return NULL;
 }
