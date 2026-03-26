@@ -236,9 +236,9 @@ static inline void ClientApplication_startLoggerThread()
 {
     if(!ClientApplication_isInitialized()) return;
     
-    APP_STATE.threadPool = ThreadPool_create(3);
+    //APP_STATE.threadPool = ThreadPool_create(3);
 
-    ThreadPool_sumbitTask(APP_STATE.threadPool, THREADPOOLTASK(logInfo, NULL));
+    //ThreadPool_sumbitTask(APP_STATE.threadPool, THREADPOOLTASK(logInfo, NULL));
 }
 
 //TESTING ONLY - REMOVE 
