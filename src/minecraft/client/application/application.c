@@ -233,12 +233,13 @@ static inline void ClientApplication_createGameWindow()
 
 //TESTING ONLY - REMOVE
 static inline void ClientApplication_startLoggerThread()
-{
+{   
     if(!ClientApplication_isInitialized()) return;
     
-    //APP_STATE.threadPool = ThreadPool_create(3);
+    APP_STATE.threadPool = ThreadPool_create(2);
 
-    //ThreadPool_sumbitTask(APP_STATE.threadPool, THREADPOOLTASK(logInfo, NULL));
+    ThreadPool_detatch(APP_STATE.threadPool);
+    ThreadPool_sumbitTask(APP_STATE.threadPool, THREADPOOLTASK(logInfo, NULL));
 }
 
 //TESTING ONLY - REMOVE 

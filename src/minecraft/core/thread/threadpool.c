@@ -1,6 +1,6 @@
 #define CORE_THREADPOOL_C
 #include "threadpool.h"
-
+#include <stdio.h>
 ThreadPool* ThreadPool_create(int threadCount)
 {
     if(threadCount < THREADPOOL_MIN_SIZE) threadCount = THREADPOOL_MIN_SIZE;
@@ -78,7 +78,7 @@ bool ThreadPoolTask_isValid(ThreadPoolTask task)
 static inline void* ThreadPool_pollTasks(void* args)
 {
     if(!args) return NULL;
-    
+
     ThreadPool *threadPool = args;
     ThreadPoolTask currentTask;
     while(true)
@@ -103,12 +103,9 @@ static ThreadPoolTask ThreadPoolThread_getNextTask(ThreadPool* threadPool)
     if(!threadPool) return THREADPOOLTASK(NULL, NULL);
 
     ThreadPoolTask task;
-    Mutex_lock(threadPool->taskQueueMutex);
 
     Queue_peek(&threadPool->taskQueue, (byte*)&task);
     Queue_dequeue(&threadPool->taskQueue);
-
-    Mutex_unlock(threadPool->taskQueueMutex);
 
     return task;
 }
