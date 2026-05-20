@@ -1,9 +1,9 @@
-#ifndef CORE_THREADPOOL_H
-#define CORE_THREADPOOL_H
+#ifndef MSTDLIB_THREADPOOL_H
+#define MSTDLIB_THREADPOOL_H
 
-#include "corethread.h"
+#include "thread.h"
 #include "threadcondition.h"
-#include "../util/queue.h"
+#include "../containers.h"
 
 #define THREADPOOL_MIN_SIZE 1
 #define THREADPOOL_MAX_SIZE 5

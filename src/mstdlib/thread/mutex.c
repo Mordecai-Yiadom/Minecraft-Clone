@@ -1,4 +1,4 @@
-#include "coremutex.h"
+#include "mutex.h"
 
 #include <stdlib.h>
 

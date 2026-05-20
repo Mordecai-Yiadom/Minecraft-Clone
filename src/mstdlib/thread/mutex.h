@@ -1,5 +1,5 @@
-#ifndef CORE_MUTEX_H
-#define CORE_MUTEX_H
+#ifndef MSTDLIB_MUTEX_H
+#define MSTDLIB_MUTEX_H
 
 #include <pthread.h>
 

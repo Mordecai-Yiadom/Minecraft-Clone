@@ -13,7 +13,7 @@ int main(void)
     ApplicationInfo info = {.windowProps=windowProps};
     if(!ClientApplication_create(info))
     {
-        Logger_logError(APPLICATION_ERROR, "Failed to create Client Application instance.");
+        //Logger_logError(APPLICATION_ERROR, "Failed to create Client Application instance.");
         exit(-1);
     }
 

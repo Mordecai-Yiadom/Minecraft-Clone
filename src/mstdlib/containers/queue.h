@@ -1,8 +1,8 @@
-#ifndef MINECRAFT_CORE_QUEUE_H
-#define MINECRAFT_CORE_QUEUE_H
+#ifndef MSTDLIB_QUEUE_H
+#define MSTDLIB_QUEUE_H
 
 #include "arraylist.h"
-#include "datastructures.h"
+#include "../containers.h"
 
 typedef struct Queue
 {
@@ -13,7 +13,7 @@ typedef struct Queue
     MemoryType memoryType;
 }Queue;
 
-#ifdef MINECRAFT_CORE_QUEUE_C
+#ifdef MSTDLIB_QUEUE_C
     static inline void StaticQueue_enqueue(Queue *queue, byte* element);
     static inline void StaticQueue_dequeue(Queue *queue);
 

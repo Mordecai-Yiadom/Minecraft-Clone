@@ -9,7 +9,7 @@ RenderPipeline GenericPipeline_create()
 
     Shader shader = Shader_create("assets/minecraft/shaders/chunk/terrain.vs", NULL, "assets/minecraft/shaders/chunk/terrain.fs");
     
-    if(!Shader_isValid(shader)) Logger_logError(RENDER_SYSTEM, "Shader Program handle is invalid.");
+    if(!Shader_isValid(shader)) puts("Shader Program handle is invalid.");
     RenderPipeline pipeline = RenderPipeline_create(shader, GenericPipeline_load, GenericPipeline_unload);
 
     return pipeline;

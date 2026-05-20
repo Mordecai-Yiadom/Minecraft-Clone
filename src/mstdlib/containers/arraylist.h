@@ -1,12 +1,18 @@
-#ifndef MINECRAFT_CORE_ARRAYLIST_H
-#define MINECRAFT_CORE_ARRAYLIST_H
+#ifndef MSTDLIB_ARRAYLIST_H
+#define MSTDLIB_ARRAYLIST_H
 
 #include <stdlib.h>
 #include "array.h"
-#include "memtypes.h"
+#include "../memtypes.h"
 #include <stdbool.h>
 
-#include "datastructures.h"
+
+typedef enum MemoryType
+{
+    STATIC_MEMORY,
+    DYNAMIC_MEMORY
+}MemoryType;
+
 
 typedef struct ArrayList
 {   

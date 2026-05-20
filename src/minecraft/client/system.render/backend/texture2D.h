@@ -3,6 +3,7 @@
 
 #include "backend.h"
 #include <stdbool.h>
+#include "../../../core/core.h"
 
 typedef struct Texture2D
 {   

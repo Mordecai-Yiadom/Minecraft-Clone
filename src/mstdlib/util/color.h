@@ -1,5 +1,5 @@
-#ifndef MINECRAFT_CORE_COLOR_H
-#define MINECRAFT_CORE_COLOR_H
+#ifndef MSTDLIB_COLOR_H
+#define MSTDLIB_COLOR_H
 
 typedef struct Color
 {

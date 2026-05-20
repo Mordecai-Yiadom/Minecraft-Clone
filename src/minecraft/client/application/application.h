@@ -4,8 +4,6 @@
 #include "layers/layer.h"
 #include "../system.render/rendersystem.h"
 #include "event/event.h"
-#include "../../core/thread/corethread.h"
-#include "../../core/thread/threadpool.h"
 
 typedef struct ApplicationVersion
 {    
@@ -28,7 +26,6 @@ typedef struct ClientApplication
     Window gameWindow;
     InputContext inputContext;
     ArrayList appLayerStack;
-    ThreadPool* threadPool;
 
     Image windowIcon;
     ApplicationVersion version;
@@ -47,8 +44,6 @@ typedef struct ClientApplication
     static inline void ClientApplication_pollMouseInput();
     
     static inline void ClientApplication_createGameWindow();
-
-    static inline void ClientApplication_startLoggerThread();
 
     void ClientApplication_dispatchOnMouseMoveEventAsync(GLFWwindow *window, double xPos, double yPos);
     void ClientApplication_dispatchOnMouseScrollEventAsync(GLFWwindow *window, double xOffset, double yOffset);

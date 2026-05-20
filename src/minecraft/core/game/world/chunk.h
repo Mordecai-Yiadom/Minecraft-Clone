@@ -5,7 +5,6 @@
 #define CHUNK_Y_LIMIT 384
 #define CHUNK_Z_LIMIT 16
 
-#include "../../util/memtypes.h"
 
 #include "../block/block.h"
 

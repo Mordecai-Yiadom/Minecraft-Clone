@@ -1,4 +1,4 @@
-#define MINECRAFT_CORE_QUEUE_C
+#define MSTDLIB_QUEUE_C
 #include "queue.h"
 
 Queue Queue_create(int initialCapacity, int elementSize, MemoryType memoryType)

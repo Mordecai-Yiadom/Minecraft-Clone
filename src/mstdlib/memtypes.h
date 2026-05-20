@@ -1,5 +1,5 @@
-#ifndef MINECRAFT_CORE_MEMTYPES_H
-#define MINECRAFT_CORE_MEMTYPES_H
+#ifndef MSTDLIB_MEMTYPES_H
+#define MSTDLIB_MEMTYPES_H
 
 #include <stdint.h>
 #include <inttypes.h>

@@ -1,7 +1,7 @@
 #ifndef MINECRAFT_CLIENT_RENDERPASS_H
 #define MINECRAFT_CLIENT_RENDERPASS_H
 
-#include "../../core/core.h"
+
 #include "backend/backend.h"
 
 #include "rendercommand.h"

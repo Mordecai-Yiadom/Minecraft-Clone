@@ -1,7 +1,7 @@
 #ifndef MINECRAFT_CORE_GAME_BLOCK_H
 #define MINECRAFT_CORE_GAME_BLOCK_H
 
-#include "../../util/memtypes.h"
+#include "../../../../mstdlib/mstdlib.h"
 #include <stdbool.h>
 
 typedef enum BlockType

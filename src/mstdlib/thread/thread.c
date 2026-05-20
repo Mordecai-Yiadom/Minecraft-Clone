@@ -1,4 +1,4 @@
-#include "corethread.h"
+#include "thread.h"
 
 #include <stdlib.h> 
 

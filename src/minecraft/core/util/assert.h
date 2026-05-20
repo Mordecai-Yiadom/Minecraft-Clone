@@ -1,7 +1,0 @@
-#ifndef MINECRAFT_CORE_ASSERT_H
-#define MINECRAFT_CORE_ASSERT_H
-
-
-
-
-#endif

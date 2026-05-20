@@ -12,13 +12,13 @@ void RenderSystem_init()
 {   
     if(RenderSystem_isInitialized())
     {
-        Logger_logError(RENDER_SYSTEM, "RenderSystem is already initialized.");
+        //Logger_logError(RENDER_SYSTEM, "RenderSystem is already initialized.");
         return;
     }
 
     if(!glfwInit())
     {
-        Logger_logError(RENDER_SYSTEM, "GLFW failed to initialize.");
+        //Logger_logError(RENDER_SYSTEM, "GLFW failed to initialize.");
         return;
     }
 

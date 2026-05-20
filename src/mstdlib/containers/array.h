@@ -1,8 +1,8 @@
-#ifndef MINECRAFT_CORE_ARRAY_H
-#define MINECRAFT_CORE_ARRAY_H
+#ifndef MSTDLIB_ARRAY_H
+#define MSTDLIB_ARRAY_H
 
 #include <stdbool.h>
-#include "memtypes.h"
+#include "../memtypes.h"
 
 typedef enum ArrayError
 {

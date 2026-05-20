@@ -14,7 +14,7 @@ static GLuint complileIndividualShader(GLenum shaderType, const char* path)
     if(!shaderSrc)
     {   
         sprintf(logBuffer, "Failed to read file '%s'.", path);
-        Logger_logError(FILE_IO, logBuffer);
+        //Logger_logError(FILE_IO, logBuffer);
         return 0;
     }
     
@@ -28,7 +28,7 @@ static GLuint complileIndividualShader(GLenum shaderType, const char* path)
     if(!compileStatus)
     {   
         glGetShaderInfoLog(shader, (GLsizei) LOG_BUFFER_SIZE, (GLsizei*) NULL, logBuffer);
-        Logger_logError(RENDER_SYSTEM, logBuffer);
+        //Logger_logError(RENDER_SYSTEM, logBuffer);
         free(shaderSrc);
         return 0;
     }

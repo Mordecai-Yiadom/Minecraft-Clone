@@ -6,7 +6,7 @@ bool ClientApplication_create(ApplicationInfo appInfo)
 {
     if(ClientApplication_isInitialized())
     {
-        Logger_logError(APPLICATION_ERROR, "Failed to initialize ClientApplication as it is already initalized.");
+        //Logger_logError(APPLICATION_ERROR, "Failed to initialize ClientApplication as it is already initalized.");
         return false;
     }
 
@@ -25,7 +25,7 @@ void ClientApplication_run()
 {   
     if(!ClientApplication_isReadyToRun())
     {
-        Logger_logError(APPLICATION_ERROR, "Failed to run ClientApplication as it is already running or not initalized.");
+        //Logger_logError(APPLICATION_ERROR, "Failed to run ClientApplication as it is already running or not initalized.");
         return;
     }
 
@@ -34,9 +34,6 @@ void ClientApplication_run()
     APP_STATE.isRunning = true;
     
     ClientApplication_createGameWindow();
-    
-    //Test Start a thread
-    ClientApplication_startLoggerThread();
 
 
     //App Loop
@@ -213,7 +210,7 @@ static inline void ClientApplication_createGameWindow()
 {   
     if(Window_isValid(&APP_STATE.gameWindow))
     {   
-        Logger_logError(APPLICATION_ERROR, "Failed to create ClientApplication Game Window as a valid instance already exists.");
+        //Logger_logError(APPLICATION_ERROR, "Failed to create ClientApplication Game Window as a valid instance already exists.");
         return;
     }
 
@@ -230,17 +227,6 @@ static inline void ClientApplication_createGameWindow()
     KeyInputEvent_setDispatcher(APP_STATE.inputContext, ClientApplication_dispatchOnKeyInputEventAsync);
 }
 
-
-//TESTING ONLY - REMOVE
-static inline void ClientApplication_startLoggerThread()
-{   
-    if(!ClientApplication_isInitialized()) return;
-    
-    APP_STATE.threadPool = ThreadPool_create(2);
-
-    ThreadPool_detatch(APP_STATE.threadPool);
-    ThreadPool_sumbitTask(APP_STATE.threadPool, THREADPOOLTASK(logInfo, NULL));
-}
 
 //TESTING ONLY - REMOVE 
 void* logInfo()

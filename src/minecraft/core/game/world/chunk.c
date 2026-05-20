@@ -3,7 +3,6 @@
 #include <string.h>
 #include "../block/block.h"
 #include <stdlib.h>
-#include "../../util/math3D.h"
 
 Chunk* Chunk_create(void* world, ChunkIndex index)
 {   

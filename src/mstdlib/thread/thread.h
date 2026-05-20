@@ -1,10 +1,11 @@
-#ifndef CORE_THREAD_H
-#define CORE_THREAD_H
+#ifndef MSTDLIB_THREAD_H
+#define MSTDLIB_THREAD_H
 
 #include <pthread.h>
 #include <unistd.h>
 #include <stdbool.h>
-#include "coremutex.h"
+#include "mutex.h"
+
 typedef void* (*ThreadRoutine)(void* args);
 
 typedef struct Thread

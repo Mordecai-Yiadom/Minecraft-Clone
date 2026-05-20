@@ -1,7 +1,7 @@
-#ifndef CORE_THREADCONDITION_H
-#define CORE_THREADCONDITION_H
+#ifndef MSTDLIB_THREADCONDITION_H
+#define MSTDLIB_THREADCONDITION_H
 
-#include "coremutex.h"
+#include "mutex.h"
 
 typedef struct ThreadCondition
 {

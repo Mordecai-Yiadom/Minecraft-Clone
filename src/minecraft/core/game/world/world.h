@@ -1,10 +1,6 @@
 #ifndef MINECRAFT_CORE_GAME_WORLD_H
 #define MINECRAFT_CORE_GAME_WORLD_H
 
-#include "../../util/memtypes.h"
-#include "../../util/math3D.h"
-#include "../../util/arraylist.h"
-
 #include "chunk.h"
 
 #define WORLD_X_LIM 128

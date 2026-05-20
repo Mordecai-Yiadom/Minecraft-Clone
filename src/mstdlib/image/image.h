@@ -1,8 +1,8 @@
-#ifndef MINECRAFT_CORE_IMAGE_H
-#define MINECRAFT_CORE_IMAGE_H
+#ifndef MSTDLIB_IMAGE_H
+#define MSTDLIB_IMAGE_H
 
-#include "memtypes.h"
 #include <stdbool.h>
+#include "../memtypes.h"
 #define IMAGE_NULL ((Image){.pixels=0, .width=0, .height=0, .channelCount=0})
 
 typedef struct Image

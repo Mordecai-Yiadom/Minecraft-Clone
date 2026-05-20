@@ -24,14 +24,14 @@ Window Window_create(WindowProps props)
 
     if(!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress))
     {
-        Logger_logError(RENDER_SYSTEM, "GLAD failed to load OpenGL functions.");
+        //Logger_logError(RENDER_SYSTEM, "GLAD failed to load OpenGL functions.");
         Window_destroy(&window);
         return window;
     }
     
     if(!window.glfwWindow)
     {   
-        Logger_logError(RENDER_SYSTEM, "GLFW failed to create game window.");
+        //Logger_logError(RENDER_SYSTEM, "GLFW failed to create game window.");
         Window_destroy(&window);
         return window;
     }
